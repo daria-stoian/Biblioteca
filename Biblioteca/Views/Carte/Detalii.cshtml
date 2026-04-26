@@ -1,0 +1,131 @@
+﻿@model Biblioteca.Models.Carte
+
+@{
+    ViewData["Title"] = Model.Titlu;
+}
+
+<div class="details-container">
+    <div style="flex-shrink:0;">
+        @if (!string.IsNullOrEmpty(Model.Imagine_Coperta))
+        {
+            <img src="~/imagini/@Model.Imagine_Coperta" alt="Coperta @Model.Titlu"
+                 style="width:220px; border-radius:10px; box-shadow:0 4px 15px rgba(106,13,173,0.2);" />
+        }
+        else
+        {
+            <div style="width:220px; height:300px; background:#f0e6f6; border-radius:10px;
+                display:flex; align-items:center; justify-content:center; font-size:5em;">
+                📖
+            </div>
+        }
+    </div>
+
+    <div style="flex:1;">
+        <h2 style="margin-bottom:8px;">@Model.Titlu</h2>
+        <p style="color:#9b30d9; font-size:1.05em; margin-bottom:15px;">@Model.Autor?.Nume_Autor</p>
+
+        <table style="border:none; box-shadow:none; margin-bottom:20px;">
+            <tr>
+                <td style="border:none; padding:4px 15px 4px 0; color:#7f8c8d; font-size:0.9em; white-space:nowrap;">Categorie</td>
+                <td style="border:none; padding:4px 0;">@Model.Categorie?.Nume_Categorie</td>
+            </tr>
+            @if (!string.IsNullOrEmpty(Model.ISBN))
+            {
+                <tr>
+                    <td style="border:none; padding:4px 15px 4px 0; color:#7f8c8d; font-size:0.9em;">ISBN</td>
+                    <td style="border:none; padding:4px 0;">@Model.ISBN</td>
+                </tr>
+            }
+            <tr>
+                <td style="border:none; padding:4px 15px 4px 0; color:#7f8c8d; font-size:0.9em;">An publicare</td>
+                <td style="border:none; padding:4px 0;">@Model.An_Publicare</td>
+            </tr>
+            <tr>
+                <td style="border:none; padding:4px 15px 4px 0; color:#7f8c8d; font-size:0.9em;">Pagini</td>
+                <td style="border:none; padding:4px 0;">@Model.Numar_Pagini</td>
+            </tr>
+            <tr>
+                <td style="border:none; padding:4px 15px 4px 0; color:#7f8c8d; font-size:0.9em;">Status</td>
+                <td style="border:none; padding:4px 0;">
+                    @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
+                    {
+                        <span class="status-ok">✅ Disponibilă</span>
+                    }
+                    else
+                    {
+                        <span style="color:#e74c3c;">🚫 Indisponibilă</span>
+                    }
+                </td>
+            </tr>
+        </table>
+
+        @if (!string.IsNullOrEmpty(Model.Descriere))
+        {
+            <p style="line-height:1.7; color:#555; margin-bottom:20px;">@Model.Descriere</p>
+        }
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+            @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
+            {
+                <form method="post" action="/Imprumut/ImprumutaConfirmat">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="idCarte" value="@Model.Id_Carte" />
+                    <button type="submit" class="btn">📖 Împrumută cartea</button>
+                </form>
+            }
+            <form method="post" action="/Lista_Dorinte/Adauga">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="idCarte" value="@Model.Id_Carte" />
+                <button type="submit" class="btn btn-outline">💖 Salvează în dorințe</button>
+            </form>
+            <a href="/Recenzie/Adauga?idCarte=@Model.Id_Carte" class="btn btn-outline">⭐ Scrie recenzie</a>
+        </div>
+
+        <div class="admin-bar">
+            <span class="admin-bar-label">Admin:</span>
+            <a href="/Carte/Editeaza/@Model.Id_Carte" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
+            @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
+            {
+                <form method="post" action="/Carte/SetIndisponibila" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id_Carte" />
+                    <button type="submit" class="btn btn-outline" style="font-size:0.85em;">🚫 Scoate din catalog</button>
+                </form>
+            }
+            else
+            {
+                <form method="post" action="/Carte/SetDisponibila" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id_Carte" />
+                    <button type="submit" class="btn" style="font-size:0.85em;">✅ Reactivează</button>
+                </form>
+            }
+            <a href="/Carte/Sterge/@Model.Id_Carte" class="btn btn-danger" style="font-size:0.85em;">🗑️ Șterge</a>
+        </div>
+    </div>
+</div>
+
+@if (Model.Recenzii != null && Model.Recenzii.Any())
+{
+    <div style="margin-top:30px;">
+        <h3>⭐ Recenzii (@Model.Recenzii.Count)</h3>
+        @foreach (var r in Model.Recenzii)
+        {
+            <div class="list-item" style="flex-direction:column; align-items:flex-start; margin-top:12px;">
+                <h4 style="color:#f39c12;">
+                    @for (int i = 0; i < r.Nota; i++)
+                    {
+                        <text>⭐</text>
+                    }
+                    &nbsp;@r.Utilizator?.Nume_Complet
+                </h4>
+                <p style="font-size:0.85em; color:#7f8c8d; margin:4px 0;">@r.Data_Postare.ToString("dd MMM yyyy")</p>
+                <p>@r.Comentariu</p>
+            </div>
+        }
+    </div>
+}
+
+<div style="margin-top:20px;">
+    <a href="/Carte" class="btn btn-outline">← Înapoi la catalog</a>
+</div>

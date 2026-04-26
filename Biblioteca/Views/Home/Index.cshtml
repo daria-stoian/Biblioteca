@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Carte>
+
+@{
+    ViewData["Title"] = "Acasă";
+}
+
+<div class="hero-banner">
+    <h1>Bun venit la BiblioWeb! 📚</h1>
+    <p>
+        Descoperă următoarea ta lectură preferată. Gestionează-ți împrumuturile,
+        salvează cărțile în lista de dorințe și fii la curent cu evenimentele comunității noastre.
+    </p>
+    <br />
+    <a href="/Carte" class="btn" style="padding:12px 28px; font-size:1.05em;">Explorează Catalogul</a>
+</div>
+
+<h2>🏆 Topul Cărților din această lună</h2>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:40px; color:#7f8c8d;">
+        <p>Nicio carte adăugată încă.</p>
+        <a href="/Carte/Adauga" class="btn" style="margin-top:10px;">Adaugă prima carte</a>
+    </div>
+}
+else
+{
+    <div class="book-grid">
+        @foreach (var carte in Model)
+        {
+            <div class="book-card">
+                @if (!string.IsNullOrEmpty(carte.Imagine_Coperta))
+                {
+                    <img src="~/imagini/@carte.Imagine_Coperta" alt="Coperta @carte.Titlu" class="book-cover" />
+                }
+                else
+                {
+                    <div class="book-cover" style="font-size:4em; display:flex; align-items:center; justify-content:center;">📖</div>
+                }
+                <h4>@carte.Titlu</h4>
+                <p>@carte.Autor?.Nume_Autor</p>
+                @if (carte.Recenzii != null && carte.Recenzii.Any())
+                {
+                    <p style="color:#f39c12; font-size:0.82em;">
+                        ⭐ @carte.Recenzii.Average(r => r.Nota).ToString("F1") (@carte.Recenzii.Count)
+                    </p>
+                }
+                <a href="/Carte/Detalii/@carte.Id_Carte" class="btn">Vezi Detalii</a>
+            </div>
+        }
+    </div>
+}
+
+<div class="quick-cards">
+    <div class="quick-card">
+        <div class="quick-card-icon">📅</div>
+        <h3>Evenimente</h3>
+        <p>Cluburi de lectură și lansări de carte</p>
+        <a href="/Eveniment" class="btn btn-outline">Vezi Evenimente</a>
+    </div>
+    <div class="quick-card">
+        <div class="quick-card-icon">💖</div>
+        <h3>Lista de Dorințe</h3>
+        <p>Cărțile pe care vrei să le citești</p>
+        <a href="/ListaDorinte" class="btn btn-outline">Lista mea</a>
+    </div>
+    <div class="quick-card">
+        <div class="quick-card-icon">⭐</div>
+        <h3>Recenzii</h3>
+        <p>Citește și scrie recenzii</p>
+        <a href="/Recenzie" class="btn btn-outline">Recenzii</a>
+    </div>
+</div>

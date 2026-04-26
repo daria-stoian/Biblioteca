@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Biblioteca.Models.Lista_Dorinte>
+
+@{
+    ViewData["Title"] = "Lista de Dorințe";
+}
+
+<h2>💖 Cărți salvate pentru mai târziu</h2>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px; color:#7f8c8d;">
+        <p style="font-size:3em; margin-bottom:10px;">💭</p>
+        <p style="font-size:1.1em; margin-bottom:15px;">Lista ta de dorințe este goală.</p>
+        <a href="/Carte" class="btn">📚 Explorează catalogul</a>
+    </div>
+}
+else
+{
+    <div style="max-width:800px; margin:0 auto;">
+        @foreach (var item in Model)
+        {
+            <div class="list-item">
+                <div style="display:flex; gap:15px; align-items:center;">
+                    @if (!string.IsNullOrEmpty(item.Carte?.Imagine_Coperta))
+                    {
+                        <img src="~/imagini/@item.Carte.Imagine_Coperta"
+                             style="height:70px; width:50px; object-fit:cover; border-radius:5px; flex-shrink:0;" />
+                    }
+                    else
+                    {
+                        <div style="height:70px; width:50px; background:#f0e6f6; border-radius:5px;
+                            display:flex; align-items:center; justify-content:center; font-size:1.8em; flex-shrink:0;">
+                            📖
+                        </div>
+                    }
+                    <div class="list-item-content">
+                        <h4>@item.Carte?.Titlu</h4>
+                        <p>@item.Carte?.Autor?.Nume_Autor</p>
+                        <p style="font-size:0.8em; color:#9b8ca8; margin-top:3px;">
+                            Salvată pe @item.Data_Adaugare.ToString("dd MMM yyyy")
+                        </p>
+                    </div>
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                    <a href="/Carte/Detalii/@item.Id_Carte" class="btn">Vezi detalii</a>
+                    <form method="post" action="/Imprumut/ImprumutaConfirmat" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="idCarte" value="@item.Id_Carte" />
+                        <button type="submit" class="btn btn-outline">📖 Împrumută</button>
+                    </form>
+                    <form method="post" action="/ListaDorinte/Sterge" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="idCarte" value="@item.Id_Carte" />
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Ștergi cartea din lista de dorințe?')">
+                            🗑️ Șterge
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+}

@@ -1,0 +1,36 @@
+﻿@model Biblioteca.Models.Carte
+
+@{
+    ViewData["Title"] = "Confirmă împrumutul";
+
+}
+
+<h2>📖 Confirmă împrumutul</h2>
+
+<div class="form-container" style="max-width:500px;">
+    <div style="display:flex; gap:20px; align-items:flex-start; margin-bottom:25px;">
+        @if (!string.IsNullOrEmpty(Model.Imagine_Coperta))
+        {
+            <img src="~/imagini/@Model.Imagine_Coperta"
+                 style="width:80px; border-radius:6px; flex-shrink:0;" />
+        }
+        <div>
+            <h3 style="margin-bottom:4px;">@Model.Titlu</h3>
+            <p style="color:#9b30d9; margin-bottom:12px;">@Model.Autor?.Nume_Autor</p>
+            <p><strong>Termen de citire:</strong> 14 zile</p>
+            <p><strong>Data scadentă:</strong> @DateTime.UtcNow.AddDays(14).ToString("dd MMM yyyy")</p>
+            <p style="font-size:0.88em; color:#e74c3c; margin-top:8px;">
+                ⚠️ Depășirea termenului: penalizare 1 RON/zi
+            </p>
+        </div>
+    </div>
+
+    <form method="post" action="/Imprumut/ImprumutaConfirmat">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="idCarte" value="@Model.Id_Carte" />
+        <div style="display:flex; gap:10px;">
+            <button type="submit" class="btn">✅ Confirmă împrumutul</button>
+            <a href="/Carte/Detalii/@Model.Id_Carte" class="btn btn-outline">Anulează</a>
+        </div>
+    </form>
+</div>

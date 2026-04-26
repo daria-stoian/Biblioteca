@@ -1,0 +1,46 @@
+﻿@model Biblioteca.Models.Categorie
+
+@{
+    ViewData["Title"] = Model.Nume_Categorie;
+}
+
+<div class="page-header">
+    <h2>🗂️ @Model.Nume_Categorie</h2>
+    <div style="display:flex; gap:8px;">
+        <a href="/Categorie/Editeaza/@Model.Id_Categorie" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
+        <a href="/Categorie" class="btn btn-outline">← Înapoi</a>
+    </div>
+</div>
+
+<p style="color:#7f8c8d; margin-bottom:20px;">
+    @(Model.Carti?.Count ?? 0) cărți în această categorie
+</p>
+
+@if (Model.Carti != null && Model.Carti.Any())
+{
+    <div class="book-grid">
+        @foreach (var carte in Model.Carti)
+        {
+            <div class="book-card">
+                @if (!string.IsNullOrEmpty(carte.Imagine_Coperta))
+                {
+                    <img src="~/imagini/@carte.Imagine_Coperta" alt="@carte.Titlu" class="book-cover" />
+                }
+                else
+                {
+                    <div class="book-cover" style="font-size:3.5em; display:flex; align-items:center; justify-content:center; background:#f0e6f6;">📖</div>
+                }
+                <h4>@carte.Titlu</h4>
+                <p>@carte.Autor?.Nume_Autor</p>
+                <a href="/Carte/Detalii/@carte.Id_Carte" class="btn">Detalii</a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div style="text-align:center; padding:30px; color:#7f8c8d;">
+        <p>Nicio carte în această categorie.</p>
+        <a href="/Carte/Adauga" class="btn btn-outline" style="margin-top:10px;">+ Adaugă o carte</a>
+    </div>
+}

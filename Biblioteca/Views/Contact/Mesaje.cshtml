@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Biblioteca.Models.Contact>
+
+@{
+    ViewData["Title"] = "Mesaje Contact";
+}
+
+<div class="page-header">
+    <h2>📬 Mesaje primite</h2>
+    <span style="color:#7f8c8d; font-size:0.9em; align-self:center;">
+        @Model.Count(m => m.Status_Mesaj == StatusMesaj.Necitit) necitite din @Model.Count() total
+    </span>
+</div>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px; color:#7f8c8d;">
+        <p style="font-size:3em; margin-bottom:10px;">📭</p>
+        <p>Niciun mesaj primit.</p>
+    </div>
+}
+else
+{
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Expeditor</th>
+                    <th>Email</th>
+                    <th>Mesaj</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Acțiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.OrderByDescending(m => m.Data_Trimitere))
+                {
+                    <tr style="@(m.Status_Mesaj == StatusMesaj.Necitit ? "font-weight:bold;" : "")">
+                        <td>@m.Nume_Expeditor</td>
+                        <td style="font-size:0.88em;">@m.Email_Expeditor</td>
+                        <td style="max-width:260px; overflow:hidden; text-overflow:ellipsis;
+                            white-space:nowrap; font-size:0.88em;">
+                            @m.Mesaj
+                        </td>
+                        <td style="font-size:0.85em; color:#7f8c8d; white-space:nowrap;">
+                            @m.Data_Trimitere.ToString("dd MMM yyyy, HH:mm")
+                        </td>
+                        <td>
+                            @if (m.Status_Mesaj == StatusMesaj.Necitit)
+                            {
+                                <span style="color:#e67e22;">🔔 Necitit</span>
+                            }
+                            else if (m.Status_Mesaj == StatusMesaj.Citit)
+                            {
+                                <span style="color:#7f8c8d;">✅ Citit</span>
+                            }
+                            else
+                            {
+                                <span style="color:#27ae60;">📤 Răspuns trimis</span>
+                            }
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:6px;">
+                                @if (m.Status_Mesaj == StatusMesaj.Necitit)
+                                {
+                                    <form method="post" action="/Contact/MarcheazaCitit">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@m.Id_Mesaj" />
+                                        <button type="submit" class="btn btn-outline" style="font-size:0.8em; padding:4px 10px;">✅</button>
+                                    </form>
+                                }
+                                <form method="post" action="/Contact/Sterge">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@m.Id_Mesaj" />
+                                    <button type="submit" class="btn btn-danger"
+                                            style="font-size:0.8em; padding:4px 10px;"
+                                            onclick="return confirm('Ștergi mesajul?')">
+                                        🗑️
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

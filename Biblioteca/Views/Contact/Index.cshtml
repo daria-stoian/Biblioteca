@@ -1,0 +1,34 @@
+﻿@model Biblioteca.Models.Contact
+
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<h2>✉️ Contactează-ne</h2>
+<p style="color:#7f8c8d; margin-bottom:25px;">Ai întrebări? Completează formularul și îți vom răspunde în scurt timp.</p>
+
+<div class="form-container">
+    <form method="post" asp-action="Trimite">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Nume_Expeditor">Numele tău *</label>
+            <input asp-for="Nume_Expeditor" class="form-control" placeholder="Ex: Daria Stoian" />
+            <span asp-validation-for="Nume_Expeditor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email_Expeditor">Adresa de email *</label>
+            <input asp-for="Email_Expeditor" class="form-control" placeholder="Ex: daria@email.com" />
+            <span asp-validation-for="Email_Expeditor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Mesaj">Mesajul tău *</label>
+            <textarea asp-for="Mesaj" class="form-control" rows="5"
+                      placeholder="Scrie mesajul aici..."></textarea>
+            <span asp-validation-for="Mesaj" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn">📨 Trimite Mesajul</button>
+    </form>
+</div>
+

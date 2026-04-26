@@ -1,0 +1,55 @@
+﻿@model Biblioteca.Models.Eveniment
+
+@{
+    ViewData["Title"] = "Editează eveniment";
+}
+
+<div class="page-header">
+    <h2>✏️ Editează: @Model.Titlu_Eveniment</h2>
+    <a href="/Eveniment/Detalii/@Model.Id_Eveniment" class="btn btn-outline">← Înapoi</a>
+</div>
+
+<div class="form-container">
+    <form method="post" asp-action="Editeaza">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id_Eveniment" />
+        <input type="hidden" asp-for="Locuri_Rezervate" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Titlu_Eveniment">Titlu *</label>
+            <input asp-for="Titlu_Eveniment" class="form-control" />
+            <span asp-validation-for="Titlu_Eveniment" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Descriere">Descriere</label>
+            <textarea asp-for="Descriere" class="form-control" rows="3"></textarea>
+        </div>
+        <div style="display:flex; gap:15px; flex-wrap:wrap;">
+            <div class="form-group" style="flex:1; min-width:180px;">
+                <label asp-for="Data_Ora">Data și ora *</label>
+                <input asp-for="Data_Ora" type="datetime-local" class="form-control" />
+            </div>
+            <div class="form-group" style="flex:1; min-width:180px;">
+                <label asp-for="Locuri_Disponibile">Locuri disponibile *</label>
+                <input asp-for="Locuri_Disponibile" type="number" min="@Model.Locuri_Rezervate" class="form-control" />
+                @if (Model.Locuri_Rezervate > 0)
+                {
+                    <small style="color:#7f8c8d;">Minim @Model.Locuri_Rezervate (rezervări active)</small>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Locatie">Locație</label>
+            <input asp-for="Locatie" class="form-control" />
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn">💾 Salvează modificările</button>
+            <a href="/Eveniment/Detalii/@Model.Id_Eveniment" class="btn btn-outline">Anulează</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

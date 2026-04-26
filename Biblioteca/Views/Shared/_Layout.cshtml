@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] | BiblioWeb</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="logo">📚 BiblioWeb</a>
+        <nav class="navbar-links">
+            <a href="/" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">Acasă</a>
+            <a href="/Carte" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Carte" ? "active" : "")">Catalog</a>
+            <a href="/Autor" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Autor" ? "active" : "")">Autori</a>
+            <a href="/Categorie" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Categorie" ? "active" : "")">Categorii</a>
+            <a href="/Imprumut" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Imprumut" ? "active" : "")">Împrumuturi</a>
+            <a href="/Lista_Dorinte" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "ListaDorinte" ? "active" : "")">Lista de Dorințe</a>
+            <a href="/Recenzie" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Recenzie" ? "active" : "")">Recenzii</a>
+            <a href="/Eveniment" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Eveniment" ? "active" : "")">Evenimente</a>
+            <a href="/Home/DespreNoi" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "DespreNoi" ? "active" : "")">Despre Noi</a>
+            <a href="/Contact" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Contact" ? "active" : "")">Contact</a>
+        </nav>
+        <div class="user-menu">
+            <span>Salut, Daria S.</span>
+            <a href="/Profil" class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">Profilul meu</a>
+        </div>
+    </header>
+
+    <main>
+        @if (TempData["Succes"] != null)
+        {
+            <div class="alert alert-success">✅ @TempData["Succes"]</div>
+        }
+        @if (TempData["Eroare"] != null)
+        {
+            <div class="alert alert-danger">❌ @TempData["Eroare"]</div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 BiblioWeb. Toate drepturile rezervate.</p>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

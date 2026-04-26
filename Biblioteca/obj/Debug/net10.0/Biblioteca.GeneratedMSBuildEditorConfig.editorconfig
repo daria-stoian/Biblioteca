@@ -1,0 +1,171 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.RootNamespace = Biblioteca
+build_property.RootNamespace = Biblioteca
+build_property.ProjectDir = C:\Users\stoia\source\repos\Biblioteca\Biblioteca\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\stoia\source\repos\Biblioteca\Biblioteca
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Autor/Adauga.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcQWRhdWdhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Autor/Detalii.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcRGV0YWxpaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Autor/Editeaza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcRWRpdGVhemEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Autor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Autor/Sterge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcU3RlcmdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Carte/Adauga.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydGVcQWRhdWdhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Carte/Detalii.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydGVcRGV0YWxpaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Carte/Editeaza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydGVcRWRpdGVhemEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Carte/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Carte/Sterge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydGVcU3RlcmdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Categorie/Adauga.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllXEFkYXVnYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Categorie/Detalii.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllXERldGFsaWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Categorie/Editeaza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllXEVkaXRlYXphLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Categorie/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Categorie/Sterge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllXFN0ZXJnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Contact/Mesaje.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxNZXNhamUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Eveniment/Adauga.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbmltZW50XEFkYXVnYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Eveniment/Detalii.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbmltZW50XERldGFsaWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Eveniment/Editeaza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbmltZW50XEVkaXRlYXphLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Eveniment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbmltZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Eveniment/Sterge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbmltZW50XFN0ZXJnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Home/DespreNoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXNwcmVOb2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Imprumut/Imprumuta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wcnVtdXRcSW1wcnVtdXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Imprumut/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wcnVtdXRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Lista_Dorinte/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGFfRG9yaW50ZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Recenzie/Adauga.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZW56aWVcQWRhdWdhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Recenzie/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZW56aWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Rezervare/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV6ZXJ2YXJlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stoia/source/repos/Biblioteca/Biblioteca/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-bunr9m1pqn

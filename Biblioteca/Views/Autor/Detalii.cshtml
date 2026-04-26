@@ -1,0 +1,52 @@
+﻿@model Biblioteca.Models.Autor
+
+@{
+    ViewData["Title"] = Model.Nume_Autor;
+}
+
+<div class="page-header">
+    <h2>✍️ @Model.Nume_Autor</h2>
+    <div style="display:flex; gap:8px;">
+        <a href="/Autor/Editeaza/@Model.Id_Autor" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
+        <a href="/Autor" class="btn btn-outline">← Înapoi</a>
+    </div>
+</div>
+
+<div class="details-container" style="flex-direction:column; margin-bottom:30px;">
+    @if (!string.IsNullOrEmpty(Model.Biografie))
+    {
+        <p style="line-height:1.8; font-size:1.02em; color:#555;">@Model.Biografie</p>
+    }
+    else
+    {
+        <p style="color:#7f8c8d; font-style:italic;">Nicio biografie adăugată.</p>
+    }
+</div>
+
+@if (Model.Carti != null && Model.Carti.Any())
+{
+    <h3 style="margin-bottom:15px;">Cărți de @Model.Nume_Autor (@Model.Carti.Count)</h3>
+    <div class="book-grid">
+        @foreach (var carte in Model.Carti)
+        {
+            <div class="book-card">
+                @if (!string.IsNullOrEmpty(carte.Imagine_Coperta))
+                {
+                    <img src="~/imagini/@carte.Imagine_Coperta" alt="@carte.Titlu" class="book-cover" />
+                }
+                else
+                {
+                    <div class="book-cover" style="font-size:3.5em; display:flex; align-items:center; justify-content:center; background:#f0e6f6;">📖</div>
+                }
+                <h4>@carte.Titlu</h4>
+                <p style="font-size:0.8em; color:#9b30d9;">@carte.Categorie?.Nume_Categorie</p>
+                <a href="/Carte/Detalii/@carte.Id_Carte" class="btn">Detalii</a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p style="color:#7f8c8d; margin-top:10px;">Nicio carte adăugată pentru acest autor încă.</p>
+    <a href="/Carte/Adauga" class="btn btn-outline" style="margin-top:10px;">+ Adaugă o carte</a>
+}

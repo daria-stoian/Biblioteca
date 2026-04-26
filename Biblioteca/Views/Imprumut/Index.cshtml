@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Biblioteca.Models.Imprumut>
+
+@{
+    ViewData["Title"] = "Împrumuturile mele";
+    var intarziate = Model.Where(i => i.EsteIntarziat).ToList();
+}
+
+<h2>📖 Situația Împrumuturilor</h2>
+
+@if (intarziate.Any())
+{
+    <div class="alert alert-danger">
+        ⚠️ Ai <strong>@intarziate.Count</strong> @(intarziate.Count == 1 ? "carte cu termenul depășit" : "cărți cu termenul depășit").
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px; color:#7f8c8d;">
+        <p style="font-size:3em; margin-bottom:10px;">📭</p>
+        <p style="font-size:1.1em; margin-bottom:20px;">Nu ai niciun împrumut activ momentan.</p>
+        <a href="/Carte" class="btn">📚 Explorează catalogul</a>
+    </div>
+}
+else
+{
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Titlu Carte</th>
+                    <th>Data Împrumut</th>
+                    <th>Termen Limită</th>
+                    <th>Status și Penalizări</th>
+                    <th>Acțiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var imp in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@imp.Carte?.Titlu</strong><br />
+                            <small style="color:#7f8c8d;">@imp.Carte?.Autor?.Nume_Autor</small>
+                        </td>
+                        <td>@imp.Data_Imprumut.ToString("dd MMM yyyy")</td>
+                        <td>@imp.Data_Scadenta.ToString("dd MMM yyyy")</td>
+                        <td>
+                            @if (imp.Status == Imprumut.StatusImprumut.Returnat)
+                            {
+                                <span class="status-ok">✅ Returnată</span>
+                                @if (imp.Taxa_Penalizare > 0)
+                                {
+                                    <br />
+                                
+                                    <small style="color:#e74c3c;">Penalizare: @imp.Taxa_Penalizare.ToString("F2") RON</small>
+                                }
+                            }
+                            else if (imp.EsteIntarziat)
+                            {
+                                <span class="penalty">
+                                    Termen depășit!<br />
+                                    Întârziere: @imp.ZileIntarziere zile<br />
+                                    Taxă: @((imp.ZileIntarziere * 1.00m).ToString("F2")) RON
+                                </span>
+                            }
+                            else if (imp.Status == Imprumut.StatusImprumut.Prelungit)
+                            {
+                                <span class="status-ok">🔄 Prelungit</span>
+                            }
+                            else
+                            {
+                                <span class="status-ok">✅ În termen</span>
+                            }
+                        </td>
+                        <td>
+                            @if (imp.Status != Imprumut.StatusImprumut.Returnat)
+                            {
+                                <div style="display:flex; flex-direction:column; gap:6px;">
+                                    @if (!imp.EsteIntarziat && imp.Status != Imprumut.StatusImprumut.Prelungit)
+                                    {
+                                        <form method="post" action="/Imprumut/Prelungeste">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@imp.Id_Imprumut" />
+                                            <button type="submit" class="btn" style="width:100%; font-size:0.85em;">🔄 Prelungește</button>
+                                        </form>
+                                    }
+                                    <form method="post" action="/Imprumut/Returneaza">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@imp.Id_Imprumut" />
+                                        <button type="submit"
+                                                class="btn @(imp.EsteIntarziat ? "btn-danger" : "btn-outline")"
+                                                style="width:100%; font-size:0.85em;"
+                                                onclick="return confirm('Confirmi returnarea cărții?')">
+                                            @(imp.EsteIntarziat ? "💳 Plătește și returnează" : "✔️ Returnează")
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <a href="/Recenzie/Adauga?idCarte=@imp.Id_Carte" class="btn btn-outline" style="font-size:0.82em;">
+                                    ⭐ Recenzie
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:20px;">
+        <a href="/Carte" class="btn btn-outline">+ Împrumută o carte nouă</a>
+    </div>
+}

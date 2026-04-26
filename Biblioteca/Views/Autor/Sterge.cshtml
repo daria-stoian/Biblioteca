@@ -1,0 +1,25 @@
+﻿@model Biblioteca.Models.Autor
+
+@{
+    ViewData["Title"] = "Șterge autor";
+}
+
+<h2>🗑️ Confirmare ștergere</h2>
+
+<div class="form-container" style="max-width:500px;">
+    <p style="font-size:1.05em; margin-bottom:5px;">Ești sigur că vrei să ștergi autorul:</p>
+    <p style="font-size:1.2em; font-weight:bold; color:#6a0dad; margin-bottom:15px;">@Model.Nume_Autor</p>
+
+    <div class="alert alert-danger">
+        ⚠️ Un autor care are cărți în catalog nu poate fi șters. Mută sau șterge cărțile mai întâi.
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:20px;">
+        <form method="post" asp-action="Sterge">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id_Autor" />
+            <button type="submit" class="btn btn-danger">Da, șterge</button>
+        </form>
+        <a href="/Autor" class="btn btn-outline">Anulează</a>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿@model Biblioteca.Models.Autor
+
+@{
+    ViewData["Title"] = "Editează autor";
+}
+
+<div class="page-header">
+    <h2>✏️ Editează: @Model.Nume_Autor</h2>
+    <a href="/Autor/Detalii/@Model.Id_Autor" class="btn btn-outline">← Înapoi</a>
+</div>
+
+<div class="form-container">
+    <form method="post" asp-action="Editeaza">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id_Autor" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Nume_Autor">Nume autor *</label>
+            <input asp-for="Nume_Autor" class="form-control" />
+            <span asp-validation-for="Nume_Autor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Biografie">Biografie</label>
+            <textarea asp-for="Biografie" class="form-control" rows="5"></textarea>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn">💾 Salvează modificările</button>
+            <a href="/Autor/Detalii/@Model.Id_Autor" class="btn btn-outline">Anulează</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

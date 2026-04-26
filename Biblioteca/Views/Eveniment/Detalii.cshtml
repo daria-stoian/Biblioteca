@@ -1,0 +1,93 @@
+﻿@model Biblioteca.Models.Eveniment
+
+@{
+    ViewData["Title"] = Model.Titlu_Eveniment;
+}
+
+<div class="page-header">
+    <h2>📅 @Model.Titlu_Eveniment</h2>
+    <a href="/Eveniment" class="btn btn-outline">← Înapoi la evenimente</a>
+</div>
+
+<div class="details-container" style="flex-direction:column;">
+    <div>
+        <p style="font-size:1.05em; line-height:1.7; margin-bottom:20px;">@Model.Descriere</p>
+
+        <div style="display:flex; gap:30px; flex-wrap:wrap; margin-bottom:25px;">
+            <div>
+                <p style="color:#7f8c8d; font-size:0.82em; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Data și ora</p>
+                <p style="font-weight:bold; color:#3498db;">⏰ @Model.Data_Ora.ToString("dd MMMM yyyy, HH:mm")</p>
+            </div>
+            <div>
+                <p style="color:#7f8c8d; font-size:0.82em; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Locație</p>
+                <p style="font-weight:bold;">📍 @Model.Locatie</p>
+            </div>
+            <div>
+                <p style="color:#7f8c8d; font-size:0.82em; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Locuri</p>
+                @if (Model.EstePlin)
+                {
+                    <p style="font-weight:bold; color:#e74c3c;">❌ Complet (@Model.Locuri_Disponibile/@Model.Locuri_Disponibile)</p>
+                }
+                else
+                {
+                    <p style="font-weight:bold; color:#27ae60;">✅ @Model.Locuri_Ramase disponibile din @Model.Locuri_Disponibile</p>
+                }
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+            @if (!Model.EstePlin && Model.Data_Ora > DateTime.UtcNow)
+            {
+                <form method="post" action="/Eveniment/Rezerva">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="idEveniment" value="@Model.Id_Eveniment" />
+                    <button type="submit" class="btn">🎟️ Rezervă un loc</button>
+                </form>
+            }
+            <a href="/Rezervare" class="btn btn-outline">📋 Rezervările mele</a>
+        </div>
+
+        <div class="admin-bar">
+            <span class="admin-bar-label">Admin:</span>
+            <a href="/Eveniment/Editeaza/@Model.Id_Eveniment" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
+            <a href="/Eveniment/Sterge/@Model.Id_Eveniment" class="btn btn-danger" style="font-size:0.85em;">🗑️ Șterge</a>
+        </div>
+    </div>
+
+    @if (Model.Rezervari != null && Model.Rezervari.Any())
+    {
+        <div style="margin-top:25px; padding-top:25px; border-top:1px solid #f0e6f6;">
+            <h3>👥 Participanți înscriși (@Model.Rezervari.Count(r => r.Status_Rezervare == Rezervare_Eveniment.StatusRezervare.Activă) activi)</h3>
+            <div class="table-container" style="margin-top:15px;">
+                <table>
+                    <thead>
+                        <tr><th>Participant</th><th>Data rezervării</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in Model.Rezervari.OrderByDescending(r => r.Data_Rzervare))
+                        {
+                            <tr>
+                                <td>@r.Utilizator?.Nume_Complet</td>
+                                <td>@r.Data_Rzervare.ToString("dd MMM yyyy, HH:mm")</td>
+                                <td>
+                                    @if (r.Status_Rezervare == Rezervare_Eveniment.StatusRezervare.Activă)
+                                    {
+                                        <span class="status-ok">✅ Activă</span>
+                                    }
+                                    else if (r.Status_Rezervare == Rezervare_Eveniment.StatusRezervare.Anulată)
+                                    {
+                                        <span style="color:#e74c3c;">❌ Anulată</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#7f8c8d;">✔️ Finalizată</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

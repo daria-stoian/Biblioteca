@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Biblioteca.Models.Recenzie>
+
+@{
+    ViewData["Title"] = "Recenzii";
+}
+
+<h2>⭐ Părerile Cititorilor</h2>
+
+<div style="display:flex; gap:30px; flex-wrap:wrap; margin-top:20px; align-items:flex-start;">
+
+    <div class="form-container" style="flex:1; min-width:280px; margin:0;">
+        <h3 style="margin-bottom:20px;">Scrie o recenzie</h3>
+        <form method="post" action="/Recenzie/Adauga">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id_Utilizator" value="1" />
+            <div class="form-group">
+                <label>Cartea:</label>
+                <select name="Id_Carte" class="form-control" required>
+                    <option value="">-- Selectează cartea --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nota ta (1-5):</label>
+                <select name="Nota" class="form-control">
+                    <option value="5">⭐⭐⭐⭐⭐ Excelentă</option>
+                    <option value="4">⭐⭐⭐⭐ Foarte bună</option>
+                    <option value="3">⭐⭐⭐ Bună</option>
+                    <option value="2">⭐⭐ Slabă</option>
+                    <option value="1">⭐ Nu o recomand</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Comentariul tău:</label>
+                <textarea name="Comentariu" class="form-control" rows="4"
+                          placeholder="Spune-ne ce ai gândit..."></textarea>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button type="submit" class="btn">📝 Publică Recenzia</button>
+                <a href="/Recenzie/Adauga" class="btn btn-outline">Formular complet</a>
+            </div>
+        </form>
+    </div>
+
+    <div style="flex:1; min-width:280px;">
+        @if (!Model.Any())
+        {
+            <div style="text-align:center; padding:40px; color:#7f8c8d;">
+                <p style="font-size:2em; margin-bottom:10px;">💬</p>
+                <p>Nicio recenzie publicată încă. Fii primul!</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var r in Model)
+            {
+                <div class="list-item" style="flex-direction:column; align-items:flex-start; margin-bottom:12px;">
+                    <div style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
+                        <div>
+                            <h4 style="color:#f39c12; margin-bottom:3px;">
+                                @for (int i = 0; i < r.Nota; i++)
+                                {
+                                    <text>⭐</text>
+                                }
+                                &nbsp;@r.Carte?.Titlu
+                            </h4>
+                            <p style="font-size:0.82em; color:#7f8c8d;">
+                                @r.Utilizator?.Nume_Complet · @r.Data_Postare.ToString("dd MMM yyyy")
+                            </p>
+                        </div>
+                        @if (r.Id_Utilizator == 1)
+                        {
+                            <form method="post" action="/Recenzie/Sterge" style="display:inline; flex-shrink:0;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@r.Id_Recenzie" />
+                                <button type="submit" class="btn btn-danger"
+                                        style="padding:4px 10px; font-size:0.8em;"
+                                        onclick="return confirm('Ștergi recenzia?')">
+                                    ✕
+                                </button>
+                            </form>
+                        }
+                    </div>
+                    <p style="margin-top:8px; line-height:1.5;">@r.Comentariu</p>
+                </div>
+            }
+        }
+    </div>
+</div>

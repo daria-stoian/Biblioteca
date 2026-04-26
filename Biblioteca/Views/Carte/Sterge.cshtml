@@ -1,0 +1,34 @@
+﻿@model Biblioteca.Models.Carte
+
+@{
+    ViewData["Title"] = "Șterge carte";
+}
+
+<h2>🗑️ Confirmare ștergere</h2>
+
+<div class="form-container" style="max-width:500px;">
+    <div style="display:flex; gap:20px; align-items:center; margin-bottom:20px;">
+        @if (!string.IsNullOrEmpty(Model.Imagine_Coperta))
+        {
+            <img src="~/imagini/@Model.Imagine_Coperta" style="height:80px; border-radius:6px;" />
+        }
+        <div>
+            <p style="font-size:1.05em;">Ești sigur că vrei să ștergi:</p>
+            <p><strong>@Model.Titlu</strong></p>
+            <p style="color:#7f8c8d;">@Model.Autor?.Nume_Autor</p>
+        </div>
+    </div>
+
+    <div class="alert alert-danger">
+        ⚠️ Această acțiune este ireversibilă. Dacă vrei doar să ascunzi cartea, folosește „Scoate din catalog" din pagina de detalii.
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:20px;">
+        <form method="post" asp-action="Sterge">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id_Carte" />
+            <button type="submit" class="btn btn-danger">Da, șterge definitiv</button>
+        </form>
+        <a href="/Carte/Detalii/@Model.Id_Carte" class="btn btn-outline">Anulează</a>
+    </div>
+</div>

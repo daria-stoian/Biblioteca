@@ -1,0 +1,35 @@
+﻿@model Biblioteca.Models.Categorie
+
+@{
+    ViewData["Title"] = "Adaugă categorie";
+}
+
+<div class="page-header">
+    <h2>➕ Adaugă categorie nouă</h2>
+    <a href="/Categorie" class="btn btn-outline">← Înapoi</a>
+</div>
+
+<div class="form-container">
+    <form method="post" asp-action="Adauga">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Nume_Categorie">Nume categorie *</label>
+            <input asp-for="Nume_Categorie" class="form-control"
+                   placeholder="Ex: SF, Fantasy, Dezvoltare personală" />
+            <span asp-validation-for="Nume_Categorie" class="text-danger"></span>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn">💾 Salvează</button>
+            <a href="/Categorie" class="btn btn-outline">Anulează</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

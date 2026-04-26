@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Biblioteca.Models.Categorie>
+
+@{
+    ViewData["Title"] = "Categorii";
+}
+
+<div class="page-header">
+    <h2>🗂️ Categorii</h2>
+    <a href="/Categorie/Adauga" class="btn">+ Adaugă categorie</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px; color:#7f8c8d;">
+        <p style="font-size:3em; margin-bottom:10px;">🗂️</p>
+        <p style="margin-bottom:15px;">Nicio categorie adăugată încă.</p>
+        <a href="/Categorie/Adauga" class="btn">+ Adaugă prima categorie</a>
+    </div>
+}
+else
+{
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nume Categorie</th>
+                    <th>Acțiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cat in Model)
+                {
+                    <tr>
+                        <td style="color:#7f8c8d; width:50px;">@cat.Id_Categorie</td>
+                        <td>
+                            <a href="/Categorie/Detalii/@cat.Id_Categorie"
+                                   style="color:#6a0dad; font-weight:bold; text-decoration:none;">
+                                @cat.Nume_Categorie
+                            </a>
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:7px;">
+                                <a href="/Categorie/Detalii/@cat.Id_Categorie" class="btn btn-outline" style="font-size:0.82em;">👁️ Detalii</a>
+                                <a href="/Categorie/Editeaza/@cat.Id_Categorie" class="btn btn-outline" style="font-size:0.82em;">✏️ Editează</a>
+                                <a href="/Categorie/Sterge/@cat.Id_Categorie" class="btn btn-danger" style="font-size:0.82em;">🗑️ Șterge</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

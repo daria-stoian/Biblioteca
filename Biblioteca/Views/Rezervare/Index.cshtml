@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Biblioteca.Models.Rezervare_Eveniment>
+
+@{
+    ViewData["Title"] = "Rezervările mele";
+    var active = Model.Where(r => r.Status_Rezervare == Rezervare_Eveniment.StatusRezervare.Activă).ToList();
+    var istorice = Model.Where(r => r.Status_Rezervare != Rezervare_Eveniment.StatusRezervare.Activă).ToList();
+}
+
+<div class="page-header">
+    <h2>🎟️ Rezervările mele la evenimente</h2>
+    <a href="/Eveniment" class="btn btn-outline">← Înapoi la evenimente</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px; color:#7f8c8d;">
+        <p style="font-size:3em; margin-bottom:10px;">🎟️</p>
+        <p style="font-size:1.1em; margin-bottom:20px;">Nu ai nicio rezervare la evenimente.</p>
+        <a href="/Eveniment" class="btn">Vezi evenimentele disponibile</a>
+    </div>
+}
+else
+{
+    <div style="max-width:800px; margin:0 auto;">
+        @if (active.Any())
+        {
+            <h3 style="margin-bottom:15px; color:#27ae60;">✅ Rezervări active (@active.Count)</h3>
+            @foreach (var r in active)
+            {
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <h4>@r.Eveniment?.Titlu_Eveniment</h4>
+                        <p style="color:#3498db; font-weight:bold; margin-top:4px;">
+                            ⏰ @r.Eveniment?.Data_Ora.ToString("dd MMMM yyyy, HH:mm")
+                        </p>
+                        <p style="font-size:0.85em; color:#7f8c8d; margin-top:3px;">
+                            📍 @r.Eveniment?.Locatie &nbsp;|&nbsp;
+                            Rezervat pe @r.Data_Rzervare.ToString("dd MMM yyyy")
+                        </p>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:7px;">
+                        <a href="/Eveniment/Detalii/@r.Id_Eveniment" class="btn btn-outline" style="text-align:center; font-size:0.85em;">ℹ️ Detalii</a>
+                        @if (r.Eveniment?.Data_Ora > DateTime.UtcNow)
+                        {
+                            <form method="post" action="/Rezervare/Anuleaza">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@r.Id_Rezervare" />
+                                <button type="submit" class="btn btn-danger"
+                                        style="width:100%; font-size:0.85em;"
+                                        onclick="return confirm('Anulezi rezervarea?')">
+                                    ❌ Anulează
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+        @if (istorice.Any())
+        {
+            <h3 style="margin-top:30px; margin-bottom:15px; color:#7f8c8d;">📋 Istoric rezervări</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr><th>Eveniment</th><th>Data</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in istorice.OrderByDescending(r => r.Data_Rzervare))
+                        {
+                            <tr>
+                                <td>@r.Eveniment?.Titlu_Eveniment</td>
+                                <td>@r.Eveniment?.Data_Ora.ToString("dd MMM yyyy")</td>
+                                <td>
+                                    @if (r.Status_Rezervare == Rezervare_Eveniment.StatusRezervare.Anulată)
+                                    {
+                                        <span style="color:#e74c3c;">❌ Anulată</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-ok">✔️ Finalizată</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,73 @@
+﻿@model Biblioteca.Models.Carte
+
+@{
+    ViewData["Title"] = "Adaugă carte";
+}
+
+<div class="page-header">
+    <h2>➕ Adaugă carte nouă</h2>
+    <a href="/Carte" class="btn btn-outline">← Înapoi la catalog</a>
+</div>
+
+<div class="form-container">
+    <form method="post" asp-action="Adauga" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Titlu">Titlu *</label>
+            <input asp-for="Titlu" class="form-control" placeholder="Ex: Dune" />
+            <span asp-validation-for="Titlu" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Id_Autor">Autor *</label>
+            <select asp-for="Id_Autor" class="form-control" asp-items="ViewBag.Id_Autor">
+                <option value="">-- Selectează autor --</option>
+            </select>
+            <span asp-validation-for="Id_Autor" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Id_Categorie">Categorie *</label>
+            <select asp-for="Id_Categorie" class="form-control" asp-items="ViewBag.Id_Categorie">
+                <option value="">-- Selectează categorie --</option>
+            </select>
+            <span asp-validation-for="Id_Categorie" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ISBN">ISBN</label>
+            <input asp-for="ISBN" class="form-control" placeholder="Ex: 978-3-16-148410-0" />
+        </div>
+
+        <div style="display:flex; gap:15px;">
+            <div class="form-group" style="flex:1;">
+                <label asp-for="An_Publicare">An publicare</label>
+                <input asp-for="An_Publicare" type="number" class="form-control" placeholder="Ex: 1965" />
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label asp-for="Numar_Pagini">Număr pagini</label>
+                <input asp-for="Numar_Pagini" type="number" class="form-control" placeholder="Ex: 412" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Descriere">Descriere</label>
+            <textarea asp-for="Descriere" class="form-control" rows="4"
+                      placeholder="Descriere scurtă..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="imagine">Imagine copertă</label>
+            <input type="file" name="imagine" id="imagine" class="form-control"
+                   accept="image/jpeg,image/png,image/webp" />
+            <small style="color:#7f8c8d; font-size:0.82em;">JPG, PNG sau WEBP · Max 5MB</small>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:25px;">
+            <button type="submit" class="btn">💾 Salvează cartea</button>
+            <a href="/Carte" class="btn btn-outline">Anulează</a>
+        </div>
+    </form>
+</div>

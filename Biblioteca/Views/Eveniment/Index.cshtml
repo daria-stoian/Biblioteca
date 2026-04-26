@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Biblioteca.Models.Eveniment>
+
+@{
+    ViewData["Title"] = "Evenimente";
+}
+
+<div class="page-header">
+    <h2>📅 Evenimente și Club de Lectură</h2>
+    <a href="/Eveniment/Adauga" class="btn">+ Adaugă eveniment</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px; color:#7f8c8d;">
+        <p style="font-size:3em; margin-bottom:10px;">📅</p>
+        <p style="font-size:1.1em; margin-bottom:15px;">Niciun eveniment programat momentan.</p>
+        <a href="/Eveniment/Adauga" class="btn">+ Adaugă primul eveniment</a>
+    </div>
+}
+else
+{
+    <div style="max-width:850px; margin:0 auto;">
+        @foreach (var ev in Model)
+        {
+            <div class="list-item">
+                <div class="list-item-content" style="flex:1;">
+                    <h4>@ev.Titlu_Eveniment</h4>
+                    <p style="margin:4px 0;">@ev.Descriere</p>
+                    <p style="color:#3498db; font-weight:bold; margin-top:6px;">
+                        📍 @ev.Locatie &nbsp;|&nbsp; ⏰ @ev.Data_Ora.ToString("dd MMMM yyyy, HH:mm")
+                    </p>
+                    <p style="font-size:0.88em; margin-top:4px;">
+                        @if (ev.EstePlin)
+                        {
+                            <span style="color:#e74c3c; font-weight:bold;">❌ Locuri epuizate</span>
+                        }
+                        else
+                        {
+                            <span style="color:#27ae60;">✅ @ev.Locuri_Ramase locuri disponibile</span>
+                        }
+                    </p>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:7px; min-width:130px;">
+                    @if (!ev.EstePlin)
+                    {
+                        <form method="post" action="/Eveniment/Rezerva">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="idEveniment" value="@ev.Id_Eveniment" />
+                            <button type="submit" class="btn" style="width:100%;">🎟️ Rezervă un loc</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button class="btn" disabled style="width:100%;">Complet</button>
+                    }
+                    <a href="/Eveniment/Detalii/@ev.Id_Eveniment" class="btn btn-outline" style="width:100%; text-align:center;">ℹ️ Detalii</a>
+                    <a href="/Eveniment/Editeaza/@ev.Id_Eveniment" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em;">✏️ Editează</a>
+                    <a href="/Eveniment/Sterge/@ev.Id_Eveniment" class="btn btn-danger" style="width:100%; text-align:center; font-size:0.82em;">🗑️ Șterge</a>
+                </div>
+            </div>
+        }
+    </div>
+}

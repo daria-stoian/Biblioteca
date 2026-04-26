@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Biblioteca.Models.Carte>
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<div class="catalog-container">
+    <aside class="genre-sidebar">
+        <h3>Categorii</h3>
+        <ul class="genre-list">
+            <li>
+                <a href="/Carte"
+                       class="@(ViewBag.IdCategorieCurenta == null && string.IsNullOrEmpty(ViewBag.Cautare as string) ? "active" : "")">
+                    Toate cărțile
+                </a>
+            </li>
+            @foreach (var cat in ViewBag.Categorii as IEnumerable<Categorie> ?? Enumerable.Empty<Categorie>())
+            {
+                <li>
+                    <a href="/Carte?idCategorie=@cat.Id_Categorie"
+                           class="@(ViewBag.IdCategorieCurenta?.ToString() == cat.Id_Categorie.ToString() ? "active" : "")">
+                        @cat.Nume_Categorie
+                    </a>
+                </li>
+            }
+        </ul>
+
+        <div style="margin-top:20px; padding-top:15px; border-top:1px solid #f0e6f6;">
+            <p style="font-size:0.75em; text-transform:uppercase; letter-spacing:1px; color:#9b30d9; font-weight:600; margin-bottom:8px;">Categorii</p>
+            <a href="/Categorie/Adauga" class="btn" style="width:100%; text-align:center; font-size:0.82em; display:block; margin-bottom:6px;">+ Categorie nouă</a>
+            <a href="/Categorie" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em; display:block;">Gestionează</a>
+        </div>
+
+        <div style="margin-top:15px; padding-top:15px; border-top:1px solid #f0e6f6;">
+            <p style="font-size:0.75em; text-transform:uppercase; letter-spacing:1px; color:#9b30d9; font-weight:600; margin-bottom:8px;">Autori</p>
+            <a href="/Autor/Adauga" class="btn" style="width:100%; text-align:center; font-size:0.82em; display:block; margin-bottom:6px;">+ Autor nou</a>
+            <a href="/Autor" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em; display:block;">Gestionează</a>
+        </div>
+    </aside>
+
+    <section class="catalog-books">
+        <div class="page-header">
+            <h2>📚 Explorează Catalogul Nostru</h2>
+            <a href="/Carte/Adauga" class="btn">+ Adaugă carte</a>
+        </div>
+
+        <form method="get" action="/Carte" style="margin-bottom:20px; display:flex; gap:10px;">
+            <input type="text" name="cautare" value="@ViewBag.Cautare"
+                   class="form-control" placeholder="Caută titlu, autor sau ISBN..."
+                   style="flex:1; max-width:400px;" />
+            <button type="submit" class="btn">🔍 Caută</button>
+            @if (!string.IsNullOrEmpty(ViewBag.Cautare as string))
+            {
+                <a href="/Carte" class="btn btn-outline">✕</a>
+            }
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div style="text-align:center; padding:50px; color:#7f8c8d;">
+                <p style="font-size:3em; margin-bottom:10px;">📭</p>
+                <p style="font-size:1.1em; margin-bottom:8px;">Nicio carte găsită.</p>
+                <p style="font-size:0.9em; color:#9b8ca8; margin-bottom:20px;">
+                    Asigură-te că ai adăugat mai întâi cel puțin un
+                    <a href="/Autor/Adauga" style="color:#6a0dad; font-weight:bold;">autor</a> și o
+                    <a href="/Categorie/Adauga" style="color:#6a0dad; font-weight:bold;">categorie</a>,
+                    apoi poți adăuga cărți.
+                </p>
+                <a href="/Carte/Adauga" class="btn">+ Adaugă prima carte</a>
+            </div>
+        }
+        else
+        {
+            <div class="book-grid">
+                @foreach (var carte in Model)
+                {
+                    <div class="book-card">
+                        @if (!string.IsNullOrEmpty(carte.Imagine_Coperta))
+                        {
+                            <img src="~/imagini/@carte.Imagine_Coperta" alt="Coperta @carte.Titlu" class="book-cover" />
+                        }
+                        else
+                        {
+                            <div class="book-cover" style="font-size:4em; display:flex; align-items:center; justify-content:center; background:#f0e6f6;">📖</div>
+                        }
+                        <h4>@carte.Titlu</h4>
+                        <p>@carte.Autor?.Nume_Autor</p>
+                        <p style="font-size:0.8em; color:#9b30d9;">@carte.Categorie?.Nume_Categorie</p>
+                        <a href="/Carte/Detalii/@carte.Id_Carte" class="btn">Detalii Carte...</a>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+</div>

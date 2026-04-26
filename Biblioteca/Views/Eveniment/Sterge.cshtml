@@ -1,0 +1,41 @@
+﻿@model Biblioteca.Models.Eveniment
+
+@{
+    ViewData["Title"] = "Șterge eveniment";
+}
+
+<h2>🗑️ Confirmare ștergere eveniment</h2>
+
+<div class="form-container" style="max-width:500px;">
+    <p style="font-size:1.05em; margin-bottom:8px;">Ești sigur că vrei să ștergi:</p>
+    <p><strong>@Model.Titlu_Eveniment</strong></p>
+    <p style="color:#7f8c8d; font-size:0.9em; margin-top:4px;">
+        📅 @Model.Data_Ora.ToString("dd MMMM yyyy, HH:mm") &nbsp;|&nbsp; 📍 @Model.Locatie
+    </p>
+
+    @if (Model.Locuri_Rezervate > 0)
+    {
+        <div class="alert alert-danger" style="margin-top:15px;">
+            ⚠️ Evenimentul are <strong>@Model.Locuri_Rezervate rezervări active</strong> și nu poate fi șters.
+            Anulează rezervările înainte.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" style="margin-top:15px;">
+            ⚠️ Această acțiune este ireversibilă.
+        </div>
+    }
+
+    <div style="display:flex; gap:10px; margin-top:20px;">
+        <form method="post" asp-action="Sterge">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id_Eveniment" />
+            <button type="submit" class="btn btn-danger"
+                @(Model.Locuri_Rezervate > 0 ? "disabled" : "")>
+                Da, șterge
+            </button>
+        </form>
+        <a href="/Eveniment" class="btn btn-outline">Anulează</a>
+    </div>
+</div>

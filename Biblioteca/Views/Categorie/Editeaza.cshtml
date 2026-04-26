@@ -1,0 +1,32 @@
+﻿@model Biblioteca.Models.Categorie
+
+@{
+    ViewData["Title"] = "Editează categorie";
+}
+
+<div class="page-header">
+    <h2>✏️ Editează: @Model.Nume_Categorie</h2>
+    <a href="/Categorie" class="btn btn-outline">← Înapoi</a>
+</div>
+
+<div class="form-container">
+    <form method="post" asp-action="Editeaza">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id_Categorie" />
+
+        <div class="form-group">
+            <label asp-for="Nume_Categorie">Nume categorie *</label>
+            <input asp-for="Nume_Categorie" class="form-control" />
+            <span asp-validation-for="Nume_Categorie" class="text-danger"></span>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn">💾 Salvează</button>
+            <a href="/Categorie" class="btn btn-outline">Anulează</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
