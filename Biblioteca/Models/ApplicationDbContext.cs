@@ -84,6 +84,20 @@ namespace Biblioteca.Models
             modelBuilder.Entity<Imprumut>() 
                 .Property(i => i.Taxa_Penalizare)
                 .HasPrecision(18, 2);
+
+            // Seed Data
+            modelBuilder.Entity<Utilizator>().HasData(
+                new Utilizator
+                {
+                    Id_Utilizator = 1,
+                    Nume_Complet = "Daria Stoian",
+                    Nume_Rol = RolUtilizator.Cititor,
+                    Email = "daria@email.com",
+                    Parola = "daria1234",
+                    Telefon = "0712345678",
+                    Adresa = "Strada Cărților nr. 10, București"
+                }
+            );
         }
     }
 }

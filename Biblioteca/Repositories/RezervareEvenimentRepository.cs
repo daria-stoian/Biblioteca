@@ -1,10 +1,11 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using static Biblioteca.Models.Rezervare_Eveniment;
 
 namespace Biblioteca.Repositories
 {
-    public class RezervareEvenimentRepository : Repository<Rezervare_Eveniment>, IRezervareEvenimentRepository
+    public class RezervareEvenimentRepository : BaseRepository<Rezervare_Eveniment>, IRezervareEvenimentRepository
     {
         public RezervareEvenimentRepository(ApplicationDbContext context) : base(context) { }
 

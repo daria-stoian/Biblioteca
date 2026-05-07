@@ -68,9 +68,33 @@
                    accept="image/jpeg,image/png,image/webp" />
         </div>
 
+        <div class="form-group">
+            @if (!string.IsNullOrEmpty(Model.Fisier_PDF))
+            {
+                <p style="font-size:0.9em; color:#7f8c8d; margin-bottom:8px;">
+                    📄 PDF curent: <span style="color:#27ae60;">✅ Există un fișier PDF încărcat</span>
+                </p>
+            }
+            else
+            {
+                <p style="font-size:0.9em; color:#7f8c8d; margin-bottom:8px;">
+                    📄 PDF curent: <span style="color:#e74c3c;">❌ Niciun PDF încărcat</span>
+                </p>
+            }
+            <label for="pdf">PDF nou <small style="color:#7f8c8d;">(lasă gol pentru a păstra cel existent)</small></label>
+            <input type="file" name="pdf" id="pdf" class="form-control" accept="application/pdf" />
+            <small style="color:#7f8c8d; font-size:0.82em;">Max 50MB · Accesibil doar utilizatorilor cu împrumut activ</small>
+        </div>
+
         <div style="display:flex; gap:10px; margin-top:25px;">
             <button type="submit" class="btn">💾 Salvează modificările</button>
             <a href="/Carte/Detalii/@Model.Id_Carte" class="btn btn-outline">Anulează</a>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

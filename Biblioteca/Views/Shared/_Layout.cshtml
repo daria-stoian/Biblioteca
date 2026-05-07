@@ -13,7 +13,6 @@
             <a href="/" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">Acasă</a>
             <a href="/Carte" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Carte" ? "active" : "")">Catalog</a>
             <a href="/Autor" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Autor" ? "active" : "")">Autori</a>
-            <a href="/Categorie" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Categorie" ? "active" : "")">Categorii</a>
             <a href="/Imprumut" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Imprumut" ? "active" : "")">Împrumuturi</a>
             <a href="/Lista_Dorinte" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "ListaDorinte" ? "active" : "")">Lista de Dorințe</a>
             <a href="/Recenzie" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Recenzie" ? "active" : "")">Recenzii</a>
@@ -23,7 +22,7 @@
         </nav>
         <div class="user-menu">
             <span>Salut, Daria S.</span>
-            <a href="/Profil" class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">Profilul meu</a>
+            <a href="/Utilizator/Profil" class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">Profilul meu</a>
         </div>
     </header>
 

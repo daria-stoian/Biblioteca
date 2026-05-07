@@ -1,9 +1,10 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Repositories
 {
-    public class CategorieRepository : Repository<Categorie>, ICategorieRepository
+    public class CategorieRepository : BaseRepository<Categorie>, ICategorieRepository
     {
         public CategorieRepository(ApplicationDbContext context) : base(context) { }
 

@@ -1,9 +1,10 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Repositories
 {
-    public class ContactRepository : Repository<Contact>, IContactRepository
+    public class ContactRepository : BaseRepository<Contact>, IContactRepository
     {
         public ContactRepository(ApplicationDbContext context) : base(context) { }
 

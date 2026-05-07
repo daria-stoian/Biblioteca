@@ -1,0 +1,167 @@
+﻿@model Biblioteca.Models.Utilizator
+
+@{
+    ViewData["Title"] = "Profilul meu";
+}
+
+<div class="page-header">
+    <h2>👤 Profilul meu</h2>
+</div>
+
+@if (TempData["Succes"] != null)
+{
+    <div class="alert alert-success">✅ @TempData["Succes"]</div>
+}
+@if (TempData["Eroare"] != null)
+{
+    <div class="alert alert-danger">❌ @TempData["Eroare"]</div>
+}
+
+<div style="display:flex; gap:30px; flex-wrap:wrap; align-items:flex-start; max-width:900px; margin:0 auto;">
+
+    @*Coloana stanga: date profil*@
+    <div class="form-container" style="flex:1; min-width:280px; margin:0;">
+        <div style="text-align:center; margin-bottom:25px;">
+            <div style="width:80px; height:80px; background:#f0e6f6; border-radius:50%;
+                display:flex; align-items:center; justify-content:center;
+                font-size:2.5em; margin:0 auto 12px auto;">
+                👤
+            </div>
+            <h3 style="margin:0;">@Model.Nume_Complet</h3>
+            <p style="color:#9b30d9; font-size:0.9em; margin:4px 0;">
+                @Model.Nume_Rol.ToString()
+            </p>
+            <p style="color:#7f8c8d; font-size:0.85em;">@Model.Email</p>
+        </div>
+
+        <hr style="border:none; border-top:1px solid #f0e6f6; margin-bottom:20px;" />
+
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.95em;">
+            <div style="display:flex; justify-content:space-between;">
+                <span style="color:#7f8c8d;">📞 Telefon</span>
+                <span>@(string.IsNullOrEmpty(Model.Telefon) ? "—" : Model.Telefon)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span style="color:#7f8c8d;">📍 Adresă</span>
+                <span style="text-align:right; max-width:180px;">@(string.IsNullOrEmpty(Model.Adresa) ? "—" : Model.Adresa)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span style="color:#7f8c8d;">📚 Împrumuturi</span>
+                <span>@(Model.Imprumuturi?.Count ?? 0)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span style="color:#7f8c8d;">⭐ Recenzii</span>
+                <span>@(Model.Recenzii?.Count ?? 0)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span style="color:#7f8c8d;">📅 Rezervări</span>
+                <span>@(Model.RezervariEvenimente?.Count ?? 0)</span>
+            </div>
+        </div>
+    </div>
+
+    @*Coloana dreapta: editare profil*@
+    <div class="form-container" style="flex:1; min-width:280px; margin:0;">
+        <h3 style="margin-bottom:20px;">✏️ Editează profilul</h3>
+        <form method="post" action="/Utilizator/ActualizeazaProfil">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label>Nume complet</label>
+                <input type="text" name="numeComplet" class="form-control"
+                       value="@Model.Nume_Complet" required />
+            </div>
+            <div class="form-group">
+                <label>Telefon</label>
+                <input type="text" name="telefon" class="form-control"
+                       value="@Model.Telefon" placeholder="Ex: 0712345678" />
+            </div>
+            <div class="form-group">
+                <label>Adresă</label>
+                <input type="text" name="adresa" class="form-control"
+                       value="@Model.Adresa" placeholder="Ex: Strada Cărților nr. 1" />
+            </div>
+            <button type="submit" class="btn">💾 Salvează modificările</button>
+        </form>
+    </div>
+</div>
+
+@*Sectiunea imprumuturi recente*@
+@if (Model.Imprumuturi != null && Model.Imprumuturi.Any())
+{
+    <div style="max-width:900px; margin:30px auto 0 auto;">
+        <h3>📚 Împrumuturile mele recente</h3>
+        <div style="margin-top:15px;">
+            @foreach (var imprumut in Model.Imprumuturi.OrderByDescending(i => i.Data_Imprumut).Take(5))
+            {
+                <div class="list-item" style="margin-bottom:10px;">
+                    <div class="list-item-content">
+                        <h4>@imprumut.Carte?.Titlu</h4>
+                        <p style="font-size:0.85em; color:#7f8c8d;">
+                            Împrumutat: @imprumut.Data_Imprumut.ToString("dd MMM yyyy") ·
+                            Termen: @imprumut.Data_Scadenta.ToString("dd MMM yyyy")
+                        </p>
+                    </div>
+                    <span>
+                        @if (imprumut.Status == Biblioteca.Models.Imprumut.StatusImprumut.Activ)
+                        {
+                            <span class="status-ok">✅ Activ</span>
+                        }
+                        else if (imprumut.Status == Biblioteca.Models.Imprumut.StatusImprumut.Prelungit)
+                        {
+                            <span style="color:#f39c12;">🔄 Prelungit</span>
+                        }
+                        else if (imprumut.Status == Biblioteca.Models.Imprumut.StatusImprumut.Returnat)
+                        {
+                            <span style="color:#7f8c8d;">↩️ Returnat</span>
+                        }
+                        else
+                        {
+                            <span style="color:#e74c3c;">⚠️ Întârziat</span>
+                        }
+                    </span>
+                </div>
+            }
+        </div>
+        <a href="/Imprumut" class="btn btn-outline" style="margin-top:10px;">
+            Vezi toate împrumuturile →
+        </a>
+    </div>
+}
+
+@if (Model.RezervariEvenimente != null && Model.RezervariEvenimente.Any())
+{
+    <div style="max-width:900px; margin:30px auto 0 auto;">
+        <h3>📅 Rezervările mele recente</h3>
+        <div style="margin-top:15px;">
+            @foreach (var rezervare in Model.RezervariEvenimente.OrderByDescending(r => r.Data_Rzervare).Take(5))
+            {
+                <div class="list-item" style="margin-bottom:10px;">
+                    <div class="list-item-content">
+                        <h4>@rezervare.Eveniment?.Titlu_Eveniment</h4>
+                        <p style="font-size:0.85em; color:#7f8c8d;">
+                            Rezervat: @rezervare.Data_Rzervare.ToString("dd MMM yyyy") ·
+                            Eveniment: @rezervare.Eveniment?.Data_Ora.ToString("dd MMM yyyy, HH:mm")
+                        </p>
+                    </div>
+                    <span>
+                        @if (rezervare.Status_Rezervare == Biblioteca.Models.Rezervare_Eveniment.StatusRezervare.Activă)
+                        {
+                            <span class="status-ok">✅ Activă</span>
+                        }
+                        else if (rezervare.Status_Rezervare == Biblioteca.Models.Rezervare_Eveniment.StatusRezervare.Anulată)
+                        {
+                            <span style="color:#e74c3c;">❌ Anulată</span>
+                        }
+                        else
+                        {
+                            <span style="color:#7f8c8d;">✔️ Finalizată</span>
+                        }
+                    </span>
+                </div>
+            }
+        </div>
+        <a href="/Rezervare" class="btn btn-outline" style="margin-top:10px;">
+            Vezi toate rezervările →
+        </a>
+    </div>
+}   

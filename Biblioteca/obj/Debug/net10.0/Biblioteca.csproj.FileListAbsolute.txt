@@ -337,3 +337,4 @@ C:\Users\stoia\source\repos\Biblioteca\Biblioteca\obj\Debug\net10.0\Biblioteca.p
 C:\Users\stoia\source\repos\Biblioteca\Biblioteca\obj\Debug\net10.0\Biblioteca.genruntimeconfig.cache
 C:\Users\stoia\source\repos\Biblioteca\Biblioteca\obj\Debug\net10.0\ref\Biblioteca.dll
 C:\Users\stoia\source\repos\Biblioteca\Biblioteca\obj\Debug\net10.0\compressed\conv0cg0pa-{0}-89u1a0wog0-89u1a0wog0.gz
+C:\Users\stoia\source\repos\Biblioteca\Biblioteca\obj\Debug\net10.0\Biblioteca.sourcelink.json

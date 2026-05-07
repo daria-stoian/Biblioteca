@@ -1,5 +1,6 @@
 ﻿using Biblioteca.Models;
-using Biblioteca.Repositories;
+using Biblioteca.Repositories.Interfaces;
+using Biblioteca.Services.Interfaces;
 using static Biblioteca.Models.Carte;
 using static Biblioteca.Models.Imprumut;
 
@@ -7,48 +8,43 @@ namespace Biblioteca.Services
 {
     public class ImprumutService : IImprumutService
     {
-        private readonly IImprumutRepository _imprumutRepo;
-        private readonly ICarteRepository _carteRepo;
+        private readonly IRepositoryWrapper _repo;
 
         private const decimal TAXA_PE_ZI = 1.00m;
         private const int ZILE_TERMEN_DEFAULT = 14;
         private const int ZILE_PRELUNGIRE = 14;
         private const int MAX_IMPRUMUTURI_ACTIVE = 5;
 
-        public ImprumutService(IImprumutRepository imprumutRepo, ICarteRepository carteRepo)
-        {
-            _imprumutRepo = imprumutRepo;
-            _carteRepo = carteRepo;
-        }
+        public ImprumutService(IRepositoryWrapper repo) => _repo = repo;
 
         public async Task<IEnumerable<Imprumut>> GetImprumuturiUtilizatorAsync(int idUtilizator)
-            => await _imprumutRepo.GetByUtilizatorAsync(idUtilizator);
+            => await _repo.Imprumuturi.GetByUtilizatorAsync(idUtilizator);
 
         public async Task<IEnumerable<Imprumut>> GetToateImprumuturileAsync()
-            => await _imprumutRepo.GetActiveAsync();
+            => await _repo.Imprumuturi.GetActiveAsync();
 
         public async Task<Imprumut?> GetDetaliiImprumutAsync(int id)
-            => await _imprumutRepo.GetWithDetailsAsync(id);
+            => await _repo.Imprumuturi.GetWithDetailsAsync(id);
 
         public async Task<bool> UtilizatorExistaAsync(int idUtilizator)
-            => await _imprumutRepo.UtilizatorExistaAsync(idUtilizator);
+            => await _repo.Imprumuturi.UtilizatorExistaAsync(idUtilizator);
 
         public async Task<Carte?> GetCarteSimplaAsync(int idCarte)
-            => await _carteRepo.GetWithAutorAsync(idCarte);
+            => await _repo.Carti.GetWithAutorAsync(idCarte);
 
         public async Task<(bool succes, string mesaj)> ImprumutaCarteAsync(int idUtilizator, int idCarte, int zileTermen = ZILE_TERMEN_DEFAULT)
         {
-            var carte = await _carteRepo.GetByIdAsync(idCarte);
+            var carte = await _repo.Carti.GetByIdAsync(idCarte);
             if (carte == null)
                 return (false, "Cartea nu a fost găsită.");
             if (carte.Status_Disponibilitate == StatusDisponibilitate.Indisponibil)
                 return (false, "Această carte nu este disponibilă momentan.");
 
-            bool areDejaActiv = await _imprumutRepo.AreImprumutActivAsync(idUtilizator, idCarte);
+            bool areDejaActiv = await _repo.Imprumuturi.AreImprumutActivAsync(idUtilizator, idCarte);
             if (areDejaActiv)
                 return (false, "Ai deja această carte împrumutată.");
 
-            var imprumuturiActive = await _imprumutRepo.GetByUtilizatorAsync(idUtilizator);
+            var imprumuturiActive = await _repo.Imprumuturi.GetByUtilizatorAsync(idUtilizator);
             int nrActive = imprumuturiActive.Count(i => i.Status == StatusImprumut.Activ || i.Status == StatusImprumut.Prelungit);
             if (nrActive >= MAX_IMPRUMUTURI_ACTIVE)
                 return (false, $"Ai atins limita de {MAX_IMPRUMUTURI_ACTIVE} cărți împrumutate simultan. Returnează o carte înainte.");
@@ -63,13 +59,13 @@ namespace Biblioteca.Services
                 Taxa_Penalizare = 0
             };
 
-            await _imprumutRepo.AddAsync(imprumut);
+            await _repo.Imprumuturi.AddAsync(imprumut);
             return (true, $"Carte împrumutată cu succes! Termen de citire: {imprumut.Data_Scadenta:dd MMM yyyy}.");
         }
 
         public async Task<(bool succes, string mesaj)> ReturnareCarteAsync(int idImprumut)
         {
-            var imprumut = await _imprumutRepo.GetWithDetailsAsync(idImprumut);
+            var imprumut = await _repo.Imprumuturi.GetWithDetailsAsync(idImprumut);
             if (imprumut == null) return (false, "Împrumutul nu a fost găsit.");
 
             if (imprumut.Status == StatusImprumut.Returnat)
@@ -79,7 +75,7 @@ namespace Biblioteca.Services
             imprumut.Taxa_Penalizare = CalculeazaTaxaPenalizareAsync(imprumut);
             imprumut.Status = StatusImprumut.Returnat;
 
-            await _imprumutRepo.UpdateAsync(imprumut);
+            await _repo.Imprumuturi.UpdateAsync(imprumut);
 
             string mesajTaxa = imprumut.Taxa_Penalizare > 0
                 ? $" Taxă de penalizare: {imprumut.Taxa_Penalizare:F2} RON."
@@ -89,7 +85,7 @@ namespace Biblioteca.Services
 
         public async Task<(bool succes, string mesaj)> PrelungesteImprumutAsync(int idImprumut, int zileExtra = ZILE_PRELUNGIRE)
         {
-            var imprumut = await _imprumutRepo.GetByIdAsync(idImprumut);
+            var imprumut = await _repo.Imprumuturi.GetByIdAsync(idImprumut);
             if (imprumut == null) return (false, "Împrumutul nu a fost găsit.");
 
             if (imprumut.Status == StatusImprumut.Returnat)
@@ -104,7 +100,7 @@ namespace Biblioteca.Services
             imprumut.Data_Scadenta = imprumut.Data_Scadenta.AddDays(zileExtra);
             imprumut.Status = StatusImprumut.Prelungit;
 
-            await _imprumutRepo.UpdateAsync(imprumut);
+            await _repo.Imprumuturi.UpdateAsync(imprumut);
             return (true, $"Termen prelungit cu {zileExtra} zile. Noul termen: {imprumut.Data_Scadenta:dd MMM yyyy}.");
         }
 

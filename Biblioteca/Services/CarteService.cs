@@ -1,58 +1,54 @@
 ﻿using Biblioteca.Models;
-using Biblioteca.Repositories;
+using Biblioteca.Repositories.Interfaces;
+using Biblioteca.Services.Interfaces;
 using static Biblioteca.Models.Carte;
 
 namespace Biblioteca.Services
 {
     public class CarteService : ICarteService
     {
-        private readonly ICarteRepository _carteRepo;
-        private readonly IImprumutRepository _imprumutRepo;
+        private readonly IRepositoryWrapper _repo;
         private readonly IWebHostEnvironment _env;
 
-        public CarteService(ICarteRepository carteRepo, IImprumutRepository imprumutRepo, IWebHostEnvironment env)
+        public CarteService(IRepositoryWrapper repo, IWebHostEnvironment env)
         {
-            _carteRepo = carteRepo;
-            _imprumutRepo = imprumutRepo;
+            _repo = repo;
             _env = env;
         }
 
         public async Task<IEnumerable<Carte>> GetToateCartileAsync()
-            => await _carteRepo.GetAllAsync();
+            => await _repo.Carti.GetAllAsync();
 
         public async Task<IEnumerable<Carte>> GetCartileDisponibileAsync()
-            => await _carteRepo.GetDisponibileAsync();
+            => await _repo.Carti.GetDisponibileAsync();
 
         public async Task<IEnumerable<Carte>> GetByCategorieAsync(int idCategorie)
-            => await _carteRepo.GetByCategorieAsync(idCategorie);
+            => await _repo.Carti.GetByCategorieAsync(idCategorie);
 
         public async Task<IEnumerable<Carte>> CautaCartiAsync(string termen)
         {
             if (string.IsNullOrWhiteSpace(termen))
-                return await _carteRepo.GetDisponibileAsync();
-            return await _carteRepo.SearchAsync(termen);
+                return await _repo.Carti.GetDisponibileAsync();
+            return await _repo.Carti.SearchAsync(termen);
         }
 
         public async Task<Carte?> GetDetaliiCarteAsync(int id)
-            => await _carteRepo.GetWithDetailsAsync(id);
+            => await _repo.Carti.GetWithDetailsAsync(id);
 
-        // Top carti
         public async Task<IEnumerable<Carte>> GetTopCartiAsync(int numar)
-            => await _carteRepo.GetTopByRecenziiAsync(numar);
+            => await _repo.Carti.GetTopByRecenziiAsync(numar);
 
-        // Lista autori pentru SelectList
         public async Task<IEnumerable<Autor>> GetAutoriAsync()
-            => await _carteRepo.GetToiAutoriiAsync();
+            => await _repo.Carti.GetToiAutoriiAsync();
 
-        // Lista categorii pentru SelectList
         public async Task<IEnumerable<Categorie>> GetCategoriiAsync()
-            => await _carteRepo.GetToateCategoriiAsync();
+            => await _repo.Carti.GetToateCategoriiAsync();
 
-        public async Task<(bool succes, string mesaj)> AdaugaCarteAsync(Carte carte, IFormFile? imagine)
+        public async Task<(bool succes, string mesaj)> AdaugaCarteAsync(Carte carte, IFormFile? imagine, IFormFile? pdf)
         {
             if (!string.IsNullOrEmpty(carte.ISBN))
             {
-                var toateCartile = await _carteRepo.GetAllAsync();
+                var toateCartile = await _repo.Carti.GetAllAsync();
                 if (toateCartile.Any(c => c.ISBN == carte.ISBN))
                     return (false, "Există deja o carte cu acest ISBN în catalog.");
             }
@@ -64,19 +60,26 @@ namespace Biblioteca.Services
                 carte.Imagine_Coperta = rezultat.numeFisier;
             }
 
+            if (pdf != null && pdf.Length > 0)
+            {
+                var rezultat = await SalveazaPDFAsync(pdf);
+                if (!rezultat.succes) return (false, rezultat.mesaj);
+                carte.Fisier_PDF = rezultat.numeFisier;
+            }
+
             carte.Status_Disponibilitate = StatusDisponibilitate.Disponibil;
-            await _carteRepo.AddAsync(carte);
+            await _repo.Carti.AddAsync(carte);
             return (true, "Cartea a fost adăugată cu succes.");
         }
 
-        public async Task<(bool succes, string mesaj)> ActualizeazaCarteAsync(Carte carte, IFormFile? imagine)
+        public async Task<(bool succes, string mesaj)> ActualizeazaCarteAsync(Carte carte, IFormFile? imagine, IFormFile? pdf)
         {
-            var carteVeche = await _carteRepo.GetByIdAsync(carte.Id_Carte);
+            var carteVeche = await _repo.Carti.GetByIdAsync(carte.Id_Carte);
             if (carteVeche == null) return (false, "Cartea nu a fost găsită.");
 
             if (!string.IsNullOrEmpty(carte.ISBN))
             {
-                var toateCartile = await _carteRepo.GetAllAsync();
+                var toateCartile = await _repo.Carti.GetAllAsync();
                 if (toateCartile.Any(c => c.ISBN == carte.ISBN && c.Id_Carte != carte.Id_Carte))
                     return (false, "Există deja o altă carte cu acest ISBN.");
             }
@@ -95,41 +98,77 @@ namespace Biblioteca.Services
                 carte.Imagine_Coperta = carteVeche.Imagine_Coperta;
             }
 
-            await _carteRepo.UpdateAsync(carte);
+            if (pdf != null && pdf.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(carteVeche.Fisier_PDF))
+                    StergePDF(carteVeche.Fisier_PDF);
+
+                var rezultat = await SalveazaPDFAsync(pdf);
+                if (!rezultat.succes) return (false, rezultat.mesaj);
+                carte.Fisier_PDF = rezultat.numeFisier;
+            }
+            else
+            {
+                carte.Fisier_PDF = carteVeche.Fisier_PDF;
+            }
+
+            await _repo.Carti.UpdateAsync(carte);
             return (true, "Cartea a fost actualizată cu succes.");
         }
 
         public async Task<(bool succes, string mesaj)> StergeCarteAsync(int id)
         {
-            bool areImprumuturiActive = await _imprumutRepo.GetActiveAsync()
-                .ContinueWith(t => t.Result.Any(i => i.Id_Carte == id));
-
-            if (areImprumuturiActive)
+            var imprumuturiActive = await _repo.Imprumuturi.GetActiveAsync();
+            if (imprumuturiActive.Any(i => i.Id_Carte == id))
                 return (false, "Cartea nu poate fi ștearsă — are împrumuturi active. Marchează-o ca Indisponibilă.");
 
-            var carte = await _carteRepo.GetByIdAsync(id);
+            var carte = await _repo.Carti.GetByIdAsync(id);
             if (carte == null) return (false, "Cartea nu a fost găsită.");
 
             if (!string.IsNullOrEmpty(carte.Imagine_Coperta))
                 StergeImagine(carte.Imagine_Coperta);
 
-            await _carteRepo.DeleteAsync(id);
+            if (!string.IsNullOrEmpty(carte.Fisier_PDF))
+                StergePDF(carte.Fisier_PDF);
+
+            await _repo.Carti.DeleteAsync(id);
             return (true, "Cartea a fost ștearsă.");
         }
 
         public async Task<(bool succes, string mesaj)> SetStatusAsync(int id, StatusDisponibilitate status)
         {
-            var carte = await _carteRepo.GetByIdAsync(id);
+            var carte = await _repo.Carti.GetByIdAsync(id);
             if (carte == null) return (false, "Cartea nu a fost găsită.");
 
             carte.Status_Disponibilitate = status;
-            await _carteRepo.UpdateAsync(carte);
+            await _repo.Carti.UpdateAsync(carte);
 
             string mesaj = status == StatusDisponibilitate.Disponibil
                 ? "Cartea este acum vizibilă în catalog."
                 : "Cartea a fost scoasă din catalog.";
             return (true, mesaj);
         }
+
+        // Verifica daca utilizatorul are imprumut activ si returneaza calea catre PDF
+        public async Task<(bool areAcces, string? caleFisier, string? numeFisier)> GetPDFAsync(int idCarte, int idUtilizator)
+        {
+            var carte = await _repo.Carti.GetByIdAsync(idCarte);
+            if (carte == null || string.IsNullOrEmpty(carte.Fisier_PDF))
+                return (false, null, null);
+
+            // Verificam daca utilizatorul are imprumut activ pentru aceasta carte
+            bool areImprumutActiv = await _repo.Imprumuturi.AreImprumutActivAsync(idUtilizator, idCarte);
+            if (!areImprumutActiv)
+                return (false, null, null);
+
+            string caleFisier = Path.Combine(_env.WebRootPath, "pdf", carte.Fisier_PDF);
+            if (!File.Exists(caleFisier))
+                return (false, null, null);
+
+            return (true, caleFisier, carte.Titlu + ".pdf");
+        }
+
+        // --- Metode private helper ---
 
         private async Task<(bool succes, string mesaj, string numeFisier)> SalveazaImagineAsync(IFormFile imagine)
         {
@@ -157,6 +196,32 @@ namespace Biblioteca.Services
         private void StergeImagine(string numeFisier)
         {
             string cale = Path.Combine(_env.WebRootPath, "imagini", numeFisier);
+            if (File.Exists(cale)) File.Delete(cale);
+        }
+
+        private async Task<(bool succes, string mesaj, string numeFisier)> SalveazaPDFAsync(IFormFile pdf)
+        {
+            if (!pdf.FileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                return (false, "Doar fișiere PDF sunt acceptate.", "");
+
+            if (pdf.Length > 50 * 1024 * 1024)
+                return (false, "Fișierul PDF depășește limita de 50MB.", "");
+
+            string folder = Path.Combine(_env.WebRootPath, "pdf");
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+            string numeFisier = Guid.NewGuid().ToString() + ".pdf";
+            string cale = Path.Combine(folder, numeFisier);
+
+            using var stream = new FileStream(cale, FileMode.Create);
+            await pdf.CopyToAsync(stream);
+
+            return (true, "", numeFisier);
+        }
+
+        private void StergePDF(string numeFisier)
+        {
+            string cale = Path.Combine(_env.WebRootPath, "pdf", numeFisier);
             if (File.Exists(cale)) File.Delete(cale);
         }
     }

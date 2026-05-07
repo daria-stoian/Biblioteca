@@ -1,9 +1,10 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Repositories
 {
-    public class AutorRepository : Repository<Autor>, IAutorRepository
+    public class AutorRepository : BaseRepository<Autor>, IAutorRepository
     {
         public AutorRepository(ApplicationDbContext context) : base(context) { }
 

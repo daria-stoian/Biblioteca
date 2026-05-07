@@ -54,10 +54,15 @@ namespace Biblioteca.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Descriere")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Fisier_PDF")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Id_Autor")
                         .HasColumnType("int");
@@ -77,7 +82,8 @@ namespace Biblioteca.Migrations
 
                     b.Property<string>("Titlu")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id_Carte");
 
@@ -121,16 +127,22 @@ namespace Biblioteca.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email_Expeditor")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("Id_Utilizator")
                         .HasColumnType("int");
 
                     b.Property<string>("Mesaj")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("Nume_Expeditor")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Status_Mesaj")
                         .HasColumnType("int");
@@ -154,17 +166,23 @@ namespace Biblioteca.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descriere")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("Locatie")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("Locuri_Disponibile")
                         .HasColumnType("int");
 
+                    b.Property<int>("Locuri_Rezervate")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titlu_Eveniment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id_Eveniment");
 
@@ -237,7 +255,8 @@ namespace Biblioteca.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Recenzie"));
 
                     b.Property<string>("Comentariu")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime>("Data_Postare")
                         .HasColumnType("datetime2");
@@ -325,6 +344,18 @@ namespace Biblioteca.Migrations
                         .IsUnique();
 
                     b.ToTable("Utilizatori");
+
+                    b.HasData(
+                        new
+                        {
+                            Id_Utilizator = 1,
+                            Adresa = "Strada Cărților nr. 10, București",
+                            Email = "daria@email.com",
+                            Nume_Complet = "Daria Stoian",
+                            Nume_Rol = 0,
+                            Parola = "daria1234",
+                            Telefon = "0712345678"
+                        });
                 });
 
             modelBuilder.Entity("Biblioteca.Models.Carte", b =>

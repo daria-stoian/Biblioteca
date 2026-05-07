@@ -1,10 +1,11 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using static Biblioteca.Models.Imprumut;
 
 namespace Biblioteca.Repositories
 {
-    public class ImprumutRepository : Repository<Imprumut>, IImprumutRepository
+    public class ImprumutRepository : BaseRepository<Imprumut>, IImprumutRepository
     {
         public ImprumutRepository(ApplicationDbContext context) : base(context) { }
 

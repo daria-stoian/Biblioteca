@@ -3,32 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\repositories\\autorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\repositories\\autorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\repositories\\repositorywrapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\repositories\\repositorywrapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\repositories\\imprumutrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\repositories\\imprumutrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\views\\utilizator\\profil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\views\\utilizator\\profil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\repositories\\ilistadorinterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\repositories\\ilistadorinterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\controllers\\autorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\controllers\\autorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\controllers\\evenimentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\controllers\\evenimentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\controllers\\categoriecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\controllers\\categoriecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\controllers\\cartecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\controllers\\cartecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|c:\\users\\stoia\\source\\repos\\biblioteca\\biblioteca\\repositories\\interfaces\\irepositorywrapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3AB1DC82-A9FE-F0AD-2BCF-980D2D370EA7}|Biblioteca\\Biblioteca.csproj|solutionrelative:biblioteca\\repositories\\interfaces\\irepositorywrapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,98 +30,77 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Biblioteca\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Biblioteca\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-06T09:08:09.825Z"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ImprumutRepository.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\ImprumutRepository.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Repositories\\ImprumutRepository.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\ImprumutRepository.cs",
-              "RelativeToolTip": "Biblioteca\\Repositories\\ImprumutRepository.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:48:27.231Z",
+              "Title": "Profil.cshtml",
+              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Views\\Utilizator\\Profil.cshtml",
+              "RelativeDocumentMoniker": "Biblioteca\\Views\\Utilizator\\Profil.cshtml",
+              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Views\\Utilizator\\Profil.cshtml",
+              "RelativeToolTip": "Biblioteca\\Views\\Utilizator\\Profil.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-06T09:04:28.919Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "IListaDorinteRepository.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\IListaDorinteRepository.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Repositories\\IListaDorinteRepository.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\IListaDorinteRepository.cs",
-              "RelativeToolTip": "Biblioteca\\Repositories\\IListaDorinteRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Program.cs",
+              "RelativeDocumentMoniker": "Biblioteca\\Program.cs",
+              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Program.cs",
+              "RelativeToolTip": "Biblioteca\\Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAADEAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:48:25.205Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-06T09:02:01.048Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AutorRepository.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\AutorRepository.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Repositories\\AutorRepository.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\AutorRepository.cs",
-              "RelativeToolTip": "Biblioteca\\Repositories\\AutorRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABQAAAAAAAAAA==",
+              "Title": "RepositoryWrapper.cs",
+              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\RepositoryWrapper.cs",
+              "RelativeDocumentMoniker": "Biblioteca\\Repositories\\RepositoryWrapper.cs",
+              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\RepositoryWrapper.cs",
+              "RelativeToolTip": "Biblioteca\\Repositories\\RepositoryWrapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:13:15.752Z",
+              "WhenOpened": "2026-05-06T08:53:20.855Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "EvenimentController.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\EvenimentController.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Controllers\\EvenimentController.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\EvenimentController.cs",
-              "RelativeToolTip": "Biblioteca\\Controllers\\EvenimentController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "IRepositoryWrapper.cs",
+              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\Interfaces\\IRepositoryWrapper.cs",
+              "RelativeDocumentMoniker": "Biblioteca\\Repositories\\Interfaces\\IRepositoryWrapper.cs",
+              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Repositories\\Interfaces\\IRepositoryWrapper.cs",
+              "RelativeToolTip": "Biblioteca\\Repositories\\Interfaces\\IRepositoryWrapper.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:13:04.938Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CategorieController.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\CategorieController.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Controllers\\CategorieController.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\CategorieController.cs",
-              "RelativeToolTip": "Biblioteca\\Controllers\\CategorieController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:12:58.999Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CarteController.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\CarteController.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Controllers\\CarteController.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\CarteController.cs",
-              "RelativeToolTip": "Biblioteca\\Controllers\\CarteController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:12:57.199Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AutorController.cs",
-              "DocumentMoniker": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\AutorController.cs",
-              "RelativeDocumentMoniker": "Biblioteca\\Controllers\\AutorController.cs",
-              "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Controllers\\AutorController.cs",
-              "RelativeToolTip": "Biblioteca\\Controllers\\AutorController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T13:12:56.011Z"
+              "WhenOpened": "2026-05-06T08:52:35.067Z"
             }
           ]
         }

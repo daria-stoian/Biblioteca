@@ -1,9 +1,10 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Repositories
 {
-    public class EvenimentRepository : Repository<Eveniment>, IEvenimentRepository
+    public class EvenimentRepository : BaseRepository<Eveniment>, IEvenimentRepository
     {
         public EvenimentRepository(ApplicationDbContext context) : base(context) { }
 

@@ -48,7 +48,7 @@ else
                         <input type="hidden" name="idCarte" value="@item.Id_Carte" />
                         <button type="submit" class="btn btn-outline">📖 Împrumută</button>
                     </form>
-                    <form method="post" action="/ListaDorinte/Sterge" style="display:inline;">
+                    <form method="post" action="/Lista_Dorinte/Sterge" style="display:inline;">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="idCarte" value="@item.Id_Carte" />
                         <button type="submit" class="btn btn-danger"

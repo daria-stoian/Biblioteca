@@ -1,10 +1,11 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using static Biblioteca.Models.Carte;
 
 namespace Biblioteca.Repositories
 {
-    public class CarteRepository : Repository<Carte>, ICarteRepository
+    public class CarteRepository : BaseRepository<Carte>, ICarteRepository
     {
         public CarteRepository(ApplicationDbContext context) : base(context) { }
 

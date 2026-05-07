@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Biblioteca.Models;
-using Biblioteca.Services;
+using Biblioteca.Services.Interfaces;
 
 namespace Biblioteca.Controllers
 {

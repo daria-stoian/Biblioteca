@@ -1,5 +1,5 @@
 using Biblioteca.Models;
-using Biblioteca.Services;
+using Biblioteca.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -22,7 +22,12 @@ namespace Biblioteca.Controllers
             return View(topCarti);
         }
 
-        public IActionResult DespreNoi() => View();
+        public async Task<IActionResult> DespreNoi()
+        {
+            var toateCartile = await _carteService.GetToateCartileAsync();
+            ViewBag.NrCarti = toateCartile.Count();
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

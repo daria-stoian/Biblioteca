@@ -1,5 +1,5 @@
 ﻿using Biblioteca.Models;
-using Biblioteca.Services;
+using Biblioteca.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +27,6 @@ namespace Biblioteca.Controllers
             else
                 carti = await _carteService.GetCartileDisponibileAsync();
 
-            // Categoriile vin din serviciu, nu din context
             ViewBag.Categorii = await _carteService.GetCategoriiAsync();
             ViewBag.IdCategorieCurenta = idCategorie;
             ViewBag.Cautare = cautare;
@@ -49,11 +48,12 @@ namespace Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Adauga(Carte carte, IFormFile? imagine)
+        public async Task<IActionResult> Adauga(Carte carte, IFormFile? imagine, IFormFile? pdf)
         {
             ModelState.Remove("Autor");
             ModelState.Remove("Categorie");
             ModelState.Remove("Imagine_Coperta");
+            ModelState.Remove("Fisier_PDF");
 
             if (!ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace Biblioteca.Controllers
                 return View(carte);
             }
 
-            var (succes, mesaj) = await _carteService.AdaugaCarteAsync(carte, imagine);
+            var (succes, mesaj) = await _carteService.AdaugaCarteAsync(carte, imagine, pdf);
             if (!succes)
             {
                 ModelState.AddModelError("", mesaj);
@@ -84,13 +84,14 @@ namespace Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editeaza(int id, Carte carte, IFormFile? imagine)
+        public async Task<IActionResult> Editeaza(int id, Carte carte, IFormFile? imagine, IFormFile? pdf)
         {
             if (id != carte.Id_Carte) return NotFound();
 
             ModelState.Remove("Autor");
             ModelState.Remove("Categorie");
             ModelState.Remove("Imagine_Coperta");
+            ModelState.Remove("Fisier_PDF");
 
             if (!ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace Biblioteca.Controllers
                 return View(carte);
             }
 
-            var (succes, mesaj) = await _carteService.ActualizeazaCarteAsync(carte, imagine);
+            var (succes, mesaj) = await _carteService.ActualizeazaCarteAsync(carte, imagine, pdf);
             if (!succes)
             {
                 ModelState.AddModelError("", mesaj);
@@ -142,6 +143,23 @@ namespace Biblioteca.Controllers
             var (succes, mesaj) = await _carteService.SetStatusAsync(id, StatusDisponibilitate.Disponibil);
             TempData[succes ? "Succes" : "Eroare"] = mesaj;
             return RedirectToAction(nameof(Index));
+        }
+
+        // Descarca PDF — doar daca utilizatorul are imprumut activ
+        public async Task<IActionResult> DescarcaPDF(int idCarte)
+        {
+            int idUtilizatorCurent = 1; // temporar — va fi inlocuit cu sesiunea dupa Login
+
+            var (areAcces, caleFisier, numeFisier) = await _carteService.GetPDFAsync(idCarte, idUtilizatorCurent);
+
+            if (!areAcces || caleFisier == null)
+            {
+                TempData["Eroare"] = "Nu ai acces la acest PDF. Împrumută cartea mai întâi.";
+                return RedirectToAction(nameof(Detalii), new { id = idCarte });
+            }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(caleFisier);
+            return PhysicalFile(caleFisier, "application/pdf", numeFisier);
         }
 
         private async Task IncarcaSelectListuri(int idAutor = 0, int idCategorie = 0)

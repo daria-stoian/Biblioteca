@@ -57,6 +57,13 @@
                     }
                 </td>
             </tr>
+            @if (!string.IsNullOrEmpty(Model.Fisier_PDF))
+            {
+                <tr>
+                    <td style="border:none; padding:4px 15px 4px 0; color:#7f8c8d; font-size:0.9em;">Format digital</td>
+                    <td style="border:none; padding:4px 0;"><span style="color:#27ae60;">📄 PDF disponibil</span></td>
+                </tr>
+            }
         </table>
 
         @if (!string.IsNullOrEmpty(Model.Descriere))
@@ -73,6 +80,15 @@
                     <button type="submit" class="btn">📖 Împrumută cartea</button>
                 </form>
             }
+
+            @* Buton PDF — vizibil doar daca cartea are PDF *@
+            @if (!string.IsNullOrEmpty(Model.Fisier_PDF))
+            {
+                <a href="/Carte/DescarcaPDF?idCarte=@Model.Id_Carte" class="btn btn-outline">
+                    📄 Citește PDF
+                </a>
+            }
+
             <form method="post" action="/Lista_Dorinte/Adauga">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="idCarte" value="@Model.Id_Carte" />

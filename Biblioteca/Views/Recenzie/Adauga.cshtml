@@ -17,21 +17,33 @@
 
         <div class="form-group">
             <label asp-for="Id_Carte">Cartea *</label>
-            <select asp-for="Id_Carte" class="form-control" asp-items="ViewBag.Id_Carte" required>
-                <option value="">-- Selectează cartea împrumutată --</option>
+
+            @* Camp de cautare vizibil — filtreaza optiunile din select *@
+            <input type="text" id="cautareCarteRecenzie"
+                   class="form-control"
+                   placeholder="Scrie titlul sau autorul pentru a căuta..."
+                   autocomplete="off"
+                   style="margin-bottom: 6px;" />
+
+            <select asp-for="Id_Carte" id="selectCarteRecenzie"
+                    class="form-control" asp-items="ViewBag.Id_Carte" required>
+                <option value="">-- Selectează cartea --</option>
             </select>
-            <small style="color:#7f8c8d;">Poți recenza doar cărțile pe care le-ai împrumutat.</small>
+
+            <small style="color:#7f8c8d;">
+                Scrie câteva litere pentru a filtra lista de cărți.
+            </small>
             <span asp-validation-for="Id_Carte" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Nota">Nota ta (1-5) *</label>
+            <label asp-for="Nota">Nota ta *</label>
             <select asp-for="Nota" class="form-control">
-                <option value="5">⭐⭐⭐⭐⭐ Excelentă</option>
-                <option value="4">⭐⭐⭐⭐ Foarte bună</option>
-                <option value="3">⭐⭐⭐ Bună</option>
-                <option value="2">⭐⭐ Slabă</option>
-                <option value="1">⭐ Nu o recomand</option>
+                <option value="5">⭐⭐⭐⭐⭐ - Excelentă</option>
+                <option value="4">⭐⭐⭐⭐ - Foarte bună</option>
+                <option value="3">⭐⭐⭐ - Bună</option>
+                <option value="2">⭐⭐ - Slabă</option>
+                <option value="1">⭐ - Nu o recomand</option>
             </select>
         </div>
 
@@ -49,5 +61,38 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const cautare = document.getElementById('cautareCarteRecenzie');
+        const select = document.getElementById('selectCarteRecenzie');
+
+        // Salvam toate optiunile originale la incarcare pagina
+        const toateOptiunile = Array.from(select.options);
+
+        cautare.addEventListener('input', function () {
+            const termen = this.value.toLowerCase().trim();
+            const valoareSelectata = select.value;
+
+            // Golim si re-populam cu optiunile care se potrivesc
+            select.innerHTML = '';
+            toateOptiunile.forEach(opt => {
+                if (termen === '' || opt.text.toLowerCase().includes(termen)) {
+                    select.appendChild(opt.cloneNode(true));
+                }
+            });
+
+            // Pastram selectia daca optiunea e inca vizibila
+            if (valoareSelectata) {
+                select.value = valoareSelectata;
+            }
+
+            // Daca ramane o singura optiune valida, o selectam automat
+            if (select.options.length === 2 && termen !== '') {
+                select.selectedIndex = 1;
+            }
+        });
+    </script>
 }
