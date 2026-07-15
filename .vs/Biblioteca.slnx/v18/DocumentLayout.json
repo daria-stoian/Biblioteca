@@ -63,7 +63,7 @@
               "RelativeDocumentMoniker": "Biblioteca\\Services\\UtilizatorService.cs",
               "ToolTip": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Services\\UtilizatorService.cs",
               "RelativeToolTip": "Biblioteca\\Services\\UtilizatorService.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAgwC8AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-19T13:53:39.93Z",
               "EditorCaption": ""
@@ -91,7 +91,8 @@
               "RelativeToolTip": "Biblioteca\\Services\\ContactService.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwA8AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T11:20:37.999Z"
+              "WhenOpened": "2026-05-19T11:20:37.999Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -103,7 +104,8 @@
               "RelativeToolTip": "Biblioteca\\Views\\Shared\\_LoginPartial.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-19T11:25:07.763Z"
+              "WhenOpened": "2026-05-19T11:25:07.763Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -126,7 +128,6 @@
               "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\stoia\\Downloads\\_Layout.cshtml",
               "RelativeToolTip": "..\\..\\..\\Downloads\\_Layout.cshtml",
-              "ViewState": "AgIAABMAAAAAAAAAAADwvy0AAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-05-19T07:13:58.149Z"
             },
@@ -140,7 +141,8 @@
               "RelativeToolTip": "Biblioteca\\Services\\Interfaces\\IImprumutService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T07:12:30.692Z"
+              "WhenOpened": "2026-05-19T07:12:30.692Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -152,7 +154,8 @@
               "RelativeToolTip": "Biblioteca\\Controllers\\ContactController.cs",
               "ViewState": "AgIAACwAAAAAAAAAAAAqwEYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T07:10:40.156Z"
+              "WhenOpened": "2026-05-19T07:10:40.156Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -164,7 +167,8 @@
               "RelativeToolTip": "Biblioteca\\Services\\ImprumutService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T06:29:52.292Z"
+              "WhenOpened": "2026-05-19T06:29:52.292Z",
+              "EditorCaption": ""
             }
           ]
         }

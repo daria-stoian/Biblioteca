@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bM0H53TNaaU=",
+  "dgSpecHash": "EpQgroMn0WU=",
   "success": true,
   "projectFilePath": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Biblioteca.csproj",
   "expectedPackageFiles": [
@@ -139,5 +139,18 @@
     "C:\\Users\\stoia\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
     "C:\\Users\\stoia\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.6\\system.security.cryptography.protecteddata.9.0.6.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q",
+      "projectPath": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Biblioteca.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\stoia\\source\\repos\\Biblioteca\\Biblioteca\\Biblioteca.csproj",
+      "libraryId": "SQLitePCLRaw.lib.e_sqlite3",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }
