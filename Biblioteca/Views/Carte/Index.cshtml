@@ -25,23 +25,29 @@
             }
         </ul>
 
-        <div style="margin-top:20px; padding-top:15px; border-top:1px solid #f0e6f6;">
-            <p style="font-size:0.75em; text-transform:uppercase; letter-spacing:1px; color:#9b30d9; font-weight:600; margin-bottom:8px;">Categorii</p>
-            <a href="/Categorie/Adauga" class="btn" style="width:100%; text-align:center; font-size:0.82em; display:block; margin-bottom:6px;">+ Categorie nouă</a>
-            <a href="/Categorie" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em; display:block;">Gestionează</a>
-        </div>
+        @if (User.IsInRole("Administrator"))
+        {
+            <div style="margin-top:20px; padding-top:15px; border-top:1px solid #f0e6f6;">
+                <p style="font-size:0.75em; text-transform:uppercase; letter-spacing:1px; color:#9b30d9; font-weight:600; margin-bottom:8px;">Categorii</p>
+                <a href="/Categorie/Adauga" class="btn" style="width:100%; text-align:center; font-size:0.82em; display:block; margin-bottom:6px;">+ Categorie nouă</a>
+                <a href="/Categorie" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em; display:block;">Gestionează</a>
+            </div>
 
-        <div style="margin-top:15px; padding-top:15px; border-top:1px solid #f0e6f6;">
-            <p style="font-size:0.75em; text-transform:uppercase; letter-spacing:1px; color:#9b30d9; font-weight:600; margin-bottom:8px;">Autori</p>
-            <a href="/Autor/Adauga" class="btn" style="width:100%; text-align:center; font-size:0.82em; display:block; margin-bottom:6px;">+ Autor nou</a>
-            <a href="/Autor" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em; display:block;">Gestionează</a>
-        </div>
+            <div style="margin-top:15px; padding-top:15px; border-top:1px solid #f0e6f6;">
+                <p style="font-size:0.75em; text-transform:uppercase; letter-spacing:1px; color:#9b30d9; font-weight:600; margin-bottom:8px;">Autori</p>
+                <a href="/Autor/Adauga" class="btn" style="width:100%; text-align:center; font-size:0.82em; display:block; margin-bottom:6px;">+ Autor nou</a>
+                <a href="/Autor" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em; display:block;">Gestionează</a>
+            </div>
+        }
     </aside>
 
     <section class="catalog-books">
         <div class="page-header">
             <h2>📚 Explorează Catalogul Nostru</h2>
-            <a href="/Carte/Adauga" class="btn">+ Adaugă carte</a>
+            @if (User.IsInRole("Administrator"))
+            {
+                <a href="/Carte/Adauga" class="btn">+ Adaugă carte</a>
+            }
         </div>
 
         <form method="get" action="/Carte" style="margin-bottom:20px; display:flex; gap:10px;">
@@ -60,13 +66,16 @@
             <div style="text-align:center; padding:50px; color:#7f8c8d;">
                 <p style="font-size:3em; margin-bottom:10px;">📭</p>
                 <p style="font-size:1.1em; margin-bottom:8px;">Nicio carte găsită.</p>
-                <p style="font-size:0.9em; color:#9b8ca8; margin-bottom:20px;">
-                    Asigură-te că ai adăugat mai întâi cel puțin un
-                    <a href="/Autor/Adauga" style="color:#6a0dad; font-weight:bold;">autor</a> și o
-                    <a href="/Categorie/Adauga" style="color:#6a0dad; font-weight:bold;">categorie</a>,
-                    apoi poți adăuga cărți.
-                </p>
-                <a href="/Carte/Adauga" class="btn">+ Adaugă prima carte</a>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <p style="font-size:0.9em; color:#9b8ca8; margin-bottom:20px;">
+                        Asigură-te că ai adăugat mai întâi cel puțin un
+                        <a href="/Autor/Adauga" style="color:#6a0dad; font-weight:bold;">autor</a> și o
+                        <a href="/Categorie/Adauga" style="color:#6a0dad; font-weight:bold;">categorie</a>,
+                        apoi poți adăuga cărți.
+                    </p>
+                    <a href="/Carte/Adauga" class="btn">+ Adaugă prima carte</a>
+                }
             </div>
         }
         else

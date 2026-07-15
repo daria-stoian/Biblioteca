@@ -22,14 +22,23 @@
     @*Coloana stanga: date profil*@
     <div class="form-container" style="flex:1; min-width:280px; margin:0;">
         <div style="text-align:center; margin-bottom:25px;">
-            <div style="width:80px; height:80px; background:#f0e6f6; border-radius:50%;
-                display:flex; align-items:center; justify-content:center;
-                font-size:2.5em; margin:0 auto 12px auto;">
-                👤
-            </div>
+            @if (!string.IsNullOrEmpty(Model.Poza_Profil))
+            {
+                <img src="~/poze-profil/@Model.Poza_Profil"
+                     style="width:90px; height:90px; border-radius:50%; object-fit:cover;
+                border:3px solid #f0e6f6; margin:0 auto 12px auto; display:block;" />
+            }
+            else
+            {
+                <div style="width:90px; height:90px; background:#f0e6f6; border-radius:50%;
+                    display:flex; align-items:center; justify-content:center;
+                    font-size:2.5em; margin:0 auto 12px auto;">
+                    👤
+                </div>
+            }
             <h3 style="margin:0;">@Model.Nume_Complet</h3>
             <p style="color:#9b30d9; font-size:0.9em; margin:4px 0;">
-                @Model.Nume_Rol.ToString()
+                @(User.IsInRole("Administrator") ? "👑 Administrator" : User.IsInRole("Bibliotecar") ? "📋 Bibliotecar" : "📖 Cititor")
             </p>
             <p style="color:#7f8c8d; font-size:0.85em;">@Model.Email</p>
         </div>
@@ -63,7 +72,7 @@
     @*Coloana dreapta: editare profil*@
     <div class="form-container" style="flex:1; min-width:280px; margin:0;">
         <h3 style="margin-bottom:20px;">✏️ Editează profilul</h3>
-        <form method="post" action="/Utilizator/ActualizeazaProfil">
+        <form method="post" action="/Utilizator/ActualizeazaProfil" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <label>Nume complet</label>
@@ -79,6 +88,12 @@
                 <label>Adresă</label>
                 <input type="text" name="adresa" class="form-control"
                        value="@Model.Adresa" placeholder="Ex: Strada Cărților nr. 1" />
+            </div>
+            <div class="form-group">
+                <label>📷 Poză de profil</label>
+                <input type="file" name="pozaProfil" class="form-control"
+                       accept="image/jpeg,image/png,image/webp" />
+                <small style="color:#7f8c8d; font-size:0.82em;">JPG, PNG sau WEBP · Max 3MB</small>
             </div>
             <button type="submit" class="btn">💾 Salvează modificările</button>
         </form>
@@ -164,4 +179,4 @@
             Vezi toate rezervările →
         </a>
     </div>
-}   
+}

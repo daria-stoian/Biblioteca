@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<Biblioteca.Models.Recenzie>
 
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Biblioteca.Models.Utilizator> UserManager
+
 @{
     ViewData["Title"] = "Recenzii";
+    var utilizatorCurent = await UserManager.GetUserAsync(User);
 }
 
 <h2>⭐ Părerile Cititorilor</h2>
@@ -13,9 +17,19 @@
         <p style="color:#7f8c8d; margin-bottom:20px;">
             Ai citit o carte și vrei să împărtășești părerea ta cu alți cititori?
         </p>
-        <a href="/Recenzie/Adauga" class="btn" style="width:100%; text-align:center; display:block;">
-            📝 Scrie o recenzie
-        </a>
+        @if (User.Identity!.IsAuthenticated)
+        {
+            <a href="/Recenzie/Adauga" class="btn" style="width:100%; text-align:center; display:block;">
+                📝 Scrie o recenzie
+            </a>
+        }
+        else
+        {
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline"
+                   style="width:100%; text-align:center; display:block;">
+                🔐 Autentifică-te pentru a scrie
+            </a>
+        }
     </div>
 
     <div style="flex:1; min-width:280px;">
@@ -44,7 +58,10 @@
                                 @r.Utilizator?.Nume_Complet · @r.Data_Postare.ToString("dd MMM yyyy")
                             </p>
                         </div>
-                        @if (r.Id_Utilizator == 1)
+
+                        @* Butonul de stergere apare doar daca esti autorul recenziei sau Administrator *@
+                        @if (utilizatorCurent != null &&
+                                                     (r.Id_Utilizator == utilizatorCurent.Id || User.IsInRole("Administrator")))
                         {
                             <form method="post" action="/Recenzie/Sterge" style="display:inline; flex-shrink:0;">
                                 @Html.AntiForgeryToken()

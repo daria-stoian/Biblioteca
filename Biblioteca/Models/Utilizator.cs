@@ -1,31 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Biblioteca.Models
 {
-    public enum RolUtilizator
+    public class Utilizator : IdentityUser<int>
     {
-        Cititor,
-        Bibliotecar,
-        Administrator
-    }
-    public class Utilizator
-    {
-        [Key]
-        public int Id_Utilizator { get; set; }
-
-        [Required]
-        public string Nume_Complet { get; set; }
-        public RolUtilizator Nume_Rol { get; set; } = RolUtilizator.Cititor;
-
-        [Required]
-        public string Email { get; set; }
-        public string Parola { get; set; }
+        public string Nume_Complet { get; set; } = string.Empty;
         public string? Telefon { get; set; }
         public string? Adresa { get; set; }
-        [NotMapped]
-        public DateTime Created_At { get; set; } = DateTime.UtcNow;
-        
+        public string? Poza_Profil { get; set; }
+
         public ICollection<Imprumut>? Imprumuturi { get; set; }
         public ICollection<Recenzie>? Recenzii { get; set; }
         public ICollection<Rezervare_Eveniment>? RezervariEvenimente { get; set; }

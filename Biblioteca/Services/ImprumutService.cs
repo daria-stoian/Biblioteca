@@ -65,20 +65,22 @@ namespace Biblioteca.Services
 
         public async Task<(bool succes, string mesaj)> ReturnareCarteAsync(int idImprumut)
         {
-            var imprumut = await _repo.Imprumuturi.GetWithDetailsAsync(idImprumut);
+            // Citim fara tracking pentru a calcula taxa
+            var imprumut = await _repo.Imprumuturi.GetByIdAsync(idImprumut);
             if (imprumut == null) return (false, "Împrumutul nu a fost găsit.");
 
             if (imprumut.Status == StatusImprumut.Returnat)
                 return (false, "Această carte a fost deja returnată.");
 
-            imprumut.Data_Returnare = DateTime.UtcNow;
-            imprumut.Taxa_Penalizare = CalculeazaTaxaPenalizareAsync(imprumut);
-            imprumut.Status = StatusImprumut.Returnat;
+            var dataReturnare = DateTime.UtcNow;
+            imprumut.Data_Returnare = dataReturnare;
+            var taxaPenalizare = CalculeazaTaxaPenalizareAsync(imprumut);
 
-            await _repo.Imprumuturi.UpdateAsync(imprumut);
+            // Folosim ExecuteUpdateAsync - update direct SQL, fara niciun risc de tracking EF Core
+            await _repo.Imprumuturi.ReturnareDirectaAsync(idImprumut, dataReturnare, taxaPenalizare);
 
-            string mesajTaxa = imprumut.Taxa_Penalizare > 0
-                ? $" Taxă de penalizare: {imprumut.Taxa_Penalizare:F2} RON."
+            string mesajTaxa = taxaPenalizare > 0
+                ? $" Taxă de penalizare: {taxaPenalizare:F2} RON."
                 : "";
             return (true, $"Cartea a fost returnată.{mesajTaxa}");
         }
@@ -103,6 +105,9 @@ namespace Biblioteca.Services
             await _repo.Imprumuturi.UpdateAsync(imprumut);
             return (true, $"Termen prelungit cu {zileExtra} zile. Noul termen: {imprumut.Data_Scadenta:dd MMM yyyy}.");
         }
+
+        public async Task<bool> AreImprumutActivAsync(int idUtilizator, int idCarte)
+            => await _repo.Imprumuturi.AreImprumutActivAsync(idUtilizator, idCarte);
 
         public decimal CalculeazaTaxaPenalizareAsync(Imprumut imprumut)
         {

@@ -1,31 +1,30 @@
 ﻿using Biblioteca.Models;
 using Biblioteca.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Controllers
 {
+    [Authorize]
     public class ImprumutController : Controller
     {
         private readonly IImprumutService _imprumutService;
+        private readonly UserManager<Utilizator> _userManager;
 
-        public ImprumutController(IImprumutService imprumutService)
+        public ImprumutController(IImprumutService imprumutService, UserManager<Utilizator> userManager)
         {
             _imprumutService = imprumutService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            bool utilizatorExista = await _imprumutService.UtilizatorExistaAsync(1);
-            if (!utilizatorExista)
-            {
-                TempData["Eroare"] = "Nu există niciun utilizator în baza de date. Adaugă un utilizator mai întâi.";
-                return View(new List<Imprumut>());
-            }
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
 
-            int idUtilizatorCurent = 1; // temporar — va fi inlocuit cu sesiunea dupa Login
-            var imprumuturi = await _imprumutService.GetImprumuturiUtilizatorAsync(idUtilizatorCurent);
+            var imprumuturi = await _imprumutService.GetImprumuturiUtilizatorAsync(utilizator.Id);
             return View(imprumuturi);
         }
 
@@ -40,16 +39,11 @@ namespace Biblioteca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ImprumutaConfirmat(int idCarte)
         {
-            bool utilizatorExista = await _imprumutService.UtilizatorExistaAsync(1);
-            if (!utilizatorExista)
-            {
-                TempData["Eroare"] = "Nu există niciun utilizator înregistrat. Nu se poate face împrumutul.";
-                return RedirectToAction("Index", "Carte");
-            }
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
 
-            int idUtilizatorCurent = 1; // temporar
-            var (succes, mesaj) = await _imprumutService.ImprumutaCarteAsync(idUtilizatorCurent, idCarte, 14);
-
+            var (succes, mesaj) = await _imprumutService.ImprumutaCarteAsync(utilizator.Id, idCarte, 14);
             TempData[succes ? "Succes" : "Eroare"] = mesaj;
             return RedirectToAction(nameof(Index));
         }

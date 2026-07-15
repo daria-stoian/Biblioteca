@@ -6,7 +6,10 @@
 
 <div class="page-header">
     <h2>📅 Evenimente și Club de Lectură</h2>
-    <a href="/Eveniment/Adauga" class="btn">+ Adaugă eveniment</a>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a href="/Eveniment/Adauga" class="btn">+ Adaugă eveniment</a>
+    }
 </div>
 
 @if (!Model.Any())
@@ -14,7 +17,10 @@
     <div style="text-align:center; padding:50px; color:#7f8c8d;">
         <p style="font-size:3em; margin-bottom:10px;">📅</p>
         <p style="font-size:1.1em; margin-bottom:15px;">Niciun eveniment programat momentan.</p>
-        <a href="/Eveniment/Adauga" class="btn">+ Adaugă primul eveniment</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <a href="/Eveniment/Adauga" class="btn">+ Adaugă primul eveniment</a>
+        }
     </div>
 }
 else
@@ -41,21 +47,30 @@ else
                     </p>
                 </div>
                 <div style="display:flex; flex-direction:column; gap:7px; min-width:130px;">
-                    @if (!ev.EstePlin)
+                    @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <form method="post" action="/Eveniment/Rezerva">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="idEveniment" value="@ev.Id_Eveniment" />
-                            <button type="submit" class="btn" style="width:100%;">🎟️ Rezervă un loc</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <button class="btn" disabled style="width:100%;">Complet</button>
+                        @if (!ev.EstePlin)
+                        {
+                            <form method="post" action="/Eveniment/Rezerva">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="idEveniment" value="@ev.Id_Eveniment" />
+                                <button type="submit" class="btn" style="width:100%;">🎟️ Rezervă un loc</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <button class="btn" disabled style="width:100%;">Complet</button>
+                        }
                     }
                     <a href="/Eveniment/Detalii/@ev.Id_Eveniment" class="btn btn-outline" style="width:100%; text-align:center;">ℹ️ Detalii</a>
-                    <a href="/Eveniment/Editeaza/@ev.Id_Eveniment" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em;">✏️ Editează</a>
-                    <a href="/Eveniment/Sterge/@ev.Id_Eveniment" class="btn btn-danger" style="width:100%; text-align:center; font-size:0.82em;">🗑️ Șterge</a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href="/Eveniment/Editeaza/@ev.Id_Eveniment" class="btn btn-outline" style="width:100%; text-align:center; font-size:0.82em;">✏️ Editează</a>
+                    }
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href="/Eveniment/Sterge/@ev.Id_Eveniment" class="btn btn-danger" style="width:100%; text-align:center; font-size:0.82em;">🗑️ Șterge</a>
+                    }
                 </div>
             </div>
         }

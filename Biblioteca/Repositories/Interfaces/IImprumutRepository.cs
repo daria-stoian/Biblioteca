@@ -9,6 +9,7 @@ namespace Biblioteca.Repositories.Interfaces
         Task<IEnumerable<Imprumut>> GetIntarziateAsync();
         Task<Imprumut?> GetWithDetailsAsync(int id);
         Task<bool> AreImprumutActivAsync(int idUtilizator, int idCarte);
+        Task ReturnareDirectaAsync(int idImprumut, DateTime dataReturnare, decimal taxaPenalizare);
         Task<bool> UtilizatorExistaAsync(int idUtilizator);
     }
 }

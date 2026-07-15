@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<Utilizator, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<Utilizator> Utilizatori { get; set; }
         public DbSet<Categorie> Categorii { get; set; }
         public DbSet<Autor> Autori { get; set; }
         public DbSet<Carte> Carti { get; set; }
@@ -24,10 +25,6 @@ namespace Biblioteca.Models
             modelBuilder.Entity<Lista_Dorinte>()
                 .HasKey(ld => new { ld.Id_Utilizator, ld.Id_Carte });
 
-            modelBuilder.Entity<Utilizator>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-
             modelBuilder.Entity<Carte>()
                 .HasIndex(c => c.ISBN)
                 .IsUnique()
@@ -41,8 +38,6 @@ namespace Biblioteca.Models
                 .HasIndex(r => new { r.Id_Utilizator, r.Id_Carte })
                 .IsUnique();
 
-            // Relatii cu DeleteBehavior.Restrict
-            // Previne stergerea unui utilizator care are imprumuturi active
             modelBuilder.Entity<Imprumut>()
                 .HasOne(i => i.Utilizator)
                 .WithMany(u => u.Imprumuturi)
@@ -73,7 +68,6 @@ namespace Biblioteca.Models
                 .HasForeignKey(re => re.Id_Utilizator)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             modelBuilder.Entity<Contact>()
                 .HasOne(c => c.Utilizator)
                 .WithMany(u => u.MesajeContact)
@@ -81,23 +75,13 @@ namespace Biblioteca.Models
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
 
-            modelBuilder.Entity<Imprumut>() 
+            modelBuilder.Entity<Imprumut>()
                 .Property(i => i.Taxa_Penalizare)
                 .HasPrecision(18, 2);
 
-            // Seed Data
-            modelBuilder.Entity<Utilizator>().HasData(
-                new Utilizator
-                {
-                    Id_Utilizator = 1,
-                    Nume_Complet = "Daria Stoian",
-                    Nume_Rol = RolUtilizator.Cititor,
-                    Email = "daria@email.com",
-                    Parola = "daria1234",
-                    Telefon = "0712345678",
-                    Adresa = "Strada Cărților nr. 10, București"
-                }
-            );
+            modelBuilder.Entity<Contact>()
+                .Property(c => c.Status_Mesaj)
+                .HasConversion<string>();
         }
     }
 }

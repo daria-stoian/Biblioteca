@@ -1,35 +1,46 @@
-﻿using Biblioteca.Services.Interfaces;
+﻿using Biblioteca.Models;
+using Biblioteca.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Biblioteca.Controllers
 {
+    [Authorize]
     public class UtilizatorController : Controller
     {
         private readonly IUtilizatorService _utilizatorService;
+        private readonly UserManager<Utilizator> _userManager;
 
-        public UtilizatorController(IUtilizatorService utilizatorService)
+        public UtilizatorController(IUtilizatorService utilizatorService, UserManager<Utilizator> userManager)
         {
             _utilizatorService = utilizatorService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Profil()
         {
-            int idUtilizatorCurent = 1; // temporar — va fi inlocuit cu sesiunea dupa Login
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
 
-            var utilizator = await _utilizatorService.GetProfilAsync(idUtilizatorCurent);
-            if (utilizator == null) return NotFound();
+            var profil = await _utilizatorService.GetProfilAsync(utilizator.Id);
+            if (profil == null) return NotFound();
 
-            return View(utilizator);
+            return View(profil);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ActualizeazaProfil(string numeComplet, string? telefon, string? adresa)
+        public async Task<IActionResult> ActualizeazaProfil(
+            string numeComplet, string? telefon, string? adresa, IFormFile? pozaProfil)
         {
-            int idUtilizatorCurent = 1; // temporar
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
 
             var (succes, mesaj) = await _utilizatorService.ActualizeazaProfilAsync(
-                idUtilizatorCurent, numeComplet, telefon, adresa);
+                utilizator.Id, numeComplet, telefon, adresa, pozaProfil);
 
             TempData[succes ? "Succes" : "Eroare"] = mesaj;
             return RedirectToAction(nameof(Profil));

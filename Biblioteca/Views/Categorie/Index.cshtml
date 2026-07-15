@@ -6,7 +6,10 @@
 
 <div class="page-header">
     <h2>🗂️ Categorii</h2>
-    <a href="/Categorie/Adauga" class="btn">+ Adaugă categorie</a>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a href="/Categorie/Adauga" class="btn">+ Adaugă categorie</a>
+    }
 </div>
 
 @if (!Model.Any())
@@ -14,7 +17,10 @@
     <div style="text-align:center; padding:50px; color:#7f8c8d;">
         <p style="font-size:3em; margin-bottom:10px;">🗂️</p>
         <p style="margin-bottom:15px;">Nicio categorie adăugată încă.</p>
-        <a href="/Categorie/Adauga" class="btn">+ Adaugă prima categorie</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <a href="/Categorie/Adauga" class="btn">+ Adaugă prima categorie</a>
+        }
     </div>
 }
 else
@@ -42,8 +48,14 @@ else
                         <td>
                             <div style="display:flex; gap:7px;">
                                 <a href="/Categorie/Detalii/@cat.Id_Categorie" class="btn btn-outline" style="font-size:0.82em;">👁️ Detalii</a>
-                                <a href="/Categorie/Editeaza/@cat.Id_Categorie" class="btn btn-outline" style="font-size:0.82em;">✏️ Editează</a>
-                                <a href="/Categorie/Sterge/@cat.Id_Categorie" class="btn btn-danger" style="font-size:0.82em;">🗑️ Șterge</a>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="/Categorie/Editeaza/@cat.Id_Categorie" class="btn btn-outline" style="font-size:0.82em;">✏️ Editează</a>
+                                }
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="/Categorie/Sterge/@cat.Id_Categorie" class="btn btn-danger" style="font-size:0.82em;">🗑️ Șterge</a>
+                                }
                             </div>
                         </td>
                     </tr>

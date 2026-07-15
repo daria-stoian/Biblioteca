@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Biblioteca.Models
+
+@inject SignInManager<Utilizator> SignInManager
+@inject UserManager<Utilizator> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var utilizator = await UserManager.GetUserAsync(User);
+    <div style="display:flex; align-items:center; gap:10px;">
+        @if (!string.IsNullOrEmpty(utilizator?.Poza_Profil))
+        {
+            <img src="~/poze-profil/@utilizator.Poza_Profil"
+                 style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid #f0e6f6;" />
+        }
+        else
+        {
+            <span style="font-size:1.4em;">👤</span>
+        }
+        <span style="font-size:0.9em;">Salut, @utilizator?.Nume_Complet?.Split(' ')[0]!</span>
+        <a href="/Utilizator/Profil" class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">Profilul meu</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <a href="/Contact/Mesaje" class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">📬 Mesaje</a>
+        }
+        <form id="logoutForm" method="post" asp-area="Identity" asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" style="display:inline;">
+            <button type="submit" class="btn btn-danger" style="font-size:0.85em; padding:5px 14px;">Deconectează-te</button>
+        </form>
+    </div>
+}
+else
+{
+    <div style="display:flex; gap:8px;">
+        <a asp-area="Identity" asp-page="/Account/Register"
+           class="btn" style="font-size:0.85em; padding:5px 14px;">✨ Înregistrare</a>
+        <a asp-area="Identity" asp-page="/Account/Login"
+           class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">🔐 Login</a>
+    </div>
+}

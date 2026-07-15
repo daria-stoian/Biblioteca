@@ -21,8 +21,7 @@
             <a href="/Contact" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Contact" ? "active" : "")">Contact</a>
         </nav>
         <div class="user-menu">
-            <span>Salut, Daria S.</span>
-            <a href="/Utilizator/Profil" class="btn btn-outline" style="font-size:0.85em; padding:5px 14px;">Profilul meu</a>
+            <partial name="_LoginPartial" />
         </div>
     </header>
 

@@ -38,23 +38,45 @@
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
             @if (!Model.EstePlin && Model.Data_Ora > DateTime.UtcNow)
             {
-                <form method="post" action="/Eveniment/Rezerva">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="idEveniment" value="@Model.Id_Eveniment" />
-                    <button type="submit" class="btn">🎟️ Rezervă un loc</button>
-                </form>
+                @if (User.Identity!.IsAuthenticated)
+                {
+                    <form method="post" action="/Eveniment/Rezerva">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="idEveniment" value="@Model.Id_Eveniment" />
+                        <button type="submit" class="btn">🎟️ Rezervă un loc</button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login"
+                       asp-route-returnUrl="@Context.Request.Path"
+                       class="btn">🔐 Autentifică-te pentru a rezerva</a>
+                }
             }
-            <a href="/Rezervare" class="btn btn-outline">📋 Rezervările mele</a>
+
+            @if (User.Identity!.IsAuthenticated)
+            {
+                <a href="/Rezervare" class="btn btn-outline">📋 Rezervările mele</a>
+            }
         </div>
 
-        <div class="admin-bar">
-            <span class="admin-bar-label">Admin:</span>
-            <a href="/Eveniment/Editeaza/@Model.Id_Eveniment" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
-            <a href="/Eveniment/Sterge/@Model.Id_Eveniment" class="btn btn-danger" style="font-size:0.85em;">🗑️ Șterge</a>
-        </div>
+        @* Bara admin — vizibila doar pentru Administrator *@
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="admin-bar">
+                <span class="admin-bar-label">Admin:</span>
+                <a href="/Eveniment/Editeaza/@Model.Id_Eveniment" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a href="/Eveniment/Sterge/@Model.Id_Eveniment" class="btn btn-danger" style="font-size:0.85em;">🗑️ Șterge</a>
+                }
+            </div>
+        }
     </div>
 
-    @if (Model.Rezervari != null && Model.Rezervari.Any())
+    @* Lista participanti - vizibila doar pentru Administrator *@
+    @if ((User.IsInRole("Administrator"))
+             && Model.Rezervari != null && Model.Rezervari.Any())
     {
         <div style="margin-top:25px; padding-top:25px; border-top:1px solid #f0e6f6;">
             <h3>👥 Participanți înscriși (@Model.Rezervari.Count(r => r.Status_Rezervare == Rezervare_Eveniment.StatusRezervare.Activă) activi)</h3>

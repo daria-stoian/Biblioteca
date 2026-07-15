@@ -12,6 +12,7 @@ namespace Biblioteca.Services.Interfaces
         Task<(bool succes, string mesaj)> PrelungesteImprumutAsync(int idImprumut, int zileExtra);
         decimal CalculeazaTaxaPenalizareAsync(Imprumut imprumut);
         Task<bool> UtilizatorExistaAsync(int idUtilizator);
-        Task<Carte?> GetCarteSimplaAsync(int idCarte); // pentru pagina confirmare imprumut
+        Task<Carte?> GetCarteSimplaAsync(int idCarte);
+        Task<bool> AreImprumutActivAsync(int idUtilizator, int idCarte);
     }
 }

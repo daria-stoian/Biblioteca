@@ -1,7 +1,7 @@
 ﻿using Biblioteca.Models;
 using Biblioteca.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Controllers
 {
@@ -25,9 +25,11 @@ namespace Biblioteca.Controllers
             return View(autor);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Adauga() => View();
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Adauga(Autor autor)
         {
             if (!ModelState.IsValid) return View(autor);
@@ -37,6 +39,7 @@ namespace Biblioteca.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Editeaza(int id)
         {
             var autor = await _service.GetDetaliiAsync(id);
@@ -45,6 +48,7 @@ namespace Biblioteca.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Editeaza(int id, Autor autor)
         {
             if (id != autor.Id_Autor) return NotFound();
@@ -56,6 +60,7 @@ namespace Biblioteca.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Sterge(int id)
         {
             var autor = await _service.GetDetaliiAsync(id);
@@ -64,6 +69,7 @@ namespace Biblioteca.Controllers
         }
 
         [HttpPost, ActionName("Sterge"), ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> StergeConfirmat(int id)
         {
             var (succes, mesaj) = await _service.StergeAsync(id);

@@ -1,0 +1,84 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Înregistrare";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div style="display:flex; justify-content:center; align-items:center; min-height:60vh; padding:30px 15px;">
+    <div class="form-container" style="width:100%; max-width:460px;">
+        <div style="text-align:center; margin-bottom:25px;">
+            <p style="font-size:2.5em; margin:0;">📚</p>
+            <h2 style="margin:8px 0 4px 0;">Cont nou</h2>
+            <p style="color:#7f8c8d; font-size:0.9em;">Alătură-te comunității BiblioWeb</p>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var eroare in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <div>❌ @eroare.ErrorMessage</div>
+                }
+            </div>
+        }
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label asp-for="Input.Nume_Complet">Nume complet *</label>
+                <input asp-for="Input.Nume_Complet" class="form-control"
+                       placeholder="Ex: Maria Popescu" autofocus />
+                <span asp-validation-for="Input.Nume_Complet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email">Email *</label>
+                <input asp-for="Input.Email" class="form-control"
+                       placeholder="exemplu@email.com" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <div class="form-group" style="flex:1;">
+                    <label asp-for="Input.Password">Parolă *</label>
+                    <input asp-for="Input.Password" type="password" class="form-control"
+                           placeholder="Min. 6 caractere" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label asp-for="Input.ConfirmPassword">Confirmare *</label>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control"
+                           placeholder="Repetă parola" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Telefon">
+                    Telefon <small style="color:#7f8c8d;">(opțional)</small>
+                </label>
+                <input asp-for="Input.Telefon" class="form-control"
+                       placeholder="Ex: 0712345678" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Adresa">
+                    Adresă <small style="color:#7f8c8d;">(opțional)</small>
+                </label>
+                <input asp-for="Input.Adresa" class="form-control"
+                       placeholder="Ex: Strada Cartilor nr. 1" />
+            </div>
+            <button type="submit" class="btn" style="width:100%; padding:12px; margin-top:8px;">
+                ✨ Creează contul
+            </button>
+        </form>
+
+        <div style="text-align:center; margin-top:20px; color:#7f8c8d; font-size:0.9em;">
+            Ai deja cont?
+            <a asp-page="./Login" style="color:#9b30d9; font-weight:600;">Conectează-te</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

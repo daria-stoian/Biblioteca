@@ -45,9 +45,18 @@ namespace Biblioteca.Repositories
                             && i.Id_Carte == idCarte
                             && (i.Status == StatusImprumut.Activ || i.Status == StatusImprumut.Prelungit));
 
+        public async Task ReturnareDirectaAsync(int idImprumut, DateTime dataReturnare, decimal taxaPenalizare)
+        {
+            await _context.Imprumuturi
+                .Where(i => i.Id_Imprumut == idImprumut)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(i => i.Status, StatusImprumut.Returnat)
+                    .SetProperty(i => i.Data_Returnare, dataReturnare)
+                    .SetProperty(i => i.Taxa_Penalizare, taxaPenalizare));
+        }
+
         public async Task<bool> UtilizatorExistaAsync(int idUtilizator)
-            => await _context.Utilizatori
-                .AnyAsync(u => u.Id_Utilizator == idUtilizator);
+            => await _context.Users
+                .AnyAsync(u => u.Id == idUtilizator);
     }
 }
-

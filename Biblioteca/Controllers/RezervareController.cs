@@ -1,36 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Biblioteca.Models;
+﻿using Biblioteca.Models;
 using Biblioteca.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Biblioteca.Controllers
 {
+    [Authorize]
     public class RezervareController : Controller
     {
         private readonly IRezervareEvenimentService _service;
+        private readonly UserManager<Utilizator> _userManager;
 
-        public RezervareController(IRezervareEvenimentService service) => _service = service;
+        public RezervareController(IRezervareEvenimentService service, UserManager<Utilizator> userManager)
+        {
+            _service = service;
+            _userManager = userManager;
+        }
 
-        // Rezervaile mele
         public async Task<IActionResult> Index()
         {
-            int idUtilizator = 1; // temporar
-            var rezervari = await _service.GetRezervariUtilizatorAsync(idUtilizator);
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+
+            var rezervari = await _service.GetRezervariUtilizatorAsync(utilizator.Id);
             return View(rezervari);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Anuleaza(int id)
         {
-            int idUtilizator = 1; // temporar
-            var (succes, mesaj) = await _service.AnuleazaRezervareAsync(id, idUtilizator);
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+
+            var (succes, mesaj) = await _service.AnuleazaRezervareAsync(id, utilizator.Id);
             TempData[succes ? "Succes" : "Eroare"] = mesaj;
             return RedirectToAction(nameof(Index));
         }
     }
-}
+}   

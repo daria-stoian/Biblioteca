@@ -6,7 +6,10 @@
 
 <div class="page-header">
     <h2>✍️ Autori</h2>
-    <a href="/Autor/Adauga" class="btn">+ Adaugă autor</a>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a href="/Autor/Adauga" class="btn">+ Adaugă autor</a>
+    }
 </div>
 
 <form method="get" action="/Autor" style="margin-bottom:20px; display:flex; gap:10px;">
@@ -25,7 +28,10 @@
     <div style="text-align:center; padding:50px; color:#7f8c8d;">
         <p style="font-size:3em; margin-bottom:10px;">✍️</p>
         <p style="margin-bottom:15px;">Niciun autor găsit.</p>
-        <a href="/Autor/Adauga" class="btn">+ Adaugă primul autor</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <a href="/Autor/Adauga" class="btn">+ Adaugă primul autor</a>
+        }
     </div>
 }
 else
@@ -55,8 +61,14 @@ else
                         <td>
                             <div style="display:flex; gap:7px;">
                                 <a href="/Autor/Detalii/@autor.Id_Autor" class="btn btn-outline" style="font-size:0.82em;">👁️ Detalii</a>
-                                <a href="/Autor/Editeaza/@autor.Id_Autor" class="btn btn-outline" style="font-size:0.82em;">✏️ Editează</a>
-                                <a href="/Autor/Sterge/@autor.Id_Autor" class="btn btn-danger" style="font-size:0.82em;">🗑️ Șterge</a>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="/Autor/Editeaza/@autor.Id_Autor" class="btn btn-outline" style="font-size:0.82em;">✏️ Editează</a>
+                                }
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="/Autor/Sterge/@autor.Id_Autor" class="btn btn-danger" style="font-size:0.82em;">🗑️ Șterge</a>
+                                }
                             </div>
                         </td>
                     </tr>

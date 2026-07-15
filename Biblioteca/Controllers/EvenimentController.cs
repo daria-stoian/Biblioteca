@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Biblioteca.Models;
+﻿using Biblioteca.Models;
 using Biblioteca.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Biblioteca.Controllers
 {
@@ -14,11 +10,13 @@ namespace Biblioteca.Controllers
     {
         private readonly IEvenimentService _service;
         private readonly IRezervareEvenimentService _rezervareService;
+        private readonly UserManager<Utilizator> _userManager;
 
-        public EvenimentController(IEvenimentService service, IRezervareEvenimentService rezervareService)
+        public EvenimentController(IEvenimentService service, IRezervareEvenimentService rezervareService, UserManager<Utilizator> userManager)
         {
             _service = service;
             _rezervareService = rezervareService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -31,9 +29,11 @@ namespace Biblioteca.Controllers
             return View(ev);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Adauga() => View();
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Adauga(Eveniment eveniment)
         {
             ModelState.Remove("Rezervari");
@@ -44,6 +44,7 @@ namespace Biblioteca.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Editeaza(int id)
         {
             var ev = await _service.GetDetaliiAsync(id);
@@ -52,6 +53,7 @@ namespace Biblioteca.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Editeaza(int id, Eveniment eveniment)
         {
             if (id != eveniment.Id_Eveniment) return NotFound();
@@ -63,6 +65,7 @@ namespace Biblioteca.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Sterge(int id)
         {
             var ev = await _service.GetDetaliiAsync(id);
@@ -71,6 +74,7 @@ namespace Biblioteca.Controllers
         }
 
         [HttpPost, ActionName("Sterge"), ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> StergeConfirmat(int id)
         {
             var (succes, mesaj) = await _service.StergeAsync(id);
@@ -79,10 +83,14 @@ namespace Biblioteca.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Rezerva(int idEveniment)
         {
-            int idUtilizator = 1; // temporar
-            var (succes, mesaj) = await _rezervareService.RezervaloculAsync(idUtilizator, idEveniment);
+            var utilizator = await _userManager.GetUserAsync(User);
+            if (utilizator == null)
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+
+            var (succes, mesaj) = await _rezervareService.RezervaloculAsync(utilizator.Id, idEveniment);
             TempData[succes ? "Succes" : "Eroare"] = mesaj;
             return RedirectToAction(nameof(Index));
         }

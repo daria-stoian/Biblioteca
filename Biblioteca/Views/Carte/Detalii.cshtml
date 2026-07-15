@@ -72,52 +72,69 @@
         }
 
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
-            @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
+            @if (User.Identity?.IsAuthenticated == true)
             {
-                <form method="post" action="/Imprumut/ImprumutaConfirmat">
+                @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
+                {
+                    <form method="post" action="/Imprumut/ImprumutaConfirmat">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="idCarte" value="@Model.Id_Carte" />
+                        <button type="submit" class="btn">📖 Împrumută cartea</button>
+                    </form>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Fisier_PDF))
+                {
+                    @if (ViewBag.AreImprumutActiv == true)
+                    {
+                        <a href="/Carte/DescarcaPDF?idCarte=@Model.Id_Carte" class="btn btn-outline">
+                            📄 Citește PDF
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="btn btn-outline" style="opacity:0.45; cursor:not-allowed;" title="Împrumută cartea pentru a accesa PDF-ul">
+                            🔒 PDF (necesită împrumut activ)
+                        </span>
+                    }
+                }
+
+                <form method="post" action="/Lista_Dorinte/Adauga">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="idCarte" value="@Model.Id_Carte" />
-                    <button type="submit" class="btn">📖 Împrumută cartea</button>
+                    <button type="submit" class="btn btn-outline">💖 Salvează în dorințe</button>
                 </form>
+                <a href="/Recenzie/Adauga?idCarte=@Model.Id_Carte" class="btn btn-outline">⭐ Scrie recenzie</a>
             }
-
-            @* Buton PDF — vizibil doar daca cartea are PDF *@
-            @if (!string.IsNullOrEmpty(Model.Fisier_PDF))
-            {
-                <a href="/Carte/DescarcaPDF?idCarte=@Model.Id_Carte" class="btn btn-outline">
-                    📄 Citește PDF
-                </a>
-            }
-
-            <form method="post" action="/Lista_Dorinte/Adauga">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="idCarte" value="@Model.Id_Carte" />
-                <button type="submit" class="btn btn-outline">💖 Salvează în dorințe</button>
-            </form>
-            <a href="/Recenzie/Adauga?idCarte=@Model.Id_Carte" class="btn btn-outline">⭐ Scrie recenzie</a>
         </div>
 
-        <div class="admin-bar">
-            <span class="admin-bar-label">Admin:</span>
-            <a href="/Carte/Editeaza/@Model.Id_Carte" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
-            @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
-            {
-                <form method="post" action="/Carte/SetIndisponibila" style="display:inline;">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@Model.Id_Carte" />
-                    <button type="submit" class="btn btn-outline" style="font-size:0.85em;">🚫 Scoate din catalog</button>
-                </form>
-            }
-            else
-            {
-                <form method="post" action="/Carte/SetDisponibila" style="display:inline;">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@Model.Id_Carte" />
-                    <button type="submit" class="btn" style="font-size:0.85em;">✅ Reactivează</button>
-                </form>
-            }
-            <a href="/Carte/Sterge/@Model.Id_Carte" class="btn btn-danger" style="font-size:0.85em;">🗑️ Șterge</a>
-        </div>
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="admin-bar">
+                <span class="admin-bar-label">Admin:</span>
+                <a href="/Carte/Editeaza/@Model.Id_Carte" class="btn btn-outline" style="font-size:0.85em;">✏️ Editează</a>
+                @if (Model.Status_Disponibilitate == Carte.StatusDisponibilitate.Disponibil)
+                {
+                    <form method="post" action="/Carte/SetIndisponibila" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id_Carte" />
+                        <button type="submit" class="btn btn-outline" style="font-size:0.85em;">🚫 Scoate din catalog</button>
+                    </form>
+                }
+                else
+                {
+                    <form method="post" action="/Carte/SetDisponibila" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id_Carte" />
+                        <button type="submit" class="btn" style="font-size:0.85em;">✅ Reactivează</button>
+                    </form>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a href="/Carte/Sterge/@Model.Id_Carte" class="btn btn-danger" style="font-size:0.85em;">🗑️ Șterge</a>
+                }
+            </div>
+        }
     </div>
 </div>
 
