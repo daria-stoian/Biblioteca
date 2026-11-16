@@ -16,7 +16,7 @@ namespace Biblioteca.Services
         public async Task<IEnumerable<Recenzie>> GetRecenziiCarteAsync(int idCarte)
             => await _repo.Recenzii.GetByCarteAsync(idCarte);
 
-        public async Task<IEnumerable<Recenzie>> GetRecenziiUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Recenzie>> GetRecenziiUtilizatorAsync(string idUtilizator)
             => await _repo.Recenzii.GetByUtilizatorAsync(idUtilizator);
 
         public async Task<Recenzie?> GetDetaliiRecenzieAsync(int id)
@@ -42,7 +42,7 @@ namespace Biblioteca.Services
             return (true, "Recenzia ta a fost publicată. Mulțumim!");
         }
 
-        public async Task<(bool succes, string mesaj)> StergeRecenzieAsync(int idRecenzie, int idUtilizatorCurent)
+        public async Task<(bool succes, string mesaj)> StergeRecenzieAsync(int idRecenzie, string idUtilizatorCurent)
         {
             var recenzie = await _repo.Recenzii.GetByIdAsync(idRecenzie);
             if (recenzie == null) return (false, "Recenzia nu a fost găsită.");

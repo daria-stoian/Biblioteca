@@ -11,13 +11,13 @@ namespace Biblioteca.Services
 
         public RezervareEvenimentService(IRepositoryWrapper repo) => _repo = repo;
 
-        public async Task<IEnumerable<Rezervare_Eveniment>> GetRezervariUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Rezervare_Eveniment>> GetRezervariUtilizatorAsync(string idUtilizator)
             => await _repo.RezervariEvenimente.GetByUtilizatorAsync(idUtilizator);
 
         public async Task<IEnumerable<Rezervare_Eveniment>> GetRezervariEvenimentAsync(int idEveniment)
             => await _repo.RezervariEvenimente.GetByEvenimentAsync(idEveniment);
 
-        public async Task<(bool succes, string mesaj)> RezervaloculAsync(int idUtilizator, int idEveniment)
+        public async Task<(bool succes, string mesaj)> RezervaloculAsync(string idUtilizator, int idEveniment)
         {
             var eveniment = await _repo.Evenimente.GetByIdAsync(idEveniment);
             if (eveniment == null) return (false, "Evenimentul nu a fost găsit.");
@@ -46,7 +46,7 @@ namespace Biblioteca.Services
             return (true, $"Loc rezervat la \"{eveniment.Titlu_Eveniment}\"! Te așteptăm pe {eveniment.Data_Ora:dd MMM yyyy, HH:mm}.");
         }
 
-        public async Task<(bool succes, string mesaj)> AnuleazaRezervareAsync(int idRezervare, int idUtilizatorCurent)
+        public async Task<(bool succes, string mesaj)> AnuleazaRezervareAsync(int idRezervare, string idUtilizatorCurent)
         {
             var rezervare = await _repo.RezervariEvenimente.GetWithDetailsAsync(idRezervare);
             if (rezervare == null) return (false, "Rezervarea nu a fost găsită.");

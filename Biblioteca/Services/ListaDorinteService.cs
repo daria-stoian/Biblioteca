@@ -11,10 +11,10 @@ namespace Biblioteca.Services
 
         public ListaDorinteService(IRepositoryWrapper repo) => _repo = repo;
 
-        public async Task<IEnumerable<Lista_Dorinte>> GetListaUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Lista_Dorinte>> GetListaUtilizatorAsync(string idUtilizator)
             => await _repo.ListaDorinte.GetByUtilizatorAsync(idUtilizator);
 
-        public async Task<(bool succes, string mesaj)> AdaugaInListaAsync(int idUtilizator, int idCarte)
+        public async Task<(bool succes, string mesaj)> AdaugaInListaAsync(string idUtilizator, int idCarte)
         {
             var carte = await _repo.Carti.GetByIdAsync(idCarte);
             if (carte == null) return (false, "Cartea nu a fost găsită.");
@@ -31,7 +31,7 @@ namespace Biblioteca.Services
             return (true, $"„{carte.Titlu}” a fost adăugată în lista de dorințe.");
         }
 
-        public async Task<(bool succes, string mesaj)> StergedinListaAsync(int idUtilizator, int idCarte)
+        public async Task<(bool succes, string mesaj)> StergedinListaAsync(string idUtilizator, int idCarte)
         {
             if (!await _repo.ListaDorinte.ExistaInListaAsync(idUtilizator, idCarte))
                 return (false, "Cartea nu se află în lista ta.");

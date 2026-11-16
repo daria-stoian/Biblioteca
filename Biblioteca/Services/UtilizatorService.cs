@@ -15,13 +15,13 @@ namespace Biblioteca.Services
             _env = env;
         }
 
-        public async Task<Utilizator?> GetProfilAsync(int idUtilizator)
+        public async Task<Utilizator?> GetProfilAsync(string idUtilizator)
             => await _repo.Utilizatori.GetWithDetailsAsync(idUtilizator);
 
         public async Task<(bool succes, string mesaj)> ActualizeazaProfilAsync(
-            int idUtilizator, string numeComplet, string? telefon, string? adresa, IFormFile? pozaProfil)
+            string idUtilizator, string numeComplet, string? telefon, string? adresa, IFormFile? pozaProfil)
         {
-            var utilizator = await _repo.Utilizatori.GetByIdAsync(idUtilizator);
+            var utilizator = await _repo.Utilizatori.GetWithDetailsAsync(idUtilizator);
             if (utilizator == null) return (false, "Utilizatorul nu a fost găsit.");
 
             utilizator.Nume_Complet = numeComplet;

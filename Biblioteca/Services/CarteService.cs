@@ -150,7 +150,7 @@ namespace Biblioteca.Services
         }
 
         // Verifica daca utilizatorul are imprumut activ si returneaza calea catre PDF
-        public async Task<(bool areAcces, string? caleFisier, string? numeFisier)> GetPDFAsync(int idCarte, int idUtilizator)
+        public async Task<(bool areAcces, string? caleFisier, string? numeFisier)> GetPDFAsync(int idCarte, string idUtilizator)
         {
             var carte = await _repo.Carti.GetByIdAsync(idCarte);
             if (carte == null || string.IsNullOrEmpty(carte.Fisier_PDF))

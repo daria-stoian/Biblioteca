@@ -17,7 +17,7 @@ namespace Biblioteca.Repositories
                 .OrderByDescending(r => r.Data_Postare)
                 .ToListAsync();
 
-        public async Task<IEnumerable<Recenzie>> GetByUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Recenzie>> GetByUtilizatorAsync(string idUtilizator)
             => await _context.Recenzii
                 .AsNoTracking()
                 .Include(r => r.Carte)
@@ -25,7 +25,7 @@ namespace Biblioteca.Repositories
                 .OrderByDescending(r => r.Data_Postare)
                 .ToListAsync();
 
-        public async Task<bool> AreRecenzieAsync(int idUtilizator, int idCarte)
+        public async Task<bool> AreRecenzieAsync(string idUtilizator, int idCarte)
             => await _context.Recenzii
                 .AnyAsync(r => r.Id_Utilizator == idUtilizator && r.Id_Carte == idCarte);
 

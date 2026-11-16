@@ -5,7 +5,7 @@ namespace Biblioteca.Models
 {
     public class Lista_Dorinte
     {
-        public int Id_Utilizator { get; set; }
+        public string Id_Utilizator { get; set; } = string.Empty;
         [ForeignKey("Id_Utilizator")]
         public Utilizator Utilizator { get; set; }
         public int Id_Carte { get; set; }

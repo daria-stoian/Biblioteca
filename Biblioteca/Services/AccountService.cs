@@ -8,12 +8,12 @@ namespace Biblioteca.Services
     {
         private readonly UserManager<Utilizator> _userManager;
         private readonly SignInManager<Utilizator> _signInManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountService(
             UserManager<Utilizator> userManager,
             SignInManager<Utilizator> signInManager,
-            RoleManager<IdentityRole<int>> roleManager)
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -53,7 +53,7 @@ namespace Biblioteca.Services
                 return (false, rezultat.Errors.Select(e => e.Description));
 
             if (!await _roleManager.RoleExistsAsync("Cititor"))
-                await _roleManager.CreateAsync(new IdentityRole<int>("Cititor"));
+                await _roleManager.CreateAsync(new IdentityRole("Cititor"));
 
             await _userManager.AddToRoleAsync(utilizator, "Cititor");
             await _signInManager.SignInAsync(utilizator, isPersistent: false);

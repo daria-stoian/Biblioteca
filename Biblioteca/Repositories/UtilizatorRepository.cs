@@ -8,7 +8,7 @@ namespace Biblioteca.Repositories
     {
         public UtilizatorRepository(ApplicationDbContext context) : base(context) { }
 
-        public async Task<Utilizator?> GetWithDetailsAsync(int id)
+        public async Task<Utilizator?> GetWithDetailsAsync(string id)
             => await _context.Users
                 .Include(u => u.Imprumuturi!)
                     .ThenInclude(i => i.Carte)

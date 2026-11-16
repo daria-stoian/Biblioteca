@@ -14,7 +14,7 @@ namespace Biblioteca.Repositories
                 .OrderByDescending(c => c.Data_Trimitere)
                 .ToListAsync();
 
-        public async Task<IEnumerable<Contact>> GetByUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Contact>> GetByUtilizatorAsync(string idUtilizator)
             => await _context.Contacte
                 .Where(c => c.Id_Utilizator == idUtilizator)
                 .OrderByDescending(c => c.Data_Trimitere)

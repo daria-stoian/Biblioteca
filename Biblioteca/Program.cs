@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<Utilizator>(options =>
 {
@@ -20,11 +22,8 @@ builder.Services.AddDefaultIdentity<Utilizator>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;
 })
-.AddRoles<IdentityRole<int>>()
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Repository Wrapper
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
@@ -47,14 +46,14 @@ var app = builder.Build();
 // Seed roluri si cont admin
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Utilizator>>();
 
     string[] roluri = { "Administrator", "Cititor" };
     foreach (var rol in roluri)
     {
         if (!await roleManager.RoleExistsAsync(rol))
-            await roleManager.CreateAsync(new IdentityRole<int>(rol));
+            await roleManager.CreateAsync(new IdentityRole(rol));
     }
 
     var admin = await userManager.FindByEmailAsync("admin@biblioweb.ro");

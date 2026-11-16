@@ -17,7 +17,7 @@ namespace Biblioteca.Services
 
         public ImprumutService(IRepositoryWrapper repo) => _repo = repo;
 
-        public async Task<IEnumerable<Imprumut>> GetImprumuturiUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Imprumut>> GetImprumuturiUtilizatorAsync(string idUtilizator)
             => await _repo.Imprumuturi.GetByUtilizatorAsync(idUtilizator);
 
         public async Task<IEnumerable<Imprumut>> GetToateImprumuturileAsync()
@@ -26,13 +26,13 @@ namespace Biblioteca.Services
         public async Task<Imprumut?> GetDetaliiImprumutAsync(int id)
             => await _repo.Imprumuturi.GetWithDetailsAsync(id);
 
-        public async Task<bool> UtilizatorExistaAsync(int idUtilizator)
+        public async Task<bool> UtilizatorExistaAsync(string idUtilizator)
             => await _repo.Imprumuturi.UtilizatorExistaAsync(idUtilizator);
 
         public async Task<Carte?> GetCarteSimplaAsync(int idCarte)
             => await _repo.Carti.GetWithAutorAsync(idCarte);
 
-        public async Task<(bool succes, string mesaj)> ImprumutaCarteAsync(int idUtilizator, int idCarte, int zileTermen = ZILE_TERMEN_DEFAULT)
+        public async Task<(bool succes, string mesaj)> ImprumutaCarteAsync(string idUtilizator, int idCarte, int zileTermen = ZILE_TERMEN_DEFAULT)
         {
             var carte = await _repo.Carti.GetByIdAsync(idCarte);
             if (carte == null)
@@ -106,7 +106,7 @@ namespace Biblioteca.Services
             return (true, $"Termen prelungit cu {zileExtra} zile. Noul termen: {imprumut.Data_Scadenta:dd MMM yyyy}.");
         }
 
-        public async Task<bool> AreImprumutActivAsync(int idUtilizator, int idCarte)
+        public async Task<bool> AreImprumutActivAsync(string idUtilizator, int idCarte)
             => await _repo.Imprumuturi.AreImprumutActivAsync(idUtilizator, idCarte);
 
         public decimal CalculeazaTaxaPenalizareAsync(Imprumut imprumut)

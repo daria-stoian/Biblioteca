@@ -9,7 +9,7 @@ namespace Biblioteca.Repositories
     {
         public ImprumutRepository(ApplicationDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Imprumut>> GetByUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Imprumut>> GetByUtilizatorAsync(string idUtilizator)
             => await _context.Imprumuturi
                 .Include(i => i.Carte)
                     .ThenInclude(c => c!.Autor)
@@ -39,7 +39,7 @@ namespace Biblioteca.Repositories
                 .Include(i => i.Utilizator)
                 .FirstOrDefaultAsync(i => i.Id_Imprumut == id);
 
-        public async Task<bool> AreImprumutActivAsync(int idUtilizator, int idCarte)
+        public async Task<bool> AreImprumutActivAsync(string idUtilizator, int idCarte)
             => await _context.Imprumuturi
                 .AnyAsync(i => i.Id_Utilizator == idUtilizator
                             && i.Id_Carte == idCarte
@@ -55,7 +55,7 @@ namespace Biblioteca.Repositories
                     .SetProperty(i => i.Taxa_Penalizare, taxaPenalizare));
         }
 
-        public async Task<bool> UtilizatorExistaAsync(int idUtilizator)
+        public async Task<bool> UtilizatorExistaAsync(string idUtilizator)
             => await _context.Users
                 .AnyAsync(u => u.Id == idUtilizator);
     }

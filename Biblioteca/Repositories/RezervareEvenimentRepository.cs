@@ -9,7 +9,7 @@ namespace Biblioteca.Repositories
     {
         public RezervareEvenimentRepository(ApplicationDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Rezervare_Eveniment>> GetByUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Rezervare_Eveniment>> GetByUtilizatorAsync(string idUtilizator)
             => await _context.Rezervari_Evenimente
                 .Include(r => r.Eveniment)
                 .Where(r => r.Id_Utilizator == idUtilizator)
@@ -22,7 +22,7 @@ namespace Biblioteca.Repositories
                 .Where(r => r.Id_Eveniment == idEveniment)
                 .ToListAsync();
 
-        public async Task<bool> AreRezervareActivaAsync(int idUtilizator, int idEveniment)
+        public async Task<bool> AreRezervareActivaAsync(string idUtilizator, int idEveniment)
             => await _context.Rezervari_Evenimente
                 .AnyAsync(r => r.Id_Utilizator == idUtilizator
                             && r.Id_Eveniment == idEveniment

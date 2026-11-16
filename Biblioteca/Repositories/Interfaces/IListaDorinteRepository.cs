@@ -4,9 +4,9 @@ namespace Biblioteca.Repositories.Interfaces
 {
     public interface IListaDorinteRepository
     {
-        Task<IEnumerable<Lista_Dorinte>> GetByUtilizatorAsync(int idUtilizator);
-        Task<bool> ExistaInListaAsync(int idUtilizator, int idCarte);
+        Task<IEnumerable<Lista_Dorinte>> GetByUtilizatorAsync(string idUtilizator);
+        Task<bool> ExistaInListaAsync(string idUtilizator, int idCarte);
         Task AdaugaAsync(Lista_Dorinte item);
-        Task StergeAsync(int idUtilizator, int idCarte);
+        Task StergeAsync(string idUtilizator, int idCarte);
     }
 }

@@ -15,7 +15,7 @@ namespace Biblioteca.Models
         [Key]
         public int Id_Rezervare { get; set; }
 
-        public int Id_Utilizator { get; set; }
+        public string Id_Utilizator { get; set; } = string.Empty;
         [ForeignKey("Id_Utilizator")]
         public Utilizator? Utilizator { get; set; }
         public int Id_Eveniment { get; set; }

@@ -8,7 +8,7 @@ namespace Biblioteca.Repositories
     {
         public ListaDorinteRepository(ApplicationDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Lista_Dorinte>> GetByUtilizatorAsync(int idUtilizator)
+        public async Task<IEnumerable<Lista_Dorinte>> GetByUtilizatorAsync(string idUtilizator)
             => await _context.Lista_Dorinte
                 .Include(ld => ld.Carte!)
                     .ThenInclude(c => c.Autor)
@@ -16,7 +16,7 @@ namespace Biblioteca.Repositories
                 .OrderByDescending(ld => ld.Data_Adaugare)
                 .ToListAsync();
 
-        public async Task<bool> ExistaInListaAsync(int idUtilizator, int idCarte)
+        public async Task<bool> ExistaInListaAsync(string idUtilizator, int idCarte)
             => await _context.Lista_Dorinte
                 .AnyAsync(ld => ld.Id_Utilizator == idUtilizator
                              && ld.Id_Carte == idCarte);
@@ -27,7 +27,7 @@ namespace Biblioteca.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task StergeAsync(int idUtilizator, int idCarte)
+        public async Task StergeAsync(string idUtilizator, int idCarte)
         {
             var item = await _context.Lista_Dorinte
                 .FirstOrDefaultAsync(ld => ld.Id_Utilizator == idUtilizator

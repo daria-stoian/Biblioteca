@@ -2,7 +2,7 @@
 
 namespace Biblioteca.Models
 {
-    public class Utilizator : IdentityUser<int>
+    public class Utilizator : IdentityUser
     {
         public string Nume_Complet { get; set; } = string.Empty;
         public string? Telefon { get; set; }

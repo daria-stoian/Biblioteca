@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\poze-profil\" />
     <Folder Include="wwwroot\pdf\" />
   </ItemGroup>
