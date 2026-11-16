@@ -1,0 +1,197 @@
+// Schema BiblioWeb v2.0
+// Traduce modelul de date din versiunea 1.0 (Biblioteca/Models/*.cs, ApplicationDbContext.cs)
+// Tabelele pastreaza numele din v1.0 prin @@map, ca sa poata fi comparate usor.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------------------ ENUM-uri
+
+enum Rol {
+  Administrator
+  Cititor
+}
+
+enum StatusDisponibilitate {
+  Disponibil
+  Indisponibil
+}
+
+enum StatusImprumut {
+  Activ
+  Prelungit
+  Returnat
+  Intarziat
+}
+
+enum StatusRezervare {
+  Activa
+  Anulata
+  Finalizata
+}
+
+enum StatusMesaj {
+  Necitit
+  Citit
+  Raspuns_Trimis
+}
+
+// ------------------------------------------------------------------ ENTITATI
+
+// v1.0: Utilizator : IdentityUser. In v2.0 nu mai exista Identity,
+// asa ca parola (hash bcrypt) si rolul sunt coloane proprii.
+model Utilizator {
+  id          Int      @id @default(autoincrement())
+  numeComplet String   @db.VarChar(150)
+  email       String   @unique @db.VarChar(150)
+  parolaHash  String
+  rol         Rol      @default(Cititor)
+  telefon     String?  @db.VarChar(20)
+  adresa      String?  @db.VarChar(250)
+  pozaProfil  String?
+  dataCreare  DateTime @default(now())
+
+  imprumuturi  Imprumut[]
+  recenzii     Recenzie[]
+  rezervari    RezervareEveniment[]
+  listaDorinte ListaDorinte[]
+  mesaje       Contact[]
+
+  @@map("utilizatori")
+}
+
+model Autor {
+  id        Int     @id @default(autoincrement())
+  numeAutor String  @db.VarChar(150)
+  biografie String?
+  carti     Carte[]
+
+  @@map("autori")
+}
+
+model Categorie {
+  id            Int     @id @default(autoincrement())
+  numeCategorie String  @unique @db.VarChar(100)
+  carti         Carte[]
+
+  @@map("categorii")
+}
+
+model Carte {
+  id             Int                   @id @default(autoincrement())
+  titlu          String                @db.VarChar(200)
+  isbn           String?               @unique @db.VarChar(20) // in PostgreSQL, UNIQUE permite mai multe NULL
+  anPublicare    Int
+  numarPagini    Int
+  descriere      String?               @db.VarChar(2000)
+  imagineCoperta String?
+  fisierPdf      String?
+  status         StatusDisponibilitate @default(Disponibil)
+
+  autorId     Int
+  autor       Autor     @relation(fields: [autorId], references: [id], onDelete: Restrict)
+  categorieId Int
+  categorie   Categorie @relation(fields: [categorieId], references: [id], onDelete: Restrict)
+
+  imprumuturi  Imprumut[]
+  recenzii     Recenzie[]
+  listaDorinte ListaDorinte[]
+
+  @@index([titlu])
+  @@index([categorieId])
+  @@map("carti")
+}
+
+model Imprumut {
+  id             Int            @id @default(autoincrement())
+  dataImprumut   DateTime       @default(now())
+  dataScadenta   DateTime
+  dataReturnare  DateTime?
+  taxaPenalizare Decimal        @default(0) @db.Decimal(10, 2)
+  status         StatusImprumut @default(Activ)
+
+  utilizatorId Int
+  utilizator   Utilizator @relation(fields: [utilizatorId], references: [id], onDelete: Restrict)
+  carteId      Int
+  carte        Carte      @relation(fields: [carteId], references: [id], onDelete: Restrict)
+
+  @@index([utilizatorId, status]) // folosit la regula "max. 5 imprumuturi active" (RF-09)
+  @@map("imprumuturi")
+}
+
+model Recenzie {
+  id          Int      @id @default(autoincrement())
+  nota        Int // 1..5 - verificat in serviciu; optional si CHECK in migrare
+  comentariu  String?  @db.VarChar(2000)
+  dataPostare DateTime @default(now())
+
+  utilizatorId Int
+  utilizator   Utilizator @relation(fields: [utilizatorId], references: [id], onDelete: Restrict)
+  carteId      Int
+  carte        Carte      @relation(fields: [carteId], references: [id], onDelete: Restrict)
+
+  @@unique([utilizatorId, carteId]) // o singura recenzie per carte (RF-15)
+  @@map("recenzii")
+}
+
+// v1.0: cheie compusa (Id_Utilizator, Id_Carte)
+model ListaDorinte {
+  dataAdaugare DateTime @default(now())
+
+  utilizatorId Int
+  utilizator   Utilizator @relation(fields: [utilizatorId], references: [id], onDelete: Cascade)
+  carteId      Int
+  carte        Carte      @relation(fields: [carteId], references: [id], onDelete: Cascade)
+
+  @@id([utilizatorId, carteId])
+  @@map("lista_dorinte")
+}
+
+model Eveniment {
+  id                Int      @id @default(autoincrement())
+  titluEveniment    String   @db.VarChar(200)
+  descriere         String?  @db.VarChar(2000)
+  dataOra           DateTime
+  locatie           String?  @db.VarChar(200)
+  locuriDisponibile Int
+  locuriRezervate   Int      @default(0)
+
+  rezervari RezervareEveniment[]
+
+  @@map("evenimente")
+}
+
+model RezervareEveniment {
+  id            Int             @id @default(autoincrement())
+  dataRezervare DateTime        @default(now())
+  status        StatusRezervare @default(Activa)
+
+  utilizatorId Int
+  utilizator   Utilizator @relation(fields: [utilizatorId], references: [id], onDelete: Restrict)
+  evenimentId  Int
+  eveniment    Eveniment  @relation(fields: [evenimentId], references: [id], onDelete: Cascade)
+
+  @@index([evenimentId, status])
+  @@map("rezervari_evenimente")
+}
+
+model Contact {
+  id             Int         @id @default(autoincrement())
+  numeExpeditor  String      @db.VarChar(100)
+  emailExpeditor String      @db.VarChar(150)
+  mesaj          String      @db.VarChar(2000)
+  dataTrimitere  DateTime    @default(now())
+  status         StatusMesaj @default(Necitit)
+
+  // legatura optionala: daca utilizatorul e sters, mesajul ramane (SetNull), ca in v1.0
+  utilizatorId Int?
+  utilizator   Utilizator? @relation(fields: [utilizatorId], references: [id], onDelete: SetNull)
+
+  @@map("contacte")
+}
