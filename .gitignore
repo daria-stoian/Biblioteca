@@ -1,1 +1,27 @@
-/.vs
+# .NET (versiunea 1.0)
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+
+# Node.js (versiunea 2.0)
+node_modules/
+dist/
+build/
+coverage/
+npm-debug.log*
+
+# Fisiere .env (RN-01)
+.env
+.env.*
+!.env.example
+
+# Fisiere incarcate in timpul rularii
+server/uploads/
+
+# Sistem / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
