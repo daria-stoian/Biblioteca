@@ -9,7 +9,8 @@
     "db:generate": "prisma generate",
     "dev": "node --watch --env-file=.env src/server.js",
     "start": "node --env-file=.env src/server.js",
-    "db:seed": "node --env-file=.env prisma/seed.js"
+    "db:seed": "node --env-file=.env prisma/seed.js",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "",
