@@ -1,111 +1,159 @@
+/* Stiluri globale BiblioWeb v2.0 */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
+  --culoare-principala: #2f5d50;
+  --culoare-principala-inchis: #234639;
+  --accent: #c8963e;
+  --fundal: #f6f4ef;
+  --suprafata: #ffffff;
+  --text: #1f2421;
+  --text-secundar: #5f6661;
+  --margine: #dedad0;
+  --succes: #2e7d4f;
+  --avertizare: #b26a00;
+  --eroare: #b3261e;
+  --raza: 10px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  background: var(--fundal);
+  line-height: 1.5;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+* { box-sizing: border-box; }
+body { margin: 0; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.5em; }
+a { color: var(--culoare-principala); }
+img { max-width: 100%; display: block; }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+/* ---------- Structura paginii ---------- */
+.antet {
+  background: var(--culoare-principala);
+  color: #fff;
 }
-
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
+.antet-continut {
+  max-width: 1100px;
   margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.logo { color: #fff; font-weight: 700; font-size: 1.25rem; text-decoration: none; }
+.meniu { display: flex; gap: 1rem; flex: 1; }
+.meniu a { color: #e6efe9; text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid transparent; }
+.meniu a.active { color: #fff; border-bottom-color: var(--accent); }
+.utilizator { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; }
+.utilizator a { color: #fff; }
+
+.continut { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+/* ---------- Elemente comune ---------- */
+.buton {
+  display: inline-block;
+  border: 1px solid var(--culoare-principala);
+  background: var(--culoare-principala);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--raza);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+.buton:hover:not(:disabled) { background: var(--culoare-principala-inchis); }
+.buton:disabled { opacity: 0.5; cursor: not-allowed; }
+.buton-secundar { background: transparent; color: var(--culoare-principala); }
+.buton-secundar:hover:not(:disabled) { background: #e7efe9; }
+.buton-mic { padding: 0.3rem 0.7rem; font-size: 0.9rem; }
+.antet .buton-secundar { color: #fff; border-color: #fff; }
+.antet .buton-secundar:hover { background: rgba(255, 255, 255, 0.12); }
+
+.card {
+  background: var(--suprafata);
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  padding: 1.25rem;
+}
+
+.mesaj { padding: 0.75rem 1rem; border-radius: var(--raza); margin-bottom: 1rem; }
+.mesaj-eroare { background: #fbe9e7; color: var(--eroare); }
+.mesaj-succes { background: #e6f4ea; color: var(--succes); }
+.secundar { color: var(--text-secundar); }
+
+/* ---------- Formulare ---------- */
+.formular { max-width: 400px; margin: 2rem auto; }
+.camp { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1rem; }
+input, select {
+  font: inherit;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  background: #fff;
+}
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* ---------- Catalog ---------- */
+.filtre { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.filtre input { flex: 1; min-width: 200px; }
+.grila {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1.25rem;
+}
+.carte-card {
+  background: var(--suprafata);
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
+.carte-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
+.coperta { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; background: #e9e5da; }
+.carte-card .info { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+.carte-card .titlu { font-weight: 600; }
+.carte-card .autor { color: var(--text-secundar); font-size: 0.9rem; }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.eticheta {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  width: fit-content;
 }
+.eticheta-Disponibil, .eticheta-Activ { background: #e6f4ea; color: var(--succes); }
+.eticheta-Prelungit { background: #e8eef9; color: #2952a3; }
+.eticheta-Indisponibil, .eticheta-Intarziat { background: #fbe9e7; color: var(--eroare); }
+.eticheta-Returnat { background: #eeeeee; color: #555; }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
+.paginare { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
+/* ---------- Detalii carte ---------- */
+.detalii { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; align-items: start; }
+.detalii .coperta { border-radius: var(--raza); }
+.date-carte { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 1rem 0; }
+.date-carte dt { color: var(--text-secundar); }
+.date-carte dd { margin: 0; }
+.recenzie { border-top: 1px solid var(--margine); padding: 0.75rem 0; }
+.stele { color: var(--accent); letter-spacing: 1px; }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* ---------- Imprumuturi ---------- */
+.lista-imprumuturi { display: flex; flex-direction: column; gap: 0.75rem; }
+.imprumut {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+.imprumut .coperta { border-radius: 6px; }
+.imprumut .actiuni { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+.taxa { color: var(--eroare); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .detalii { grid-template-columns: 1fr; }
+  .detalii .coperta { max-width: 220px; }
+  .imprumut { grid-template-columns: 50px 1fr; }
+  .imprumut .actiuni { grid-column: 1 / -1; justify-content: flex-start; }
 }
