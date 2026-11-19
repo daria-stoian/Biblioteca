@@ -1,0 +1,159 @@
+/* Stiluri globale BiblioWeb v2.0 */
+:root {
+  --culoare-principala: #2f5d50;
+  --culoare-principala-inchis: #234639;
+  --accent: #c8963e;
+  --fundal: #f6f4ef;
+  --suprafata: #ffffff;
+  --text: #1f2421;
+  --text-secundar: #5f6661;
+  --margine: #dedad0;
+  --succes: #2e7d4f;
+  --avertizare: #b26a00;
+  --eroare: #b3261e;
+  --raza: 10px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--fundal);
+  line-height: 1.5;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.5em; }
+a { color: var(--culoare-principala); }
+img { max-width: 100%; display: block; }
+
+/* ---------- Structura paginii ---------- */
+.antet {
+  background: var(--culoare-principala);
+  color: #fff;
+}
+.antet-continut {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.logo { color: #fff; font-weight: 700; font-size: 1.25rem; text-decoration: none; }
+.meniu { display: flex; gap: 1rem; flex: 1; }
+.meniu a { color: #e6efe9; text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid transparent; }
+.meniu a.active { color: #fff; border-bottom-color: var(--accent); }
+.utilizator { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; }
+.utilizator a { color: #fff; }
+
+.continut { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+/* ---------- Elemente comune ---------- */
+.buton {
+  display: inline-block;
+  border: 1px solid var(--culoare-principala);
+  background: var(--culoare-principala);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--raza);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+.buton:hover:not(:disabled) { background: var(--culoare-principala-inchis); }
+.buton:disabled { opacity: 0.5; cursor: not-allowed; }
+.buton-secundar { background: transparent; color: var(--culoare-principala); }
+.buton-secundar:hover:not(:disabled) { background: #e7efe9; }
+.buton-mic { padding: 0.3rem 0.7rem; font-size: 0.9rem; }
+.antet .buton-secundar { color: #fff; border-color: #fff; }
+.antet .buton-secundar:hover { background: rgba(255, 255, 255, 0.12); }
+
+.card {
+  background: var(--suprafata);
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  padding: 1.25rem;
+}
+
+.mesaj { padding: 0.75rem 1rem; border-radius: var(--raza); margin-bottom: 1rem; }
+.mesaj-eroare { background: #fbe9e7; color: var(--eroare); }
+.mesaj-succes { background: #e6f4ea; color: var(--succes); }
+.secundar { color: var(--text-secundar); }
+
+/* ---------- Formulare ---------- */
+.formular { max-width: 400px; margin: 2rem auto; }
+.camp { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1rem; }
+input, select {
+  font: inherit;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  background: #fff;
+}
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* ---------- Catalog ---------- */
+.filtre { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.filtre input { flex: 1; min-width: 200px; }
+.grila {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1.25rem;
+}
+.carte-card {
+  background: var(--suprafata);
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.carte-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
+.coperta { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; background: #e9e5da; }
+.carte-card .info { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+.carte-card .titlu { font-weight: 600; }
+.carte-card .autor { color: var(--text-secundar); font-size: 0.9rem; }
+
+.eticheta {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+.eticheta-Disponibil, .eticheta-Activ { background: #e6f4ea; color: var(--succes); }
+.eticheta-Prelungit { background: #e8eef9; color: #2952a3; }
+.eticheta-Indisponibil, .eticheta-Intarziat { background: #fbe9e7; color: var(--eroare); }
+.eticheta-Returnat { background: #eeeeee; color: #555; }
+
+.paginare { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+
+/* ---------- Detalii carte ---------- */
+.detalii { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; align-items: start; }
+.detalii .coperta { border-radius: var(--raza); }
+.date-carte { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 1rem 0; }
+.date-carte dt { color: var(--text-secundar); }
+.date-carte dd { margin: 0; }
+.recenzie { border-top: 1px solid var(--margine); padding: 0.75rem 0; }
+.stele { color: var(--accent); letter-spacing: 1px; }
+
+/* ---------- Imprumuturi ---------- */
+.lista-imprumuturi { display: flex; flex-direction: column; gap: 0.75rem; }
+.imprumut {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+.imprumut .coperta { border-radius: 6px; }
+.imprumut .actiuni { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+.taxa { color: var(--eroare); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .detalii { grid-template-columns: 1fr; }
+  .detalii .coperta { max-width: 220px; }
+  .imprumut { grid-template-columns: 50px 1fr; }
+  .imprumut .actiuni { grid-column: 1 / -1; justify-content: flex-start; }
+}
