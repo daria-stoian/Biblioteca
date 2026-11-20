@@ -1,33 +1,21 @@
-/* Stiluri globale BiblioWeb v2.0 */
 :root {
-  --culoare-principala: #2f5d50;
-  --culoare-principala-inchis: #234639;
-  --accent: #c8963e;
-  --fundal: #f6f4ef;
-  --suprafata: #ffffff;
-  --text: #1f2421;
-  --text-secundar: #5f6661;
-  --margine: #dedad0;
-  --succes: #2e7d4f;
-  --avertizare: #b26a00;
-  --eroare: #b3261e;
-  --raza: 10px;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  color: var(--text);
-  background: var(--fundal);
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  color: #2c3e50;
+  background: #f4ecf9;
   line-height: 1.5;
 }
 
 * { box-sizing: border-box; }
 body { margin: 0; }
 h1, h2, h3 { line-height: 1.2; margin: 0 0 0.5em; }
-a { color: var(--culoare-principala); }
+a { color: #6a0dad; }
 img { max-width: 100%; display: block; }
 
-/* ---------- Structura paginii ---------- */
+/* Structura paginii */
 .antet {
-  background: var(--culoare-principala);
+  background: linear-gradient(135deg, #6a0dad, #9b30d9);
   color: #fff;
+  box-shadow: 0 2px 10px rgba(106, 13, 173, 0.15);
 }
 .antet-continut {
   max-width: 1100px;
@@ -40,58 +28,59 @@ img { max-width: 100%; display: block; }
 }
 .logo { color: #fff; font-weight: 700; font-size: 1.25rem; text-decoration: none; }
 .meniu { display: flex; gap: 1rem; flex: 1; }
-.meniu a { color: #e6efe9; text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid transparent; }
-.meniu a.active { color: #fff; border-bottom-color: var(--accent); }
+.meniu a { color: rgba(255, 255, 255, 0.85); text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid transparent; }
+.meniu a.active { color: #fff; border-bottom-color: #f2b632; }
 .utilizator { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; }
 .utilizator a { color: #fff; }
 
 .continut { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 
-/* ---------- Elemente comune ---------- */
+/* Elemente comune */
 .buton {
   display: inline-block;
-  border: 1px solid var(--culoare-principala);
-  background: var(--culoare-principala);
+  border: 1px solid #6a0dad;
+  background: #6a0dad;
   color: #fff;
   padding: 0.5rem 1rem;
-  border-radius: var(--raza);
+  border-radius: 10px;
   font: inherit;
   cursor: pointer;
   text-decoration: none;
 }
-.buton:hover:not(:disabled) { background: var(--culoare-principala-inchis); }
+.buton:hover:not(:disabled) { background: #5a0b99; }
 .buton:disabled { opacity: 0.5; cursor: not-allowed; }
-.buton-secundar { background: transparent; color: var(--culoare-principala); }
-.buton-secundar:hover:not(:disabled) { background: #e7efe9; }
+.buton-secundar { background: transparent; color: #6a0dad; border-color: #6a0dad; }
+.buton-secundar:hover:not(:disabled) { background: rgba(106, 13, 173, 0.08); }
 .buton-mic { padding: 0.3rem 0.7rem; font-size: 0.9rem; }
 .antet .buton-secundar { color: #fff; border-color: #fff; }
 .antet .buton-secundar:hover { background: rgba(255, 255, 255, 0.12); }
 
 .card {
-  background: var(--suprafata);
-  border: 1px solid var(--margine);
-  border-radius: var(--raza);
+  background: #ffffff;
+  border: 1px solid #e0d0f0;
+  border-radius: 10px;
   padding: 1.25rem;
 }
 
-.mesaj { padding: 0.75rem 1rem; border-radius: var(--raza); margin-bottom: 1rem; }
-.mesaj-eroare { background: #fbe9e7; color: var(--eroare); }
-.mesaj-succes { background: #e6f4ea; color: var(--succes); }
-.secundar { color: var(--text-secundar); }
+.mesaj { padding: 0.75rem 1rem; border-radius: 10px; margin-bottom: 1rem; }
+.mesaj-eroare { background: #fdecea; color: #c0392b; }
+.mesaj-succes { background: #e3f5e9; color: #1e7e45; }
+.secundar { color: #6f6a7d; }
 
-/* ---------- Formulare ---------- */
+/* Formulare */
 .formular { max-width: 400px; margin: 2rem auto; }
 .camp { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1rem; }
 input, select {
   font: inherit;
   padding: 0.5rem 0.7rem;
-  border: 1px solid var(--margine);
-  border-radius: var(--raza);
-  background: #fff;
+  border: 1px solid #e0d0f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #2c3e50;
 }
-input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+input:focus, select:focus { outline: 2px solid #f2b632; outline-offset: 1px; }
 
-/* ---------- Catalog ---------- */
+/* Catalog */
 .filtre { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 .filtre input { flex: 1; min-width: 200px; }
 .grila {
@@ -99,10 +88,10 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 1.25rem;
 }
-.carte-card {
-  background: var(--suprafata);
-  border: 1px solid var(--margine);
-  border-radius: var(--raza);
+.carte-coperta {
+  background: #ffffff;
+  border: 1px solid #e0d0f0;
+  border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -110,11 +99,11 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
   flex-direction: column;
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.carte-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
-.coperta { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; background: #e9e5da; }
-.carte-card .info { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
-.carte-card .titlu { font-weight: 600; }
-.carte-card .autor { color: var(--text-secundar); font-size: 0.9rem; }
+.carte-coperta:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(106, 13, 173, 0.15); }
+.coperta { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; background: #e8e0f0; }
+.carte-coperta .info { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+.carte-coperta .titlu { font-weight: 600; }
+.carte-coperta .autor { color: #6f6a7d; font-size: 0.9rem; }
 
 .eticheta {
   display: inline-block;
@@ -124,23 +113,23 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
   border-radius: 999px;
   width: fit-content;
 }
-.eticheta-Disponibil, .eticheta-Activ { background: #e6f4ea; color: var(--succes); }
-.eticheta-Prelungit { background: #e8eef9; color: #2952a3; }
-.eticheta-Indisponibil, .eticheta-Intarziat { background: #fbe9e7; color: var(--eroare); }
-.eticheta-Returnat { background: #eeeeee; color: #555; }
+.eticheta-Disponibil, .eticheta-Activ { background: #e3f5e9; color: #1e7e45; }
+.eticheta-Prelungit { background: #e8eefb; color: #2952a3; }
+.eticheta-Indisponibil, .eticheta-Intarziat { background: #fdecea; color: #c0392b; }
+.eticheta-Returnat { background: #efedf2; color: #5c5c66; }
 
 .paginare { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
 
-/* ---------- Detalii carte ---------- */
+/* Detalii carte */
 .detalii { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; align-items: start; }
-.detalii .coperta { border-radius: var(--raza); }
+.detalii .coperta { border-radius: 10px; }
 .date-carte { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 1rem 0; }
-.date-carte dt { color: var(--text-secundar); }
+.date-carte dt { color: #6f6a7d; }
 .date-carte dd { margin: 0; }
-.recenzie { border-top: 1px solid var(--margine); padding: 0.75rem 0; }
-.stele { color: var(--accent); letter-spacing: 1px; }
+.recenzie { border-top: 1px solid #e0d0f0; padding: 0.75rem 0; }
+.stele { color: #f2b632; letter-spacing: 1px; }
 
-/* ---------- Imprumuturi ---------- */
+/* Imprumuturi */
 .lista-imprumuturi { display: flex; flex-direction: column; gap: 0.75rem; }
 .imprumut {
   display: grid;
@@ -150,7 +139,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
 }
 .imprumut .coperta { border-radius: 6px; }
 .imprumut .actiuni { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
-.taxa { color: var(--eroare); font-weight: 600; }
+.taxa { color: #c0392b; font-weight: 600; }
 
 @media (max-width: 640px) {
   .detalii { grid-template-columns: 1fr; }
@@ -159,26 +148,26 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
   .imprumut .actiuni { grid-column: 1 / -1; justify-content: flex-start; }
 }
 
-/* ---------- Administrare ---------- */
-.eticheta-admin { background: var(--accent); color: #fff; margin-left: 0.4rem; }
-.file { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--margine); margin-bottom: 1.25rem; flex-wrap: wrap; }
+/* Administrare */
+.eticheta-admin { background: #f2b632; color: #3a2400; margin-left: 0.4rem; font-weight: 600; }
+.file { display: flex; gap: 0.25rem; border-bottom: 1px solid #e0d0f0; margin-bottom: 1.25rem; flex-wrap: wrap; }
 .file a {
   padding: 0.5rem 1rem;
   text-decoration: none;
-  color: var(--text-secundar);
+  color: #6f6a7d;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
 }
-.file a.active { color: var(--culoare-principala); border-bottom-color: var(--culoare-principala); font-weight: 600; }
+.file a.active { color: #6a0dad; border-bottom-color: #6a0dad; font-weight: 600; }
 
 .bara-actiuni { display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
 .bara-actiuni .filtre { flex: 1; }
 
-.tabel { width: 100%; border-collapse: collapse; background: var(--suprafata); border: 1px solid var(--margine); border-radius: var(--raza); overflow: hidden; }
+.tabel { width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #e0d0f0; border-radius: 10px; overflow: hidden; }
 .tabel td:last-child:not([colspan]) { width: 1%; white-space: nowrap; }
 .tabel .actiuni-rand { flex-wrap: nowrap; }
-.tabel th, .tabel td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--margine); vertical-align: middle; }
-.tabel th { background: #efece4; font-weight: 600; font-size: 0.9rem; }
+.tabel th, .tabel td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid #e0d0f0; vertical-align: middle; }
+.tabel th { background: #faf5ff; font-weight: 600; font-size: 0.9rem; }
 .tabel tr:last-child td { border-bottom: none; }
 .actiuni-rand { display: flex; gap: 0.5rem; justify-content: flex-end; align-items: center; flex-wrap: wrap; }
 .mic { font-size: 0.85rem; }
@@ -186,17 +175,36 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
 .eticheta-buton { border: none; cursor: pointer; font: inherit; font-size: 0.8rem; }
 .eticheta-buton:hover { filter: brightness(0.95); }
 
-.buton-pericol { background: transparent; color: var(--eroare); border-color: var(--eroare); }
-.buton-pericol:hover:not(:disabled) { background: #fbe9e7; }
+.buton-pericol { background: transparent; color: #c0392b; border-color: #c0392b; }
+.buton-pericol:hover:not(:disabled) { background: #fdecea; }
 
 .formular-lat { max-width: 900px; }
 .formular-coloane { display: grid; grid-template-columns: 1fr 180px; gap: 1.5rem; }
 .rand-campuri { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0 1rem; }
-.previzualizare .coperta { border-radius: var(--raza); }
-textarea { font: inherit; padding: 0.5rem 0.7rem; border: 1px solid var(--margine); border-radius: var(--raza); resize: vertical; }
+.previzualizare .coperta { border-radius: 10px; }
+textarea { font: inherit; padding: 0.5rem 0.7rem; border: 1px solid #e0d0f0; border-radius: 10px; resize: vertical; background: #ffffff; color: #2c3e50; }
 
 @media (max-width: 760px) {
   .formular-coloane { grid-template-columns: 1fr; }
   .previzualizare { max-width: 160px; }
   .tabel { display: block; overflow-x: auto; }
 }
+
+/* Imprumuturile mele: rezumat si termen */
+.rezumat { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.rezumat-element { display: flex; flex-direction: column; gap: 0.35rem; }
+.rezumat-valoare { font-size: 1.6rem; font-weight: 700; }
+.rezumat-valoare .secundar { font-size: 1rem; font-weight: 400; }
+.rezumat-alerta { border-color: #c0392b; }
+.rezumat-alerta .rezumat-valoare { color: #c0392b; }
+
+.bara-progres { height: 8px; background: #efedf2; border-radius: 999px; overflow: hidden; }
+.bara-progres > div { height: 100%; background: linear-gradient(90deg, #6a0dad, #9b30d9); transition: width 0.3s; }
+.bara-progres > div.plina { background: #c0392b; }
+
+.timp { font-size: 0.9rem; font-weight: 600; color: #1e7e45; margin-top: 0.15rem; }
+.timp-urgent { color: #9a6200; }
+.timp-depasit { color: #c0392b; }
+.imprumut-intarziat { border-left: 4px solid #c0392b; }
+.titlu-sectiune { margin-top: 2rem; }
+.istoric .imprumut { opacity: 0.8; }
