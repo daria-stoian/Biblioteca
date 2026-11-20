@@ -70,10 +70,30 @@ export const api = {
   carti: (filtre) => cerere(`/carti${interogare(filtre)}`),
   carte: (id) => cerere(`/carti/${id}`),
   categorii: () => cerere('/categorii'),
+  autori: (cautare) => cerere(`/autori${interogare({ cautare })}`),
 
   // Imprumuturi
   imprumuta: (carteId) => cerere('/imprumuturi', { metoda: 'POST', corp: { carteId } }),
   imprumuturileMele: () => cerere('/imprumuturi/ale-mele'),
   returneaza: (id) => cerere(`/imprumuturi/${id}/returnare`, { metoda: 'POST' }),
   prelungeste: (id) => cerere(`/imprumuturi/${id}/prelungire`, { metoda: 'POST' }),
+
+  // Administrare (doar cu token de administrator; serverul verifica rolul la fiecare cerere)
+  admin: {
+    coperti: () => cerere('/carti/coperti'),
+    adaugaCarte: (date) => cerere('/carti', { metoda: 'POST', corp: date }),
+    modificaCarte: (id, date) => cerere(`/carti/${id}`, { metoda: 'PUT', corp: date }),
+    schimbaStatus: (id, status) => cerere(`/carti/${id}/status`, { metoda: 'PATCH', corp: { status } }),
+    stergeCarte: (id) => cerere(`/carti/${id}`, { metoda: 'DELETE' }),
+
+    adaugaAutor: (date) => cerere('/autori', { metoda: 'POST', corp: date }),
+    modificaAutor: (id, date) => cerere(`/autori/${id}`, { metoda: 'PUT', corp: date }),
+    stergeAutor: (id) => cerere(`/autori/${id}`, { metoda: 'DELETE' }),
+
+    adaugaCategorie: (date) => cerere('/categorii', { metoda: 'POST', corp: date }),
+    modificaCategorie: (id, date) => cerere(`/categorii/${id}`, { metoda: 'PUT', corp: date }),
+    stergeCategorie: (id) => cerere(`/categorii/${id}`, { metoda: 'DELETE' }),
+
+    imprumuturiDeschise: () => cerere('/imprumuturi'),
+  },
 };

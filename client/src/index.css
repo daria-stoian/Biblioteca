@@ -118,6 +118,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
 
 .eticheta {
   display: inline-block;
+  white-space: nowrap;
   font-size: 0.8rem;
   padding: 0.1rem 0.55rem;
   border-radius: 999px;
@@ -156,4 +157,46 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1p
   .detalii .coperta { max-width: 220px; }
   .imprumut { grid-template-columns: 50px 1fr; }
   .imprumut .actiuni { grid-column: 1 / -1; justify-content: flex-start; }
+}
+
+/* ---------- Administrare ---------- */
+.eticheta-admin { background: var(--accent); color: #fff; margin-left: 0.4rem; }
+.file { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--margine); margin-bottom: 1.25rem; flex-wrap: wrap; }
+.file a {
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: var(--text-secundar);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.file a.active { color: var(--culoare-principala); border-bottom-color: var(--culoare-principala); font-weight: 600; }
+
+.bara-actiuni { display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.bara-actiuni .filtre { flex: 1; }
+
+.tabel { width: 100%; border-collapse: collapse; background: var(--suprafata); border: 1px solid var(--margine); border-radius: var(--raza); overflow: hidden; }
+.tabel td:last-child:not([colspan]) { width: 1%; white-space: nowrap; }
+.tabel .actiuni-rand { flex-wrap: nowrap; }
+.tabel th, .tabel td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--margine); vertical-align: middle; }
+.tabel th { background: #efece4; font-weight: 600; font-size: 0.9rem; }
+.tabel tr:last-child td { border-bottom: none; }
+.actiuni-rand { display: flex; gap: 0.5rem; justify-content: flex-end; align-items: center; flex-wrap: wrap; }
+.mic { font-size: 0.85rem; }
+
+.eticheta-buton { border: none; cursor: pointer; font: inherit; font-size: 0.8rem; }
+.eticheta-buton:hover { filter: brightness(0.95); }
+
+.buton-pericol { background: transparent; color: var(--eroare); border-color: var(--eroare); }
+.buton-pericol:hover:not(:disabled) { background: #fbe9e7; }
+
+.formular-lat { max-width: 900px; }
+.formular-coloane { display: grid; grid-template-columns: 1fr 180px; gap: 1.5rem; }
+.rand-campuri { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0 1rem; }
+.previzualizare .coperta { border-radius: var(--raza); }
+textarea { font: inherit; padding: 0.5rem 0.7rem; border: 1px solid var(--margine); border-radius: var(--raza); resize: vertical; }
+
+@media (max-width: 760px) {
+  .formular-coloane { grid-template-columns: 1fr; }
+  .previzualizare { max-width: 160px; }
+  .tabel { display: block; overflow-x: auto; }
 }

@@ -16,6 +16,17 @@ export function errorHandler(err, req, res, next) {
     return res.status(400).json({ eroare: 'Corpul cererii nu este un JSON valid.' });
   }
 
+  // Constrangerile bazei de date (RN-02), ca a doua linie de aparare dupa verificarile din servicii
+  if (err.code === 'P2002') {
+    return res.status(409).json({ eroare: 'Există deja o înregistrare cu această valoare.' });
+  }
+  if (err.code === 'P2003') {
+    return res.status(409).json({ eroare: 'Înregistrarea este folosită în altă parte și nu poate fi modificată sau ștearsă.' });
+  }
+  if (err.code === 'P2025') {
+    return res.status(404).json({ eroare: 'Înregistrarea nu a fost găsită.' });
+  }
+
   // Erori neasteptate: se scriu in consola, utilizatorul primeste un mesaj generic
   console.error(err);
   res.status(500).json({

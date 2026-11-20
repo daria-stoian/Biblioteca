@@ -14,3 +14,10 @@ export const textStatus = {
   Intarziat: 'Întârziat',
   Returnat: 'Returnat',
 };
+
+// Acordul numeralului: numar(1, 'împrumut', 'împrumuturi') -> "1 împrumut", 20 -> "20 de împrumuturi"
+export function numar(n, singular, plural) {
+  if (n === 1) return `1 ${singular}`;
+  const sutime = n % 100;
+  return n === 0 || (sutime >= 1 && sutime <= 19) ? `${n} ${plural}` : `${n} de ${plural}`;
+}

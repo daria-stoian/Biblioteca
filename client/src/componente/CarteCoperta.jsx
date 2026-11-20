@@ -5,7 +5,7 @@ import { textStatus } from '../format.js';
 
 export default function CarteCard({ carte }) {
   return (
-    <Link to={`/carti/${carte.id}`} className="carte-card">
+    <Link to={`/carti/${carte.id}`} className="carte-coperta">
       <Coperta src={carte.imagineCoperta} titlu={carte.titlu} />
       <div className="info">
         <span className="titlu">{carte.titlu}</span>

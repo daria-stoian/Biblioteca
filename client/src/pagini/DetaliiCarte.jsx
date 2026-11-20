@@ -57,6 +57,11 @@ export default function DetaliiCarte() {
           <h1>{carte.titlu}</h1>
           <p className="secundar">{carte.autor.numeAutor}</p>
           <span className={`eticheta eticheta-${carte.status}`}>{textStatus[carte.status]}</span>
+          {utilizator?.rol === 'Administrator' && (
+            <Link to={`/admin/carti/${carte.id}`} className="buton buton-secundar buton-mic" style={{ marginLeft: '0.75rem' }}>
+              Editează
+            </Link>
+          )}
 
           <dl className="date-carte">
             <dt>Categorie</dt><dd>{carte.categorie.numeCategorie}</dd>

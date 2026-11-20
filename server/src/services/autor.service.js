@@ -1,6 +1,7 @@
 // Autorii (RF-03). Echivalent v1.0: AutorService.cs + AutorRepository.cs
 import { prisma } from '../lib/prisma.js';
 import { AppError } from '../utils/AppError.js';
+import { text } from '../utils/validare.js';
 
 export async function listaAutori({ cautare } = {}) {
   const where = cautare?.trim()
@@ -30,4 +31,33 @@ export async function detaliiAutor(id) {
   });
   if (!autor) throw new AppError(404, 'Autorul nu a fost găsit.');
   return autor;
+}
+
+// ---------------------------------------------------------------- ADMINISTRARE (RF-19)
+// Echivalent v1.0: actiunile Adauga / Editeaza / Sterge din AutorController.cs
+
+function dateAutor(corp) {
+  return {
+    numeAutor: text(corp.numeAutor, 'Numele autorului', { obligatoriu: true, max: 150 }),
+    biografie: text(corp.biografie, 'Biografia', { max: 2000 }),
+  };
+}
+
+export async function adaugaAutor(corp) {
+  return prisma.autor.create({ data: dateAutor(corp) });
+}
+
+export async function modificaAutor(id, corp) {
+  if (!(await prisma.autor.findUnique({ where: { id } }))) throw new AppError(404, 'Autorul nu a fost găsit.');
+  return prisma.autor.update({ where: { id }, data: dateAutor(corp) });
+}
+
+// Relatia Carte -> Autor este Restrict: un autor cu carti nu poate fi sters
+export async function stergeAutor(id) {
+  const autor = await prisma.autor.findUnique({ where: { id }, include: { _count: { select: { carti: true } } } });
+  if (!autor) throw new AppError(404, 'Autorul nu a fost găsit.');
+  if (autor._count.carti > 0) {
+    throw new AppError(409, `${autor.numeAutor} are ${numarCarti(autor._count.carti)} în catalog. Șterge sau mută întâi cărțile.`);
+  }
+  await prisma.autor.delete({ where: { id } });
 }

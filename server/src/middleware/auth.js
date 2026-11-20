@@ -34,3 +34,6 @@ export function autorizare(...roluriPermise) {
     next();
   };
 }
+
+// Scurtatura pentru rutele de administrare: autentificat SI administrator
+export const doarAdministrator = [autentificare, autorizare('Administrator')];
