@@ -1,11 +1,10 @@
-// Toate rutele de imprumut cer autentificare; lista completa este doar pentru administrator.
 import { Router } from 'express';
 import { autentificare, autorizare } from '../middleware/auth.js';
 import { imprumuta, aleMele, toate, returneaza, prelungeste } from '../controllers/imprumut.controller.js';
 
 const router = Router();
 
-router.use(autentificare); // se aplica tuturor rutelor de mai jos
+router.use(autentificare);
 
 /**
  * @openapi
@@ -21,6 +20,7 @@ router.use(autentificare); // se aplica tuturor rutelor de mai jos
  *         status: { type: string, enum: [Activ, Prelungit, Intarziat, Returnat] }
  *         taxaPenalizare: { type: number, description: Taxa plătită la returnare (RON) }
  *         zileIntarziere: { type: integer }
+ *         zileRamase: { type: integer, description: Zile până la termen (0 dacă a trecut) }
  *         taxaEstimata: { type: number, description: Taxa dacă s-ar returna acum (RON) }
  *         poatePrelungi: { type: boolean }
  *         carte:

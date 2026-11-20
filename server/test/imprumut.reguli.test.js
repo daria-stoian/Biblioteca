@@ -7,6 +7,7 @@ import {
   calculeazaPenalizare,
   statusEfectiv,
   descrieImprumut,
+  zileRamase,
 } from '../src/services/imprumut.reguli.js';
 
 const scadenta = new Date('2026-11-01T12:00:00Z');
@@ -22,8 +23,8 @@ test('fara taxa daca returnarea e inainte sau exact la termen', () => {
 });
 
 test('orice zi inceputa de intarziere se plateste (diferenta fata de v1.0)', () => {
-  assert.equal(zileIntarziere(scadenta, ore(1)), 1); // in v1.0: 0 zile
-  assert.equal(zileIntarziere(scadenta, ore(23)), 1); // in v1.0: 0 zile
+  assert.equal(zileIntarziere(scadenta, ore(1)), 1);
+  assert.equal(zileIntarziere(scadenta, ore(23)), 1);
   assert.equal(zileIntarziere(scadenta, ore(24)), 1);
   assert.equal(zileIntarziere(scadenta, ore(25)), 2);
   assert.equal(calculeazaPenalizare(scadenta, ore(24 * 3)), 3);
@@ -48,4 +49,11 @@ test('taxa estimata pentru un imprumut intarziat nereturnat', () => {
   assert.equal(d.status, 'Intarziat');
   assert.equal(d.zileIntarziere, 3);
   assert.equal(d.taxaEstimata, 3);
+});
+
+test('zilele ramase pana la termen', () => {
+  assert.equal(zileRamase(scadenta, ore(-24 * 12)), 12);
+  assert.equal(zileRamase(scadenta, ore(-5)), 1);
+  assert.equal(zileRamase(scadenta, ore(2)), 0);
+  assert.equal(descrieImprumut({ status: 'Activ', taxaPenalizare: 0, dataScadenta: scadenta }, ore(-24 * 3)).zileRamase, 3);
 });

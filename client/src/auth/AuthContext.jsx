@@ -38,8 +38,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const valoare = useMemo(
-    () => ({ utilizator, seIncarca, autentificare, inregistrare, iesire }),
-    [utilizator, seIncarca, autentificare, inregistrare, iesire],
+    () => ({ utilizator, incarcare, autentificare, inregistrare, iesire }),
+    [utilizator, incarcare, autentificare, inregistrare, iesire],
   );
 
   return <AuthContext.Provider value={valoare}>{children}</AuthContext.Provider>;
