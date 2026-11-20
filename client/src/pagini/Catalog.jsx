@@ -1,9 +1,7 @@
-// Catalogul public: cautare, filtrare pe categorie, paginare (RF-01, RN-03)
-// Echivalent v1.0: Views/Carte/Index.cshtml
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { api } from '../api.js';
-import CarteCard from '../componente/CarteCard.jsx';
+import CarteCoperta from '../componente/CarteCoperta.jsx';
 import Paginare from '../componente/Paginare.jsx';
 
 export default function Catalog() {
@@ -17,15 +15,13 @@ export default function Catalog() {
   const [rezultat, setRezultat] = useState(null);
   const [eroare, setEroare] = useState('');
 
-  // Daca adresa se schimba din butonul "Inapoi" al browserului, actualizam si campul de cautare.
-  // (Tiparul recomandat de React: ajustarea starii in timpul randarii, nu intr-un useEffect.)
   const [cautareAnterioara, setCautareAnterioara] = useState(cautare);
   if (cautare !== cautareAnterioara) {
     setCautareAnterioara(cautare);
     setTextCautare(cautare);
   }
 
-  // Categoriile se incarca o singura data, pentru lista derulanta
+  // Categoriile se incarca o singura data
   useEffect(() => {
     api.categorii().then(setCategorii).catch(() => setCategorii([]));
   }, []);
@@ -46,17 +42,17 @@ export default function Catalog() {
     };
   }, [cautare, categorieId, pagina]);
 
-  // Actualizeaza adresa paginii; orice filtru nou te duce inapoi la pagina 1
+  // Actualizeaza adresa paginii
   function seteaza(modificari) {
     const noi = { cautare, categorieId, pagina: 1, ...modificari };
     const adresa = {};
     if (noi.cautare) adresa.cautare = noi.cautare;
     if (noi.categorieId) adresa.categorieId = noi.categorieId;
-    if (noi.pagina > 1) adresa.pagina = noi.pagina; // pagina 1 nu mai apare in adresa
+    if (noi.pagina > 1) adresa.pagina = noi.pagina;
     setParametri(adresa);
   }
 
-  function laCautare(e) {
+  function cauta(e) {
     e.preventDefault();
     seteaza({ cautare: textCautare.trim() });
   }
@@ -65,7 +61,7 @@ export default function Catalog() {
     <>
       <h1>Catalog</h1>
 
-      <form className="filtre" onSubmit={laCautare} role="search">
+      <form className="filtre" onSubmit={cauta} role="search">
         <input
           type="search"
           placeholder="Caută după titlu…"
@@ -93,13 +89,13 @@ export default function Catalog() {
           </p>
           <div className="grila">
             {rezultat.elemente.map((carte) => (
-              <CarteCard key={carte.id} carte={carte} />
+              <CarteCoperta key={carte.id} carte={carte} />
             ))}
           </div>
           <Paginare
             pagina={rezultat.pagina}
             totalPagini={rezultat.totalPagini}
-            laSchimbare={(p) => seteaza({ pagina: p })}
+            schimbaPagina={(p) => seteaza({ pagina: p })}
           />
         </>
       )}

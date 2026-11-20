@@ -1,4 +1,3 @@
-// Categoriile (RF-03, RF-20). Echivalent v1.0: CategorieService.cs
 import { prisma } from '../lib/prisma.js';
 import { AppError } from '../utils/AppError.js';
 import { text } from '../utils/validare.js';
@@ -14,8 +13,7 @@ export async function listaCategorii() {
   });
 }
 
-// ---------------------------------------------------------------- ADMINISTRARE (RF-20)
-
+// ADMINISTRARE
 async function numeUnic(corp, idExclus) {
   const numeCategorie = text(corp.numeCategorie, 'Numele categoriei', { obligatoriu: true, max: 100 });
   const existenta = await prisma.categorie.findUnique({ where: { numeCategorie } });
@@ -39,7 +37,7 @@ export async function stergeCategorie(id) {
   });
   if (!categorie) throw new AppError(404, 'Categoria nu a fost găsită.');
   if (categorie._count.carti > 0) {
-    throw new AppError(409, `Categoria „${categorie.numeCategorie}” conține ${numarCarti(categorie._count.carti)} și nu poate fi ștearsă.`);
+        throw new AppError(409, `Categoria „${categorie.numeCategorie}” conține cărți (${categorie._count.carti}) și nu poate fi ștearsă.`);
   }
   await prisma.categorie.delete({ where: { id } });
 }

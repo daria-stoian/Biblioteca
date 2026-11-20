@@ -1,6 +1,4 @@
-// Un singur loc prin care React vorbeste cu API-ul Express.
-// - adauga automat token-ul JWT in antetul Authorization
-// - transforma raspunsurile de eroare ({ eroare: "..." }) in exceptii cu mesajul serverului
+// adauga automat token-ul JWT in antetul Authorization
 
 const CHEIE_TOKEN = 'biblioweb_token';
 
@@ -10,10 +8,10 @@ export const tokenStocat = {
   sterge: () => localStorage.removeItem(CHEIE_TOKEN),
 };
 
-// Functie apelata cand serverul raspunde 401 (token expirat); o seteaza AuthContext.
-let laSesiuneExpirata = () => {};
-export function setLaSesiuneExpirata(functie) {
-  laSesiuneExpirata = functie;
+// Functie apelata cand serverul raspunde 401 (token expirat), setata de AuthContext
+let laExpirareaSesiunii = () => {};
+export function setLaExpirareaSesiunii(functie) {
+  laExpirareaSesiunii = functie;
 }
 
 export class EroareApi extends Error {
@@ -43,13 +41,12 @@ async function cerere(cale, { metoda = 'GET', corp } = {}) {
   const date = await raspuns.json().catch(() => null);
 
   if (!raspuns.ok) {
-    if (raspuns.status === 401 && token) laSesiuneExpirata();
+    if (raspuns.status === 401 && token) laExpirareaSesiunii();
     throw new EroareApi(raspuns.status, date?.eroare || `Eroare ${raspuns.status}`);
   }
   return date;
 }
 
-// Construieste "?cautare=x&pagina=2", ignorand valorile goale
 function interogare(parametri) {
   const p = new URLSearchParams();
   for (const [cheie, valoare] of Object.entries(parametri)) {
@@ -78,7 +75,7 @@ export const api = {
   returneaza: (id) => cerere(`/imprumuturi/${id}/returnare`, { metoda: 'POST' }),
   prelungeste: (id) => cerere(`/imprumuturi/${id}/prelungire`, { metoda: 'POST' }),
 
-  // Administrare (doar cu token de administrator; serverul verifica rolul la fiecare cerere)
+  // Administrare (doar cu token de administrator, serverul verifica rolul la fiecare cerere)
   admin: {
     coperti: () => cerere('/carti/coperti'),
     adaugaCarte: (date) => cerere('/carti', { metoda: 'POST', corp: date }),

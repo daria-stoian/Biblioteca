@@ -1,4 +1,3 @@
-// Harta paginilor aplicatiei: ce componenta se afiseaza la fiecare adresa
 import { Route, Routes } from 'react-router';
 import Antet from './componente/Antet.jsx';
 import RutaProtejata from './auth/RutaProtejata.jsx';
@@ -33,8 +32,6 @@ export default function App() {
               </RutaProtejata>
             }
           />
-
-          {/* Administrare: rute "imbricate" care au in comun AdminLayout (titlul si filele) */}
           <Route
             path="/admin"
             element={

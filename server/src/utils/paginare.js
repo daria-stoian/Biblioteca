@@ -1,6 +1,3 @@
-// Paginarea listelor (RN-03): ?pagina=2&limita=12
-// Valorile lipsa sau invalide primesc valori implicite; limita are un plafon,
-// ca un client sa nu poata cere toate inregistrarile deodata.
 const LIMITA_IMPLICITA = 12;
 const LIMITA_MAXIMA = 50;
 

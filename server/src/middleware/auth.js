@@ -1,10 +1,4 @@
-// Protejarea rutelor cu JWT (RF-07, RN-01).
-//
-// autentificare  -> cere un token valid in antetul "Authorization: Bearer <token>"
-//                   si pune pe req.utilizator datele din token: { id, rol }
-// autorizare(...) -> se pune DUPA autentificare si lasa sa treaca doar rolurile date
-//
-// Exemplu (Pasul 7): router.post('/', autentificare, autorizare('Administrator'), adaugaCarte)
+// Protejarea rutelor cu JWT
 import jwt from 'jsonwebtoken';
 import { config } from '../config/env.js';
 import { AppError } from '../utils/AppError.js';
@@ -35,5 +29,5 @@ export function autorizare(...roluriPermise) {
   };
 }
 
-// Scurtatura pentru rutele de administrare: autentificat SI administrator
+// Scurtatura pentru rutele de administrare
 export const doarAdministrator = [autentificare, autorizare('Administrator')];

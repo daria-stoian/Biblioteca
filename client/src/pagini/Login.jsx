@@ -1,4 +1,3 @@
-// Autentificare (RF-07)
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../auth/useAuth.js';
@@ -12,13 +11,12 @@ export default function Login() {
   const [eroare, setEroare] = useState('');
   const [seTrimite, setSeTrimite] = useState(false);
 
-  async function laTrimitere(e) {
+  async function autentifica(e) {
     e.preventDefault();
     setEroare('');
     setSeTrimite(true);
     try {
       await autentificare(email, parola);
-      // Daca a fost trimis aici de pe o pagina protejata, il intoarcem acolo
       navigheaza(locatie.state?.dinPagina || '/', { replace: true });
     } catch (err) {
       setEroare(err.message);
@@ -28,7 +26,7 @@ export default function Login() {
   }
 
   return (
-    <form className="card formular" onSubmit={laTrimitere}>
+    <form className="card formular" onSubmit={autentifica}>
       <h1>Autentificare</h1>
       {eroare && <div className="mesaj mesaj-eroare">{eroare}</div>}
 

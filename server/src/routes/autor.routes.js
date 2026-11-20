@@ -1,4 +1,3 @@
-// Citirea este publica (Vizitator, RF-03); modificarile sunt doar pentru administrator (RF-19).
 import { Router } from 'express';
 import { lista, detalii, adauga, modifica, sterge } from '../controllers/autor.controller.js';
 import { doarAdministrator } from '../middleware/auth.js';

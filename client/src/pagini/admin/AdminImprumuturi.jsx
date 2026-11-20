@@ -1,9 +1,6 @@
-// Toate imprumuturile nereturnate, cu cititorul; administratorul poate inregistra returnarea.
-// Folosește GET /api/imprumuturi (doar administrator) si aceeasi ruta de returnare ca cititorul;
-// serverul permite returnarea imprumutului altcuiva doar pentru rolul Administrator.
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../../api.js';
-import { formatData, formatLei, numar, textStatus } from '../../format.js';
+import { formatData, formatLei, textStatus } from '../../format.js';
 
 export default function AdminImprumuturi() {
   const [imprumuturi, setImprumuturi] = useState(null);
@@ -39,8 +36,7 @@ export default function AdminImprumuturi() {
   return (
     <>
       <p className="secundar">
-        {numar(imprumuturi.length, 'împrumut nereturnat', 'împrumuturi nereturnate')}
-        {intarziate > 0 && `, dintre care ${intarziate} cu termenul depășit`}.
+        Împrumuturi nereturnate: {imprumuturi.length} · cu termenul depășit: {intarziate}
       </p>
       {mesaj && <div className={`mesaj mesaj-${mesaj.tip}`}>{mesaj.text}</div>}
 

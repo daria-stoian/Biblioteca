@@ -1,6 +1,3 @@
-// Citeste configurarea din variabilele de mediu (fisierul .env, RN-01).
-// Daca lipseste o valoare obligatorie, serverul se opreste imediat cu un mesaj clar.
-
 const obligatorii = ['DATABASE_URL', 'JWT_SECRET'];
 
 for (const nume of obligatorii) {

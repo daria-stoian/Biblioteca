@@ -1,5 +1,3 @@
-// Detaliile unei carti si butonul "Împrumută" (RF-02, RF-09)
-// Echivalent v1.0: Views/Carte/Detalii.cshtml + Views/Imprumut/Imprumuta.cshtml
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { api } from '../api.js';
@@ -12,10 +10,8 @@ const stele = (nota) => '★'.repeat(nota) + '☆'.repeat(5 - nota);
 export default function DetaliiCarte() {
   const { id } = useParams();
   const { utilizator } = useAuth();
-  // Raspunsul tine minte pentru ce id a venit: daca id-ul din adresa s-a schimbat,
-  // raspunsul vechi este ignorat si pagina arata "Se încarcă…"
   const [incarcat, setIncarcat] = useState({ id: null, carte: null, eroare: '' });
-  const [mesaj, setMesaj] = useState(null); // rezultatul ultimului imprumut: { tip, text }
+  const [mesaj, setMesaj] = useState(null);
   const [seTrimite, setSeTrimite] = useState(false);
 
   useEffect(() => {
@@ -29,14 +25,14 @@ export default function DetaliiCarte() {
   const carte = esteCurent ? incarcat.carte : null;
   const eroare = esteCurent ? incarcat.eroare : '';
 
-  async function laImprumut() {
+  async function imprumutaCartea() {
     setSeTrimite(true);
     setMesaj(null);
     try {
       const imprumut = await api.imprumuta(carte.id);
       setMesaj({ tip: 'succes', text: `Carte împrumutată! Termen de returnare: ${formatData(imprumut.dataScadenta)}.` });
     } catch (err) {
-      // Regulile sunt verificate pe server; aici doar afisam mesajul primit
+      // Regulile sunt verificate pe server
       setMesaj({ tip: 'eroare', text: err.message });
     } finally {
       setSeTrimite(false);
@@ -86,7 +82,7 @@ export default function DetaliiCarte() {
           )}
 
           {utilizator ? (
-            <button className="buton" onClick={laImprumut} disabled={!carte.disponibila || seTrimite}>
+            <button className="buton" onClick={imprumutaCartea} disabled={!carte.disponibila || seTrimite}>
               {seTrimite ? 'Se împrumută…' : 'Împrumută pentru 14 zile'}
             </button>
           ) : (

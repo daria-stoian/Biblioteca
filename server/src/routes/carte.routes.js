@@ -1,5 +1,3 @@
-// Citirea catalogului este publica (Vizitator, RF-01, RF-02);
-// adaugarea, modificarea si stergerea sunt doar pentru administrator (RF-18, RF-23).
 import { Router } from 'express';
 import { lista, detalii, coperti, adauga, modifica, schimbaStatus, sterge } from '../controllers/carte.controller.js';
 import { doarAdministrator } from '../middleware/auth.js';

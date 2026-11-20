@@ -1,4 +1,3 @@
-// Stratul de servicii: logica, fara nimic legat de HTTP (req/res).
 import { prisma } from '../lib/prisma.js';
 
 export async function verificaStare() {

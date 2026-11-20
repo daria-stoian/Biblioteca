@@ -1,6 +1,3 @@
-// Adaugarea si editarea unei carti (RF-18). Aceeasi pagina pentru ambele:
-// /admin/carti/noua -> carte noua, /admin/carti/5 -> editarea cartii 5
-// Echivalent v1.0: Views/Carte/Adauga.cshtml + Editeaza.cshtml
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { api } from '../../api.js';
@@ -51,12 +48,12 @@ export default function FormularCarte() {
 
   const schimba = (camp) => (e) => setDate({ ...date, [camp]: e.target.value });
 
-  async function laSalvare(e) {
+  async function salveaza(e) {
     e.preventDefault();
     setEroare('');
     setSeSalveaza(true);
     try {
-      // Validarea completa se face pe server; mesajele lui apar mai sus in formular
+      // Validarea completa se face pe server
       const salvata = esteEditare ? await api.admin.modificaCarte(id, date) : await api.admin.adaugaCarte(date);
       navigheaza('/admin', {
         state: { mesaj: { tip: 'succes', text: `„${salvata.titlu}” a fost ${esteEditare ? 'modificată' : 'adăugată'}.` } },
@@ -72,7 +69,7 @@ export default function FormularCarte() {
   if (!optiuni) return eroare ? <div className="mesaj mesaj-eroare">{eroare}</div> : <p className="secundar">Se încarcă…</p>;
 
   return (
-    <form className="card formular-lat" onSubmit={laSalvare}>
+    <form className="card formular-lat" onSubmit={salveaza}>
       <h2>{esteEditare ? 'Editează cartea' : 'Carte nouă'}</h2>
       {eroare && <div className="mesaj mesaj-eroare">{eroare}</div>}
 
