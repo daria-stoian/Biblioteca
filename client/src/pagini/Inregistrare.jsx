@@ -1,4 +1,3 @@
-// Inregistrare cont nou de cititor (RF-06)
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../auth/useAuth.js';
@@ -13,7 +12,7 @@ export default function Inregistrare() {
 
   const schimba = (camp) => (e) => setDate({ ...date, [camp]: e.target.value });
 
-  async function laTrimitere(e) {
+  async function creeazaCont(e) {
     e.preventDefault();
     setEroare('');
     setSeTrimite(true);
@@ -21,7 +20,7 @@ export default function Inregistrare() {
       await inregistrare(date.numeComplet, date.email, date.parola);
       navigheaza(locatie.state?.dinPagina || '/', { replace: true });
     } catch (err) {
-      // Mesajele vin de la server: email folosit, parola prea scurta etc.
+      // email folosit, parola prea scurta etc
       setEroare(err.message);
     } finally {
       setSeTrimite(false);
@@ -29,7 +28,7 @@ export default function Inregistrare() {
   }
 
   return (
-    <form className="card formular" onSubmit={laTrimitere}>
+    <form className="card formular" onSubmit={creeazaCont}>
       <h1>Cont nou</h1>
       {eroare && <div className="mesaj mesaj-eroare">{eroare}</div>}
 

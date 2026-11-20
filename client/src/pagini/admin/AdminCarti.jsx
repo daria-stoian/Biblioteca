@@ -1,5 +1,3 @@
-// Lista cartilor pentru administrator: cautare, disponibil/indisponibil, editare, stergere (RF-18, RF-23)
-// Echivalent v1.0: Views/Carte/Index.cshtml (varianta pentru Administrator) + Sterge.cshtml
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { api } from '../../api.js';
@@ -11,7 +9,7 @@ export default function AdminCarti() {
   const [cautare, setCautare] = useState('');
   const [filtre, setFiltre] = useState({ cautare: '', pagina: 1 });
   const [rezultat, setRezultat] = useState(null);
-  // Mesajul poate veni si din formular, dupa salvare (prin "state" la navigare)
+  // Mesajul poate veni si din formular, dupa salvare
   const [mesaj, setMesaj] = useState(locatie.state?.mesaj ?? null);
 
   const incarca = useCallback(() => {
@@ -108,7 +106,7 @@ export default function AdminCarti() {
           <Paginare
             pagina={rezultat.pagina}
             totalPagini={rezultat.totalPagini}
-            laSchimbare={(pagina) => setFiltre({ ...filtre, pagina })}
+            schimbaPagina={(pagina) => setFiltre({ ...filtre, pagina })}
           />
         </>
       )}

@@ -1,8 +1,4 @@
-// Pagini doar pentru utilizatori autentificati (echivalent [Authorize] din v1.0).
-// Cu prop-ul "rol", doar pentru un anumit rol (echivalent [Authorize(Roles = "Administrator")]).
-//
-// Atentie: aceasta verificare doar ascunde paginile in interfata.
-// Protectia reala este pe server, care verifica rolul din token la fiecare cerere.
+// Pagini doar pentru utilizatori autentificati
 import { Navigate, useLocation } from 'react-router';
 import { useAuth } from './useAuth.js';
 

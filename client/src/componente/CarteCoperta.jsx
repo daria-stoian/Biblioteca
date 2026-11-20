@@ -1,9 +1,8 @@
-// O carte din grila catalogului
 import { Link } from 'react-router';
 import Coperta from './Coperta.jsx';
 import { textStatus } from '../format.js';
 
-export default function CarteCard({ carte }) {
+export default function CarteCoperta({ carte }) {
   return (
     <Link to={`/carti/${carte.id}`} className="carte-coperta">
       <Coperta src={carte.imagineCoperta} titlu={carte.titlu} />

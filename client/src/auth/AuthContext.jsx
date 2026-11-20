@@ -1,28 +1,26 @@
-// Starea de autentificare, disponibila in orice componenta prin useAuth() (din useAuth.js).
-// Echivalentul din v1.0: cookie-ul de autentificare Identity + User.Identity in Razor.
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { api, setLaSesiuneExpirata, tokenStocat } from '../api.js';
+import { api, setLaExpirareaSesiunii, tokenStocat } from '../api.js';
 import { AuthContext } from './useAuth.js';
 
 export function AuthProvider({ children }) {
   const [utilizator, setUtilizator] = useState(null);
-  // La pornire nu stim inca daca token-ul salvat mai e valid; pana aflam, "seIncarca" e true
-  const [seIncarca, setSeIncarca] = useState(() => Boolean(tokenStocat.citeste()));
+  // Daca token-ul salvat mai e valid, seIncarca e true
+  const [incarcare, setIncarcare] = useState(() => Boolean(tokenStocat.citeste()));
 
   const iesire = useCallback(() => {
     tokenStocat.sterge();
     setUtilizator(null);
   }, []);
 
-  // La deschiderea aplicatiei: daca exista un token salvat, cerem datele utilizatorului
+  // Daca exista un token salvat, cerem datele utilizatorului
   useEffect(() => {
-    setLaSesiuneExpirata(iesire);
+    setLaExpirareaSesiunii(iesire);
     if (!tokenStocat.citeste()) return;
     api
       .eu()
       .then(setUtilizator)
       .catch(iesire)
-      .finally(() => setSeIncarca(false));
+      .finally(() => setIncarcare(false));
   }, [iesire]);
 
   const autentificare = useCallback(async (email, parola) => {

@@ -1,11 +1,9 @@
-// Componenta comuna pentru Autori si Categorii: amandoua sunt liste de nume
-// care se adauga, se redenumesc si se sterg (RF-19, RF-20).
 import { useCallback, useEffect, useState } from 'react';
 
 export default function ListaEditabila({ eticheta, textNou, camp, incarcaLista, adauga, modifica, sterge }) {
   const [elemente, setElemente] = useState(null);
   const [numeNou, setNumeNou] = useState('');
-  const [editat, setEditat] = useState(null); // { id, nume } pentru randul aflat in editare
+  const [editat, setEditat] = useState(null);
   const [mesaj, setMesaj] = useState(null);
 
   const incarca = useCallback(() => {
@@ -16,7 +14,7 @@ export default function ListaEditabila({ eticheta, textNou, camp, incarcaLista, 
 
   useEffect(incarca, [incarca]);
 
-  // Toate operatiile au aceeasi forma: apel la API, mesaj, reincarcarea listei
+  // Apel la API, mesaj, reincarcarea listei
   async function executa(operatie, textSucces) {
     try {
       await operatie();
@@ -29,25 +27,25 @@ export default function ListaEditabila({ eticheta, textNou, camp, incarcaLista, 
     }
   }
 
-  async function laAdaugare(e) {
+  async function adaugaElement(e) {
     e.preventDefault();
     const nume = numeNou.trim();
     if (await executa(() => adauga({ [camp]: nume }), `Am adăugat „${nume}”.`)) setNumeNou('');
   }
 
-  async function laSalvare(e) {
+  async function salveaza(e) {
     e.preventDefault();
     if (await executa(() => modifica(editat.id, { [camp]: editat.nume.trim() }), 'Modificare salvată.')) setEditat(null);
   }
 
-  function laStergere(el) {
+  function stergeElement(el) {
     if (!window.confirm(`Ștergi „${el[camp]}”?`)) return;
     executa(() => sterge(el.id), `Am șters „${el[camp]}”.`);
   }
 
   return (
     <>
-      <form className="filtre" onSubmit={laAdaugare}>
+      <form className="filtre" onSubmit={adaugaElement}>
         <input placeholder={textNou} value={numeNou} onChange={(e) => setNumeNou(e.target.value)} required />
         <button className="buton">+ Adaugă</button>
       </form>
@@ -69,7 +67,7 @@ export default function ListaEditabila({ eticheta, textNou, camp, incarcaLista, 
               editat?.id === el.id ? (
                 <tr key={el.id}>
                   <td colSpan={3}>
-                    <form className="actiuni-rand" onSubmit={laSalvare}>
+                    <form className="actiuni-rand" onSubmit={salveaza}>
                       <input
                         value={editat.nume}
                         onChange={(e) => setEditat({ ...editat, nume: e.target.value })}
@@ -97,7 +95,7 @@ export default function ListaEditabila({ eticheta, textNou, camp, incarcaLista, 
                     </button>
                     <button
                       className="buton buton-pericol buton-mic"
-                      onClick={() => laStergere(el)}
+                      onClick={() => stergeElement(el)}
                       disabled={el._count.carti > 0}
                       title={el._count.carti > 0 ? 'Are cărți în catalog, nu poate fi șters' : undefined}
                     >
