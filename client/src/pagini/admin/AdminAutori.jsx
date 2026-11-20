@@ -1,8 +1,6 @@
-// Autorii (RF-19). Echivalent v1.0: Views/Autor/*.cshtml
 import { api } from '../../api.js';
 import ListaEditabila from './ListaEditabila.jsx';
 
-// Functiile sunt definite in afara componentei, ca sa ramana aceleasi la fiecare randare
 const incarcaAutori = () => api.autori();
 
 export default function AdminAutori() {

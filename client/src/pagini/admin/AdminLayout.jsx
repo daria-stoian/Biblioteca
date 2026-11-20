@@ -1,5 +1,3 @@
-// Cadrul comun al paginilor de administrare: titlul si filele de navigare.
-// <Outlet /> este locul in care React Router afiseaza pagina aleasa (Carti, Autori etc.).
 import { NavLink, Outlet } from 'react-router';
 
 export default function AdminLayout() {

@@ -1,5 +1,3 @@
-// Logica de inregistrare si autentificare (RF-06, RF-07).
-// Echivalentul din v1.0: ASP.NET Core Identity + AccountService.cs
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../lib/prisma.js';
@@ -7,10 +5,9 @@ import { config } from '../config/env.js';
 import { AppError } from '../utils/AppError.js';
 
 const RUNDE_BCRYPT = 10;
-const LUNGIME_MINIMA_PAROLA = 6; // aceeasi regula ca in v1.0 (RequiredLength = 6)
+const LUNGIME_MINIMA_PAROLA = 6;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Campurile trimise clientului: parolaHash nu pleaca niciodata din server.
 const campuriPublice = {
   id: true,
   numeComplet: true,
@@ -46,7 +43,7 @@ export async function inregistrare({ numeComplet, email, parola }) {
       numeComplet,
       email,
       parolaHash: await bcrypt.hash(parola, RUNDE_BCRYPT),
-      rol: 'Cititor', // rolul nu se alege la inregistrare; adminul vine doar din seed
+      rol: 'Cititor',
     },
     select: campuriPublice,
   });
@@ -60,12 +57,11 @@ export async function autentificare({ email, parola }) {
 
   const utilizator = await prisma.utilizator.findUnique({ where: { email } });
 
-  // Acelasi mesaj pentru "email inexistent" si "parola gresita",
-  // ca sa nu se poata afla ce adrese au cont.
+  // Mesaj pentru email inexistent si parola gresita
   const parolaCorecta = utilizator && (await bcrypt.compare(parola, utilizator.parolaHash));
   if (!parolaCorecta) throw new AppError(401, 'Email sau parolă incorectă.');
 
-  const { parolaHash, ...faraParola } = utilizator; // eslint-disable-line no-unused-vars
+  const { parolaHash, ...faraParola } = utilizator;
   return { token: genereazaToken(utilizator), utilizator: faraParola };
 }
 

@@ -1,4 +1,3 @@
-// Stratul de rute: leaga o adresa (metoda + cale) de un controller.
 import { Router } from 'express';
 import { getHealth } from '../controllers/health.controller.js';
 

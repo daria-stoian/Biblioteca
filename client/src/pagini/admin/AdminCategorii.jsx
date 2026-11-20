@@ -1,4 +1,3 @@
-// Categoriile (RF-20). Echivalent v1.0: Views/Categorie/*.cshtml
 import { api } from '../../api.js';
 import ListaEditabila from './ListaEditabila.jsx';
 

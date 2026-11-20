@@ -1,4 +1,3 @@
-// Imprumuturile (RF-09 – RF-12). Echivalent v1.0: ImprumutService.cs
 import { prisma } from '../lib/prisma.js';
 import { AppError } from '../utils/AppError.js';
 import {
@@ -23,9 +22,6 @@ const cuCarte = {
   },
 };
 
-// Tranzactie "Serializable": PostgreSQL garanteaza ca doua cereri simultane nu pot trece
-// amandoua de verificari si apoi sa depaseasca regulile (de exemplu, al 6-lea imprumut
-// creat in aceeasi milisecunda cu al 5-lea). Daca apare un conflict, una dintre cereri esueaza.
 async function inTranzactie(operatie) {
   try {
     return await prisma.$transaction(operatie, { isolationLevel: 'Serializable' });
@@ -37,7 +33,6 @@ async function inTranzactie(operatie) {
   }
 }
 
-// RF-09: aceleasi verificari si in aceeasi ordine ca in v1.0
 export async function imprumuta(utilizatorId, carteId) {
   const imprumut = await inTranzactie(async (tx) => {
     const carte = await tx.carte.findUnique({ where: { id: carteId } });
@@ -77,7 +72,7 @@ export async function imprumuta(utilizatorId, carteId) {
   return descrieImprumut(imprumut);
 }
 
-// Cauta imprumutul si verifica dreptul: cititorul doar pe ale lui, administratorul pe oricare.
+// Cauta imprumutul si verifica dreptul
 async function gasesteImprumut(tx, id, utilizator) {
   const imprumut = await tx.imprumut.findUnique({ where: { id } });
   if (!imprumut) throw new AppError(404, 'Împrumutul nu a fost găsit.');
@@ -87,7 +82,7 @@ async function gasesteImprumut(tx, id, utilizator) {
   return imprumut;
 }
 
-// RF-10: returnare cu taxa de 1 RON pentru fiecare zi (inceputa) de intarziere
+// Returnare cu taxa de 1 RON pentru fiecare zi de intarziere
 export async function returneaza(id, utilizator) {
   const imprumut = await inTranzactie(async (tx) => {
     const existent = await gasesteImprumut(tx, id, utilizator);
@@ -110,7 +105,7 @@ export async function returneaza(id, utilizator) {
   return descrieImprumut(imprumut);
 }
 
-// RF-11: o singura prelungire, cu 14 zile, doar inainte de termen
+// O singura prelungire, cu 14 zile, doar inainte de termen
 export async function prelungeste(id, utilizator) {
   const imprumut = await inTranzactie(async (tx) => {
     const existent = await gasesteImprumut(tx, id, utilizator);
@@ -134,7 +129,7 @@ export async function prelungeste(id, utilizator) {
   return descrieImprumut(imprumut);
 }
 
-// RF-12: imprumuturile proprii, cele deschise primele
+// Imprumuturile proprii
 export async function aleMele(utilizatorId) {
   const imprumuturi = await prisma.imprumut.findMany({
     where: { utilizatorId },
@@ -144,7 +139,7 @@ export async function aleMele(utilizatorId) {
   return imprumuturi.map((i) => descrieImprumut(i));
 }
 
-// Pentru administrator: toate imprumuturile nereturnate, cu cititorul
+// Administrator: toate imprumuturile nereturnate
 export async function toateDeschise() {
   const imprumuturi = await prisma.imprumut.findMany({
     where: { status: { in: STATUSURI_DESCHISE } },

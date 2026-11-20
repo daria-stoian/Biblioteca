@@ -1,5 +1,4 @@
-// Documentatia interactiva a API-ului (RF-26), disponibila la /api/docs.
-// swagger-jsdoc citeste comentariile @openapi scrise deasupra rutelor din src/routes/.
+// Documentatia interactiva a API-ului disponibila la /api/docs
 import swaggerJsdoc from 'swagger-jsdoc';
 
 export const swaggerSpec = swaggerJsdoc({

@@ -5,8 +5,7 @@ import { AuthProvider } from './auth/AuthContext.jsx'
 import App from './App.jsx'
 import './index.css'
 
-// BrowserRouter: navigarea intre pagini fara reincarcare
-// AuthProvider: utilizatorul autentificat, disponibil in toata aplicatia
+// BrowserRouter, navigarea intre pagini fara reincarcare, utilizatorul autentificat
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

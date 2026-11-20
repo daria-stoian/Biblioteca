@@ -1,4 +1,3 @@
-// Punctul de pornire: deschide portul si asculta cereri.
 import { config } from './config/env.js';
 import app from './app.js';
 

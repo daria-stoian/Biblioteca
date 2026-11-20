@@ -1,11 +1,10 @@
-// Catalogul de carti (RF-01, RF-02). Echivalent v1.0: CarteService.cs + CarteRepository.cs
 import { prisma } from '../lib/prisma.js';
 import { AppError } from '../utils/AppError.js';
 import { readdir } from 'node:fs/promises';
 import { raspunsPaginat } from '../utils/paginare.js';
 import { text, intreg, dinLista } from '../utils/validare.js';
 
-// Ce se afiseaza pe un "card" din catalog
+// Ce se afiseaza pe fiecare carte din catalog
 const campuriLista = {
   id: true,
   titlu: true,
@@ -16,13 +15,13 @@ const campuriLista = {
   categorie: { select: { id: true, numeCategorie: true } },
 };
 
-// RF-01: cautare dupa titlu (fara diferenta intre litere mari/mici) si filtrare dupa categorie
+// Cautare dupa titlu si filtrare dupa categorie
 export async function listaCarti({ cautare, categorieId, paginare }) {
   const where = {};
   if (cautare?.trim()) where.titlu = { contains: cautare.trim(), mode: 'insensitive' };
   if (categorieId) where.categorieId = categorieId;
 
-  // Cele doua interogari pornesc in paralel: pagina curenta si numarul total de rezultate
+  // Cele doua interogari pornesc in paralel, pagina curenta si numarul total de rezultate
   const [carti, total] = await Promise.all([
     prisma.carte.findMany({
       where,
@@ -37,7 +36,7 @@ export async function listaCarti({ cautare, categorieId, paginare }) {
   return raspunsPaginat(carti, total, paginare);
 }
 
-// RF-02: autor, categorie, descriere, coperta, disponibilitate si recenzii
+// Autor, categorie, descriere, coperta, disponibilitate si recenzii
 export async function detaliiCarte(id) {
   const carte = await prisma.carte.findUnique({
     where: { id },
@@ -59,7 +58,7 @@ export async function detaliiCarte(id) {
 
   if (!carte) throw new AppError(404, 'Cartea nu a fost găsită.');
 
-  // Fisierul PDF nu se trimite: descarcarea e permisa doar cu imprumut activ (RF-13).
+  // Fisierul PDF nu se trimite: descarcarea e permisa doar cu imprumut activ
   const { fisierPdf, ...rest } = carte;
   const note = carte.recenzii.map((r) => r.nota);
 
@@ -72,13 +71,10 @@ export async function detaliiCarte(id) {
   };
 }
 
-// ---------------------------------------------------------------- ADMINISTRARE (RF-18, RF-23)
-// Echivalent v1.0: actiunile Adauga / Editeaza / Sterge / Marcheaza* din CarteController.cs
-
+// ADMINISTRARE
 const DOSAR_COPERTI = new URL('../../public/coperti/', import.meta.url);
 
-// Copertele existente pe server, din care administratorul alege una.
-// (Incarcarea de imagini noi vine in varianta finala.)
+// Copertele existente pe server, din care administratorul alege una
 export async function copertiDisponibile() {
   const fisiere = await readdir(DOSAR_COPERTI);
   return fisiere.filter((f) => /\.(png|jpe?g|webp)$/i.test(f)).sort().map((f) => `/coperti/${f}`);
@@ -131,14 +127,14 @@ export async function modificaCarte(id, corp) {
   return prisma.carte.update({ where: { id }, data: date, select: campuriLista });
 }
 
-// RF-23: marcarea rapida ca disponibila / indisponibila, fara formularul complet
+// Marcarea rapida ca disponibila / indisponibila, fara formularul complet
 export async function schimbaStatus(id, status) {
   dinLista(status, 'Statusul', ['Disponibil', 'Indisponibil']);
   if (!(await prisma.carte.findUnique({ where: { id } }))) throw new AppError(404, 'Cartea nu a fost găsită.');
   return prisma.carte.update({ where: { id }, data: { status }, select: campuriLista });
 }
 
-// O carte cu istoric (imprumuturi sau recenzii) nu se sterge: istoricul trebuie pastrat (RN-02).
+// O carte cu istoric (imprumuturi sau recenzii) nu se sterge: istoricul trebuie pastrat
 export async function stergeCarte(id) {
   const carte = await prisma.carte.findUnique({
     where: { id },

@@ -5,7 +5,7 @@ export async function lista(req, res) {
   res.json(await categorieService.listaCategorii());
 }
 
-// ---- Administrare
+// Administrare
 export async function adauga(req, res) {
   res.status(201).json(await categorieService.adaugaCategorie(req.body ?? {}));
 }

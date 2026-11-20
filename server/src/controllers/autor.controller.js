@@ -9,7 +9,7 @@ export async function detalii(req, res) {
   res.json(await autorService.detaliiAutor(citesteId(req.params.id, 'autorului')));
 }
 
-// ---- Administrare
+// Administrare
 export async function adauga(req, res) {
   res.status(201).json(await autorService.adaugaAutor(req.body ?? {}));
 }
