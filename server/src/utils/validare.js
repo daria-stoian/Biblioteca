@@ -1,5 +1,3 @@
-// Validarea datelor trimise de administrator (echivalentul atributelor [Required],
-// [StringLength], [Range] din modelele C# ale versiunii 1.0).
 import { AppError } from './AppError.js';
 
 export function text(valoare, eticheta, { obligatoriu = false, max = 255 } = {}) {
@@ -24,12 +22,4 @@ export function intreg(valoare, eticheta, { min = 1, max = Number.MAX_SAFE_INTEG
 export function dinLista(valoare, eticheta, permise) {
   if (!permise.includes(valoare)) throw new AppError(400, `${eticheta} trebuie să fie una dintre: ${permise.join(', ')}.`);
   return valoare;
-}
-
-
-// Acordul numeralului in romana: 1 carte, 2 carti, 20 de carti
-export function numarCarti(n) {
-  if (n === 1) return '1 carte';
-  const sutime = n % 100;
-  return n === 0 || (sutime >= 1 && sutime <= 19) ? `${n} cărți` : `${n} de cărți`;
 }
