@@ -1,5 +1,7 @@
-// Categoriile (RF-03). Echivalent v1.0: CategorieService.cs
+// Categoriile (RF-03, RF-20). Echivalent v1.0: CategorieService.cs
 import { prisma } from '../lib/prisma.js';
+import { AppError } from '../utils/AppError.js';
+import { text } from '../utils/validare.js';
 
 export async function listaCategorii() {
   return prisma.categorie.findMany({
@@ -10,4 +12,34 @@ export async function listaCategorii() {
       _count: { select: { carti: true } },
     },
   });
+}
+
+// ---------------------------------------------------------------- ADMINISTRARE (RF-20)
+
+async function numeUnic(corp, idExclus) {
+  const numeCategorie = text(corp.numeCategorie, 'Numele categoriei', { obligatoriu: true, max: 100 });
+  const existenta = await prisma.categorie.findUnique({ where: { numeCategorie } });
+  if (existenta && existenta.id !== idExclus) throw new AppError(409, `Categoria „${numeCategorie}” există deja.`);
+  return numeCategorie;
+}
+
+export async function adaugaCategorie(corp) {
+  return prisma.categorie.create({ data: { numeCategorie: await numeUnic(corp) } });
+}
+
+export async function modificaCategorie(id, corp) {
+  if (!(await prisma.categorie.findUnique({ where: { id } }))) throw new AppError(404, 'Categoria nu a fost găsită.');
+  return prisma.categorie.update({ where: { id }, data: { numeCategorie: await numeUnic(corp, id) } });
+}
+
+export async function stergeCategorie(id) {
+  const categorie = await prisma.categorie.findUnique({
+    where: { id },
+    include: { _count: { select: { carti: true } } },
+  });
+  if (!categorie) throw new AppError(404, 'Categoria nu a fost găsită.');
+  if (categorie._count.carti > 0) {
+    throw new AppError(409, `Categoria „${categorie.numeCategorie}” conține ${numarCarti(categorie._count.carti)} și nu poate fi ștearsă.`);
+  }
+  await prisma.categorie.delete({ where: { id } });
 }
