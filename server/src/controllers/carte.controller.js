@@ -16,3 +16,25 @@ export async function lista(req, res) {
 export async function detalii(req, res) {
   res.json(await carteService.detaliiCarte(citesteId(req.params.id, 'cărții')));
 }
+
+// ---- Administrare
+export async function coperti(req, res) {
+  res.json(await carteService.copertiDisponibile());
+}
+
+export async function adauga(req, res) {
+  res.status(201).json(await carteService.adaugaCarte(req.body ?? {}));
+}
+
+export async function modifica(req, res) {
+  res.json(await carteService.modificaCarte(citesteId(req.params.id, 'cărții'), req.body ?? {}));
+}
+
+export async function schimbaStatus(req, res) {
+  res.json(await carteService.schimbaStatus(citesteId(req.params.id, 'cărții'), req.body?.status));
+}
+
+export async function sterge(req, res) {
+  await carteService.stergeCarte(citesteId(req.params.id, 'cărții'));
+  res.status(204).end();
+}
