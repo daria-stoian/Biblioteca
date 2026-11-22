@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
     api
       .eu()
       .then(setUtilizator)
-      .catch(iesire)
+      .catch(() => {})
       .finally(() => setIncarcare(false));
   }, [iesire]);
 
