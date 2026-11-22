@@ -32,6 +32,14 @@ img { max-width: 100%; display: block; }
 .meniu a.active { color: #fff; border-bottom-color: #f2b632; }
 .utilizator { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; }
 .utilizator a { color: #fff; }
+.nume-utilizator {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
 
 .continut { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 
@@ -85,9 +93,13 @@ input:focus, select:focus { outline: 2px solid #f2b632; outline-offset: 1px; }
 .filtre input { flex: 1; min-width: 200px; }
 .grila {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 1.25rem;
 }
+@media (max-width: 900px) { .grila { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 700px) { .grila { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 520px) { .grila { grid-template-columns: repeat(2, 1fr); } }
+
 .carte-coperta {
   background: #ffffff;
   border: 1px solid #e0d0f0;

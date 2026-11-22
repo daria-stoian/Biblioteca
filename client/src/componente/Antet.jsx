@@ -25,11 +25,11 @@ export default function Antet() {
         <div className="utilizator">
           {utilizator ? (
             <>
-              <span>
+            <span className="nume-utilizator">
                 {utilizator.numeComplet}
                 {utilizator.rol === 'Administrator' && <span className="eticheta eticheta-admin">admin</span>}
               </span>
-              <button className="buton buton-secundar buton-mic" onClick={deconectare}>Ieșire</button>
+              <button className="buton buton-secundar buton-mic" onClick={deconectare}>Deconectare</button>
             </>
           ) : (
             <>
